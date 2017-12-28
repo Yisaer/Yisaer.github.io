@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java常用集合泛型 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="复习了常用的集合泛型，ArrayList,HashSet,HashMap 有C++STL经验上手很快">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java常用集合泛型">
+<meta property="og:url" content="http://yoursite.com/2016/06/21/Collections1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="复习了常用的集合泛型，ArrayList,HashSet,HashMap 有C++STL经验上手很快">
+<meta property="og:updated_time" content="2016-06-21T15:26:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java常用集合泛型">
+<meta name="twitter:description" content="复习了常用的集合泛型，ArrayList,HashSet,HashMap 有C++STL经验上手很快">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Collections1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/21/Collections1/" class="article-date">
+  <time datetime="2016-06-21T15:24:23.000Z" itemprop="datePublished">2016-06-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java常用集合泛型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>复习了常用的集合泛型，ArrayList,HashSet,HashMap</p>
+<p>有C++STL经验上手很快</p>
+<a id="more"></a>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><p>Collection接口</p>
+<ul>
+<li>List接口</li>
+<li>Queue接口</li>
+<li>Set接口</li>
+</ul>
+<h3 id="List-接口"><a href="#List-接口" class="headerlink" title="List 接口"></a>List 接口</h3><pre><code>List类接口通过ArrayList类实现
+添加方法： Arraylist.add 添加单个元素
+添加数组元素： Arraylist.addAll(Arrays.aslist(Arrays));
+
+遍历方法：
+
+for(int i = 0;i&lt;Arraylist.size();i++){
+    CurrentType = (CurrentType)Arraylist.get(i);
+}
+
+迭代遍历
+public void TestIterator(){
+    Iterator it = CoursesToSelect.iterator();
+    while(it.hasNext()){
+        Course cr = (Course)it.next();
+        System.out.println(&quot;课程：&quot;+cr.getId()+&quot;:&quot;+cr.getName());
+    }
+}
+
+For each遍历
+
+for(Object obj:CoursesToSelect){
+    Course cr = (Course)obj;
+
+}
+
+
+更改元素
+
+Set
+CourseToSelect.set(index,Course);
+
+删除元素
+
+ remove
+ CorsesToSelect.remove(index);
+
+ 同样的 remove可以以数组的方式删除
+ CoursesToSlect.remove(ArrayOfCourses.aslist(Course));
+</code></pre><h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><pre><code>给集合框架规定元素类型
+
+public List&lt;Course&gt; CoursesToSelect;
+CoursesToSelect = new ArrayList&lt;Course&gt;();
+</code></pre><p>注意： 泛型元素的子类同样可以增加到泛型中</p>
+<h3 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h3><h4 id="构造方法摘要"><a href="#构造方法摘要" class="headerlink" title="构造方法摘要"></a>构造方法摘要</h4><pre><code>HashSet() 
+          构造一个新的空 set，其底层 HashMap 实例的默认初始容量是 16，加载因子是 0.75。 
+HashSet(Collection&lt;? extends E&gt; c) 
+          构造一个包含指定 collection 中的元素的新 set。 
+HashSet(int initialCapacity) 
+          构造一个新的空 set，其底层 HashMap 实例具有指定的初始容量和默认的加载因子（0.75）。 
+HashSet(int initialCapacity, float loadFactor) 
+          构造一个新的空 set，其底层 HashMap 实例具有指定的初始容量和指定的加载因子。
+</code></pre><h4 id="方法摘要"><a href="#方法摘要" class="headerlink" title="方法摘要"></a>方法摘要</h4><pre><code>boolean add(E e) 
+         如果此 set 中尚未包含指定元素，则添加指定元素。 
+void clear() 
+         从此 set 中移除所有元素。 
+Object clone() 
+         返回此 HashSet 实例的浅表副本：并没有复制这些元素本身。 
+boolean contains(Object o) 
+         如果此 set 包含指定元素，则返回 true。 
+boolean isEmpty() 
+         如果此 set 不包含任何元素，则返回 true。 
+Iterator&lt;E&gt; iterator() 
+         返回对此 set 中元素进行迭代的迭代器。 
+boolean remove(Object o) 
+         如果指定元素存在于此 set 中，则将其移除。 
+int size() 
+         返回此 set 中的元素的数量（set 的容量）。 
+</code></pre><h3 id="Map-HashMap"><a href="#Map-HashMap" class="headerlink" title="Map - HashMap"></a>Map - HashMap</h3><p>HashMap 键值对</p>
+<h4 id="构造方法摘要-1"><a href="#构造方法摘要-1" class="headerlink" title="构造方法摘要"></a>构造方法摘要</h4><pre><code>HashMap() 
+          构造一个具有默认初始容量 (16) 和默认加载因子 (0.75) 的空 HashMap。 
+HashMap(int initialCapacity) 
+          构造一个带指定初始容量和默认加载因子 (0.75) 的空 HashMap。 
+HashMap(int initialCapacity, float loadFactor) 
+          构造一个带指定初始容量和加载因子的空 HashMap。 
+HashMap(Map&lt;? extends K,? extends V&gt; m) 
+          构造一个映射关系与指定 Map 相同的新 HashMap。 
+</code></pre><h4 id="方法摘要-1"><a href="#方法摘要-1" class="headerlink" title="方法摘要"></a>方法摘要</h4><pre><code>void clear() 
+         从此映射中移除所有映射关系。 
+Object clone() 
+         返回此 HashMap 实例的浅表副本：并不复制键和值本身。 
+boolean containsKey(Object key) 
+         如果此映射包含对于指定键的映射关系，则返回 true。 
+boolean containsValue(Object value) 
+         如果此映射将一个或多个键映射到指定值，则返回 true。 
+Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet() 
+         返回此映射所包含的映射关系的 Set 视图。 
+V get(Object key) 
+         返回指定键所映射的值；如果对于该键来说，此映射不包含任何映射关系，则返回 null。 
+boolean isEmpty() 
+         如果此映射不包含键-值映射关系，则返回 true。 
+Set&lt;K&gt; keySet() 
+         返回此映射中所包含的键的 Set 视图。 
+V put(K key, V value) 
+         在此映射中关联指定值与指定键。 
+void putAll(Map&lt;? extends K,? extends V&gt; m) 
+         将指定映射的所有映射关系复制到此映射中，这些映射关系将替换此映射目前针对指定映射中所有键的所有映射关系。 
+V remove(Object key) 
+         从此映射中移除指定键的映射关系（如果存在）。 
+int size() 
+         返回此映射中的键-值映射关系数。 
+Collection&lt;V&gt; values() 
+         返回此映射所包含的值的 Collection 视图 
+</code></pre><p>注意点1： 在泛型元素中，判断泛型内是否包含该元素需要元素类重载equals方法<br>注意点2： 在Set集合中，调用contains方法时需要将泛型元素类重载hashcode和equals方法</p>
+<h3 id="Sort方法"><a href="#Sort方法" class="headerlink" title="Sort方法"></a>Sort方法</h3><p>应用Collections.sort将集合排序，对于泛型集合，需要将泛型元素类实现Comparable接口</p>
+<p>实例：</p>
+<h4 id="课程类"><a href="#课程类" class="headerlink" title="课程类"></a>课程类</h4><pre><code>package TEST1;
+
+/**
+ * 课程类
+ * @author Administrator
+ *
+ */
+public class Course implements Comparable {
+    private     String id;
+    private  String name;
+    public Course(String id, String name)  {
+        super();
+        this.id = id;
+        this.name = name;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
+    public int compareTo(Object obj) {
+        // TODO Auto-generated method stub
+        Course cr = (Course)obj;
+        if(Integer.parseInt(this.id)&gt;=Integer.parseInt(cr.id)){
+            return 1;
+        }
+        else{
+            return  -1;
+        }
+    }
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return &quot;课程号：&quot;+id+&quot; 课程名：&quot;+name;
+    }
+}
+</code></pre><h4 id="Main方法类"><a href="#Main方法类" class="headerlink" title="Main方法类"></a>Main方法类</h4><pre><code>package TEST1;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        List&lt;Course&gt; CL = new ArrayList&lt;Course&gt;();
+        Scanner in = new Scanner(System.in);
+        int num;
+        num = in.nextInt();
+        for(int i=0;i&lt;num;i++){
+            String id,name;
+            id = in.next();
+            name = in.next();
+            CL.add(new Course(id,name));
+        }
+        Collections.sort(CL);
+        Iterator&lt;Course&gt; it =CL.iterator();
+        while(it.hasNext()){
+            Course cr = it.next();
+            System.out.println(cr.toString());
+        }    
+    }
+}
+</code></pre><h3 id="Comparator接口类"><a href="#Comparator接口类" class="headerlink" title="Comparator接口类"></a>Comparator接口类</h3><p>Comparator接口类同样也是用于Collection.sort的排序方法，其使用方法与C++中的sort里的cmp函数类似，Comparator接口的实现类需要实现compara方法，其实现与C++的cmp函数类似</p>
+<p>实例</p>
+<pre><code>public class CourseCmp implements Comparator&lt;Course&gt; {
+
+    @Override
+    public int compare(Course o1, Course o2) {
+        // TODO Auto-generated method stub
+        return Integer.parseInt(o1.getId())&gt;
+               Integer.parseInt(o2.getId())?
+               1:-1; 
+    }
+}
+</code></pre><p>然后在主方法里我们将Sort方法更改为</p>
+<pre><code>Collections.sort(CL,new CourseCmp());
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/21/Collections1/" data-id="cjbqmub5v0009u908sriczdec" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/21/BS-endian/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          什么是大端、小端模式？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/13/Regex-Review1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">正则简单总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

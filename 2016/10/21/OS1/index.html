@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>进程互斥的软件解法 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言在写这篇文章前，我曾花了一段时间仔细读了学校的教材，在经历了无数次迷茫与痛苦后，我终于确定了这并非是我的理解问题或者是智商问题。确实是学校的教材真的有毒  就像伟大的爬墙爱好者源氏所言:” 我曾在这里荒废了许多时间.”  所以这即是一个总结，也是一个体会，更是一个对自己的警醒。 同学，你受教材的毒害太深了！ 关于互斥事实上在很多经典的书以及网课上，关于进程互斥的解决方法大多重点阐述了硬件">
+<meta name="keywords" content="操作系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程互斥的软件解法">
+<meta property="og:url" content="http://yoursite.com/2016/10/21/OS1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言在写这篇文章前，我曾花了一段时间仔细读了学校的教材，在经历了无数次迷茫与痛苦后，我终于确定了这并非是我的理解问题或者是智商问题。确实是学校的教材真的有毒  就像伟大的爬墙爱好者源氏所言:” 我曾在这里荒废了许多时间.”  所以这即是一个总结，也是一个体会，更是一个对自己的警醒。 同学，你受教材的毒害太深了！ 关于互斥事实上在很多经典的书以及网课上，关于进程互斥的解决方法大多重点阐述了硬件">
+<meta property="og:image" content="http://p1.bqimg.com/567571/51b89007dd7a6f2d.png">
+<meta property="og:updated_time" content="2016-10-21T04:02:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进程互斥的软件解法">
+<meta name="twitter:description" content="前言在写这篇文章前，我曾花了一段时间仔细读了学校的教材，在经历了无数次迷茫与痛苦后，我终于确定了这并非是我的理解问题或者是智商问题。确实是学校的教材真的有毒  就像伟大的爬墙爱好者源氏所言:” 我曾在这里荒废了许多时间.”  所以这即是一个总结，也是一个体会，更是一个对自己的警醒。 同学，你受教材的毒害太深了！ 关于互斥事实上在很多经典的书以及网课上，关于进程互斥的解决方法大多重点阐述了硬件">
+<meta name="twitter:image" content="http://p1.bqimg.com/567571/51b89007dd7a6f2d.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-OS1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/21/OS1/" class="article-date">
+  <time datetime="2016-10-21T03:04:22.000Z" itemprop="datePublished">2016-10-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      进程互斥的软件解法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://p1.bqimg.com/567571/51b89007dd7a6f2d.png" alt="pic1"></p>
+<hr>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>在写这篇文章前，我曾花了一段时间仔细读了学校的教材，在经历了无数次迷茫与痛苦后，我终于确定了这并非是我的理解问题或者是智商问题。确实是学校的教材真的有毒</strong></p>
+<blockquote>
+<p>就像伟大的爬墙爱好者源氏所言:” 我曾在这里荒废了许多时间.”</p>
+</blockquote>
+<p><strong>所以这即是一个总结，也是一个体会，更是一个对自己的警醒。 同学，你受教材的毒害太深了！</strong></p>
+<h2 id="关于互斥"><a href="#关于互斥" class="headerlink" title="关于互斥"></a>关于互斥</h2><p>事实上在很多经典的书以及网课上，关于进程互斥的解决方法大多重点阐述了硬件与信号量的机制。而在软件算法实现上却鲜有提之，当然我校的教材更是提都没提。 </p>
+<p>在观看了北大的网课以及读了OS：IDP一书以后，有幸领略了通过软件算法来控制进程互斥。而我也将以从最初的形态到完善的算法慢慢推导。事实上算法解法更重要的是一种思想，这里我以OS:IDP一书代码为例。</p>
+<a id="more"></a>
+<h2 id="互斥的三大要求"><a href="#互斥的三大要求" class="headerlink" title="互斥的三大要求"></a>互斥的三大要求</h2><p>我们都知道，互斥有着最基本的三大要求。如果不满足这三个要求，则不能满足互斥。</p>
+<ol>
+<li>临界区内不能有多个进程</li>
+<li>临界区外的进程不能干涉其他进程</li>
+<li>临界区的进程不能出现被无限延迟的情况。</li>
+</ol>
+<h2 id="最简单的实现"><a href="#最简单的实现" class="headerlink" title="最简单的实现"></a>最简单的实现</h2><h3 id="算法一"><a href="#算法一" class="headerlink" title="算法一"></a>算法一</h3><p>我们以全局变量turn来决定谁来进入临界区，</p>
+<pre><code>当 turn = x 时 ，即进程号为x的进程进入临界区
+
+while(turn !=x){
+    do nothing
+}
+critical section
+turn = other
+</code></pre><p>这个算法简单有效的保证了共享属性。 但是他却有两个致命的缺陷。考虑到进程的并发性，这种算法的执行效率将以较慢的进程所决定。假设进程1以1小时10次的速率进入进程，进程2以一小时1000次的速率进入进程。那么进程2就必须适应进程1的步调。<br>    另一方面，假设某一进程被终止了，则会造成其他进程的永久阻塞。</p>
+<h3 id="算法二"><a href="#算法二" class="headerlink" title="算法二"></a>算法二</h3><p>算法一虽然解决了决定进入进程的进程号，但是实际上为了保证一个进程失败，其他进程也能进入进程，我们还需要进程的状态。</p>
+<pre><code>所以我们通过布尔数字变量来联系进程的状态，当进入临界区时flag[x] = true，反之为false
+
+while(flag[other]){
+    do nothing
+}
+flag[x] = true
+critical section 
+flag[x] = false
+</code></pre><p>这个算法虽然解决了进程失败会影响到其他进程的问题，但是如果以并发的角度考虑，这个算法并没有保证互斥的要求。 假设有两个进程并发的执行</p>
+<pre><code>p0执行while语句发现flag[1]为false
+p1执行while语句发现flag[0]为false
+p0设置flag[0]为true，并进入临界区
+p1设置flag[1]为true，并进入临界区
+</code></pre><p>显然，以这样的顺序执行，程序出错。</p>
+<h3 id="算法三"><a href="#算法三" class="headerlink" title="算法三"></a>算法三</h3><p>算法二失败的原因在于，在一个进程可以在另一个进程检查完他的状态后，再改变自己的状态。只要修正了个这个错误即可，所以简单的我们只需将自身状态的改变移动到检查他人状态之前即可</p>
+<pre><code>flag[x] =true
+while(flag[other]){
+    do nothing
+}
+critical section 
+flag[x] = false
+</code></pre><p>但是在这样修改了以后同样出现了新的问题，同样以并发的角度考虑两个进程。</p>
+<p>当进程P1与进程P0都想要进入临界区时，同时将在自己flag置于true时，然后在检查其他人状态时发现其他人都想进入。</p>
+<p>这就会造成P0进程等待P1进程释放flag，P1进程等待P0进程释放flag,造成死锁。</p>
+<h3 id="算法四"><a href="#算法四" class="headerlink" title="算法四"></a>算法四</h3><p>为了解决算法三的死锁问题，我们引入了一种使得进程在发现其他进程也同样想进入临界区时，可以回退自己状态的<strong>“谦让机制”</strong> ,即当发现其他进程要进入临界区时，将自己的flag区设置为false,过段时间将自己回设置到true</p>
+<pre><code>flag[x] = true
+while(flag[other]){
+    flag[x] = false
+    delay
+    flag[x] = true
+}
+critical section 
+flag[x] = false
+</code></pre><p>这个问题虽然解决了算法三的死锁问题，但是如果我们考虑到以这样的顺序并发执行:</p>
+<pre><code>P0设置flag[0]为true
+P1设置flag[1]为true
+P0检查P1
+P1检查P0
+P0设置flag[0]为false
+P1设置flag[1]为false
+P0设置flag[0]为true
+P1设置flag[1]为true
+</code></pre><p>显然，程序会以这样的顺序无限循环下去。但是严格的讲，由于循环可能会被程序交替执行的速度所打破，所以可以称作是一个活锁。</p>
+<h4 id="Dekker算法"><a href="#Dekker算法" class="headerlink" title="Dekker算法"></a>Dekker算法</h4><p>算法四的进程满足了互斥，解决了死锁问题，留有一个互相谦让的活锁。 当两个进程的互相前让对方进入临界区时，我们可以借鉴算法一的思想，通过一个全局变量turn来指定一个进程进入临界区，这样既可满足所以要求。也就是Dekker算法的核心思想。</p>
+<pre><code>boolean flag[] 
+int turn;
+
+void PX(){
+    while( true){
+        flag[X] = true
+        while(flag[other]){
+            if(turn == other){
+                flag[X] = false;
+                while(turn == 1) do nothing
+                flag[X] = true;
+            }
+        }
+        critical section
+        turn = other;
+        flag[X] = false;
+    }
+}
+</code></pre><h2 id="Peterson算法"><a href="#Peterson算法" class="headerlink" title="Peterson算法"></a>Peterson算法</h2><p>在Dekker算法的思想下，Peterson算法用了一种更为简答出色的方式。</p>
+<pre><code>void PX(){
+
+    while(true){
+        flag[x] = true;
+        turn  = other;
+        while(flag[other] &amp;&amp; turn == other) do nothing
+        critical section
+        flag[0] = false
+
+    }
+}
+</code></pre><p>从并发的角度考虑Peterson算法，当多个进程都需要进入临界区时，全局变量会被最后一个运行的进程所覆盖掉值，从而制定了某个进程进入临界区，而其他进程在临界区外等待。 同样其他进程执行完以后，将flag[other]置为false。那么当前进程也不会进入while循环，而是进入临界区，则不会造成阻塞的现象。</p>
+<hr>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从算法的角度考虑互斥保护，要时时刻刻以并发的角度，从不同执行顺序上来思考程序会不会死锁，活锁等问题。</p>
+<p>另外一点是，从所有的程序中可以看出，软件解法存在一个问题在于：当一个进程进入临界区时，其他进程必须不停的去检查自己是否能进入临界区，这同样造成了CPU开销。 从这方面可以看出，为何我们后面还会再去引入硬件机制与信号量的概念。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/21/OS1/" data-id="cjbqmub68000su90817hbmcs5" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/操作系统/">操作系统</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/29/OSEX1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          操作系统实验(1)的总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/27/valiedate/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">使用valiedate插件让你的表单验证更为轻松</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

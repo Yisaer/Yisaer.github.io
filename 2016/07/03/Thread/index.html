@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java多线程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="支持java对于多线程的支持在类Thread 与接口Runnable（Callable）中体现">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程">
+<meta property="og:url" content="http://yoursite.com/2016/07/03/Thread/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="支持java对于多线程的支持在类Thread 与接口Runnable（Callable）中体现">
+<meta property="og:image" content="http://cl.ly/3F0D2h2s1t0s/THREAD.png">
+<meta property="og:updated_time" content="2016-07-04T07:42:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程">
+<meta name="twitter:description" content="支持java对于多线程的支持在类Thread 与接口Runnable（Callable）中体现">
+<meta name="twitter:image" content="http://cl.ly/3F0D2h2s1t0s/THREAD.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Thread" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/03/Thread/" class="article-date">
+  <time datetime="2016-07-03T07:03:44.000Z" itemprop="datePublished">2016-07-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java多线程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="支持"><a href="#支持" class="headerlink" title="支持"></a>支持</h2><p>java对于多线程的支持在类Thread 与接口Runnable（Callable）中体现</p>
+<a id="more"></a>
+<h2 id="Thread类"><a href="#Thread类" class="headerlink" title="Thread类"></a>Thread类</h2><p>Thread类是一个支持多线程的功能类，只要有一个子类，他就可以实现多线程的支持</p>
+<p>所有程序的起点是Main方法，所有的线程也一定要有一个自己的起点，即run方法</p>
+<p>在多线程的每个主体类之中，都必须复写run方法</p>
+<p>线程与进程相同，都必须抢占资源，只有多个线程交替进行，才是多线程，而多线程启动方法为start方法，而调用start方法则执行的方法体是start定义的</p>
+<h2 id="为何Thread类启动是调用start方法"><a href="#为何Thread类启动是调用start方法" class="headerlink" title="为何Thread类启动是调用start方法"></a>为何Thread类启动是调用start方法</h2><p>因为该方法在Thread类里面存在着一个IllegalThreadStateException异常抛出，即若某一个线程对象重复进行了启动，那么就会抛出此异常</p>
+<p>发现在start方法里调用了一个start0方法，而且此方法的结构与抽象方法中用了JNI(Java Native Interface)技术，这门技术的特点是使用Java调用本机操作系统提供的函数。但是这样的技术也有一个缺点，即不能够离开特定的操作系统</p>
+<p>如果要想线程能够执行，需要操作系统来进行资源分配，所以此操作严格来讲主要是由JVM负责根据不同的操作系统而实现的。</p>
+<p>即：使用Thread类的start方法不仅仅要启动多线程的执行代码，还要去根据不同的操作系统，进行资源的分配。</p>
+<h2 id="实现Runnable接口"><a href="#实现Runnable接口" class="headerlink" title="实现Runnable接口"></a>实现Runnable接口</h2><p>虽然Thread类可以实现多线程的主体类定义，但是他有一个问题，Java具有单继承的局限性，正因为如此，在任何情况下我们针对于类的继承都应该是回避的问题，那么多线程也一样，为了解决单继承的限制，在Java里面，专门提供了Runnable接口</p>
+<p>在结构上,继承Threand类与实现Runnable接口的类是没有区别的，但是如果类是继承了Thread类，那么可以直接继承start方法，但如果实现的是Runnable接口，则并没与start方法可以被继承</p>
+<p>不管何种情况下，如果要想启动多线程，一定依靠Thread类来完成.</p>
+<p>Thread类有接受Runnable对象的构造方法，即我们可以依靠以下代码实现</p>
+<pre><code>MyThread2 a = new MyThread2(&quot;a&quot;);
+MyThread2 b = new MyThread2(&quot;b&quot;);
+MyThread2 c = new MyThread2(&quot;c&quot;);
+new Thread(a).start();
+new Thread(b).start();
+new Thread(c).start();
+</code></pre><h2 id="两种实现方式的区别"><a href="#两种实现方式的区别" class="headerlink" title="两种实现方式的区别"></a>两种实现方式的区别</h2><ul>
+<li>使用Runnable接口与Thread类解决了单继承的局限性</li>
+<li>在多个线程访问同一资源的情况下，Runnable比Thread更好</li>
+</ul>
+<p>Runnable实现多个线程实现数据共享时可以通过启动多个线程但构造自一个主体来实现，即MyThread类实现了Runnable 接口，然后以如下代码的方式实现 </p>
+<pre><code>new Thread(mt).start();
+new Thread(mt).start();
+new Thread(mt).start();
+</code></pre><ul>
+<li>Thread类是Runnable接口的子类</li>
+<li>Runnable接口实现的多线程，比Thread类实现的多线程更加清楚的描述数据共享的概念</li>
+</ul>
+<h2 id="线程的命名去取得"><a href="#线程的命名去取得" class="headerlink" title="线程的命名去取得"></a>线程的命名去取得</h2><ul>
+<li>构造方法，public Thread(Runnable target ,String name)</li>
+<li>setName方法</li>
+</ul>
+<p>对于线程方法发现一个问题，这些方法是属于Thread类里面的，可是如果换回到Runnable子类中，并没有继承Thread子类。所以如果要取得线程名字，那么能够取得的就是当前执行本方法的线程名字。所以在THread类中有一个取得当前线程对象。</p>
+<p>如果在我们实例化Thread类对象的时候，没有为其设置名字，那么会进行自动的命名，保证Thread类名字不重复</p>
+<p>主方法也同样是一个线程，叫做主线程(main线程) ,所有在主方法上创建的线程都可以将其表示为子线程</p>
+<p>每当使用Java命令去解释一个程序类的时候，对于操作系统而言，都相当于启动了一个进程中的一个子线程</p>
+<p>每一个JVM进程启动的时候至少启动了</p>
+<ul>
+<li>main线程： 程序的主要执行以及启动子线程</li>
+<li>gc线程： 负责垃圾回收 </li>
+</ul>
+<h2 id="线程休眠"><a href="#线程休眠" class="headerlink" title="线程休眠"></a>线程休眠</h2><p>线程休眠即Thread.sleep方法，值得注意的是，当有多个线程同时进入run方法时，考虑到资源抢占问题，即使是一起休眠一起唤醒，则每次抢占资源的先后顺序有着差别</p>
+<h2 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h2><p>所谓的优先级指的是越高的优先级越有可能先执行。在Thread类里面提供以下方法进行优先级别操作</p>
+<ul>
+<li>设置优先级 public final void setPriority(int newPriority)</li>
+<li>取得优先级 public final int getPriority()</li>
+</ul>
+<p>对于设置优先级，有三种取值：MAX_PRIORITY NORM_PRIORITY MIN_PRIORITY</p>
+<p>注意：优先级不是绝对的，理论上优先级越高，越有可能先执行，即存在优先级低的线程执行在优先级高的线程之前</p>
+<p>注意： 主线程属于中等优先级</p>
+<h2 id="线程的同步产生原因"><a href="#线程的同步产生原因" class="headerlink" title="线程的同步产生原因"></a>线程的同步产生原因</h2><p>实际上所谓的同步指的就是多个线程访问同一资源时所需要考虑到的问题</p>
+<p>假设线程类如下</p>
+<pre><code>public class MyThread2 implements Runnable {
+    private int num =10;
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        for(int i=0;i&lt;200;i++){
+            if(this.num &gt;0){
+                System.out.println(&quot;相减，num = &quot;+ this.num--);
+            }
+        }
+    }
+}
+</code></pre><p>主类如下</p>
+<pre><code>public class Main {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MyThread2 mt = new MyThread2();
+        new Thread(mt,&quot;A&quot;).start();
+        new Thread(mt,&quot;B&quot;).start();
+        new Thread(mt,&quot;C&quot;).start();
+    }
+}
+</code></pre><p>运行结果下发现，三个线程对于一个数据没有出现问题，但是这原因是因为是在一个JVM进程下运行，并且没有受到任何影响，如果想要观察到问题，可以加入一个延迟,即在run方法中加入sleep方法。此时进行操作以后发现出现了不同步的问题。</p>
+<p>分析这一现象，即每个线程在for循环语句时，首先要判断条件，其次修改数值，在第一种情况下，线程进入条件以后立刻修改数值，在第二种情况下，线程进入条件以后，进入休眠状态，此时第二个线程同样进入条件，因为第一个条件进入条件后并未立刻修改数值，所以出现了不同步的现象。</p>
+<h2 id="同步操作"><a href="#同步操作" class="headerlink" title="同步操作"></a>同步操作</h2><p>通过观察可以发现以上程序所带来的最大问题是：在判断与修改的操作是分开执行的</p>
+<p>在java里实现线程的同步可以使用synchronized关键字，而这个关键字可以使用两种方式使用</p>
+<ol>
+<li>同步代码块，即同步块</li>
+<li>同步方法</li>
+</ol>
+<p>方法一：</p>
+<pre><code>public class MyThread2 implements Runnable {
+    private int num =10;
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        for(int i=0;i&lt;200;i++){
+//            当前操作每次只允许一个对象进入
+            synchronized(this){
+                if(this.num &gt;0){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    System.out.println(&quot;相减，num = &quot;+ this.num--);
+                }
+            }
+        }
+    }
+}
+</code></pre><p>方法二：</p>
+<pre><code>public class MyThread2 implements Runnable {
+    private int num =400;
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        for(int i=0;i&lt;500;i++){
+            this.minus();
+        }
+    }
+    public synchronized void minus(){
+        if(this.num&gt;0){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName()+&quot;  ，&quot;+this.num --);
+        }
+    }
+}
+</code></pre><p>注意： 多个线程访问同一资源时一定要同步，但异步操作的执行速度高于同步操作，但同步操作时数据的安全性较高，属于线程安全的线程操作</p>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>通过分析可以发现，所谓的同步指的就是一个线程对象等待另一个线程对象执行操作完毕的操作形式。通过以下例子，可以发现A类的操作在等待B，B类的操作在等待A，即形成了死锁。</p>
+<pre><code>class A{
+    public synchronized void set (B b){
+        System.out.println(&quot;A: need B&quot;);
+        b.get();
+    }
+    public synchronized void get(){
+        System.out.println(&quot;A: get B&quot;);
+    }
+}
+
+class B{
+    public synchronized void set (A a){
+        System.out.println(&quot;B: need A&quot;);
+        a.get();
+    }
+    public synchronized void get(){
+        System.out.println(&quot;B: get A&quot;);
+    }
+}
+
+public class TestDemo implements Runnable {
+
+    private static A a = new A();
+    private static B b = new B();
+
+    public TestDemo(){
+        new Thread(this).start();
+        b.set(a);
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        a.set(b);
+    }
+}
+</code></pre><p>注意： 本代码只是为了说明死锁的例子，而没有任何参考性，死锁是由于某种逻辑上的错误所造成的错误。</p>
+<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p><img src="http://cl.ly/3F0D2h2s1t0s/THREAD.png" alt="Thread"></p>
+<p>当线程被new时，则进入了创建状态。一旦我们调用了start方法，线程进入就绪状态，线程被加入到线程队列，等待CPU的服务，等到获取到CPU服务时，则进入到了运行状态，开始执行run方法里面的逻辑，线程的run方法执行完毕，或者线程调用了stop方法，线程便进入了终止状态。<br>(stop方法如今已经被淘汰了)，当线程运行时遇到阻塞事件时，会进入阻塞状态。</p>
+<p>阻塞事件是指，一个正在执行的线程在某些情况下或者某种原因，暂时让出了CPU资源，暂停了自己的执行，进入到了阻塞状态，如调用了sleep方法。</p>
+<p>等到阻塞状态解除，就会重新进入到了就绪状态。</p>
+<h2 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h2><p>Java线程共分两类，</p>
+<ul>
+<li>用户线程，运行在前台，执行具体的任务。程序的主线程，连接网络的子线程都是用户线程。</li>
+<li>守护线程 运行在后台，为其他前台线程服务，一旦所有的用户线程都结束运行，守护线程会随JVM一起结束工作。</li>
+</ul>
+<p>守护线程的应用： 数据库连接池的监测线程，JVM虚拟机启动后的监测线程</p>
+<h2 id="设置守护线程"><a href="#设置守护线程" class="headerlink" title="设置守护线程"></a>设置守护线程</h2><p>可以调用Thread类的setDaemon(true) 方法来设置当前的线程为守护线程</p>
+<p><strong>注意事项:</strong></p>
+<ul>
+<li>setDaemon必须在start方法之前调用，否则会抛出异常</li>
+<li>守护线程中产生的新线程也是守护线程</li>
+<li>不是所有的任务都可以分配给守护线程来执行，比如读写操作和计算逻辑</li>
+</ul>
+<p>当守护线程中有读写操作时，在所有用户线程结束后，守护线程也会自行结束，若此时读写操作未完成，便会引起错误 ，以下为代码示例</p>
+<pre><code>class DaemonThread implements Runnable{
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        System.out.println(&quot;进入守护线程&quot;+Thread.currentThread().getName());
+        try{
+        writetoFile();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        System.out.println(&quot;退出守护线程&quot;+Thread.currentThread().getName());
+    }
+
+    private void writetoFile() throws IOException {
+        File file = new File(&quot;daemon.txt&quot;);
+        if(!file.exists()){
+            file.createNewFile();
+        }
+
+        OutputStream out = new FileOutputStream(file,true);
+        int count = 0;
+        while(count&lt;999){
+                out.write((&quot;\r\nword&quot;+count ).getBytes());
+                System.out.println(&quot;守护线程&quot;+Thread.currentThread().getName()+&quot;向文件中写入了word&quot;+(count++));
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+        }    
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        System.out.println(&quot;程序进入了主线程&quot;+Thread.currentThread().getName());
+
+        DaemonThread daemonThread = new DaemonThread();
+        Thread thread = new Thread(daemonThread);
+        thread.setDaemon(true);
+        thread.start();
+        //阻塞操作
+        Scanner sc = new Scanner(System.in);
+        sc.next();
+
+        System.out.println(&quot;程序退出了主线程&quot;+Thread.currentThread().getName());
+
+    }
+}
+</code></pre><h2 id="线程退出的方法"><a href="#线程退出的方法" class="headerlink" title="线程退出的方法"></a>线程退出的方法</h2><p>在Thread类方法中， stop方法是停止线程的方法之一。但是如今stop方法已经是属于历史遗留代码，而不推荐在新的代码中使用，因为stop方法会使线程突然停止而导致无法进行后续的清理工作。</p>
+<p>停止的线程的方法之一是使用退出标志,这里布尔变量一定要加上volatile的修饰符，保证其线程正确的读取值。</p>
+<pre><code>volatile boolean keeprunning = true;
+public void run(){
+    while(keeprunning){
+        DO_SOMETHING
+    }
+}
+</code></pre><p><strong> 关于interruput()方法 </strong></p>
+<p>在JavaAPI中，对interrupt的描述是中断线程</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/07/03/Thread/" data-id="cjbqmub6n001nu9082cxntw2c" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/06/q1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          关于在数组内某些值的和为定值这件事
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/29/emotion/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Long For Ur Touch</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>分页机制初探 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概述好不容易搞明白了保护模式下的操作，兴致勃勃的进入分页机制这一章节，正好最近操作系统的课程上面也讲到了分页机制的内容。在操作系统上看了一遍原理，与真正用汇编实现与启动分页机制，这当中百种滋味，难以言表。  纸上得来终觉浅，绝知此事要躬行">
+<meta name="keywords" content="操作系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分页机制初探">
+<meta property="og:url" content="http://yoursite.com/2016/12/06/Page1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述好不容易搞明白了保护模式下的操作，兴致勃勃的进入分页机制这一章节，正好最近操作系统的课程上面也讲到了分页机制的内容。在操作系统上看了一遍原理，与真正用汇编实现与启动分页机制，这当中百种滋味，难以言表。  纸上得来终觉浅，绝知此事要躬行">
+<meta property="og:image" content="http://p1.bpimg.com/567571/ed2a41b3563a3db3.png">
+<meta property="og:updated_time" content="2016-12-06T16:06:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分页机制初探">
+<meta name="twitter:description" content="概述好不容易搞明白了保护模式下的操作，兴致勃勃的进入分页机制这一章节，正好最近操作系统的课程上面也讲到了分页机制的内容。在操作系统上看了一遍原理，与真正用汇编实现与启动分页机制，这当中百种滋味，难以言表。  纸上得来终觉浅，绝知此事要躬行">
+<meta name="twitter:image" content="http://p1.bpimg.com/567571/ed2a41b3563a3db3.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Page1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/06/Page1/" class="article-date">
+  <time datetime="2016-12-06T15:03:48.000Z" itemprop="datePublished">2016-12-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分页机制初探
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>好不容易搞明白了保护模式下的操作，兴致勃勃的进入分页机制这一章节，正好最近操作系统的课程上面也讲到了分页机制的内容。在操作系统上看了一遍原理，与真正用汇编实现与启动分页机制，这当中百种滋味，难以言表。</p>
+<blockquote>
+<p>纸上得来终觉浅，绝知此事要躬行</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="一些前言"><a href="#一些前言" class="headerlink" title="一些前言"></a>一些前言</h2><p>在80386当中，寄存器的位数为32位， 也就说明了寻址空间已经大到4GB，在32位保护模式下，通过分段模式+偏移地址的方式，我们写的程序中的逻辑地址通过分段机制直接转换为逻辑地址。 然而在虚拟化，或者进程进出的技术的需要，分页技术需要人们将一块内存空间作为一个单元使用，即”页”。在80386内，页的大小是被固定为4KB。</p>
+<p>首先重点1) 页的大小为4KB ，即12位。</p>
+<h2 id="分页机制"><a href="#分页机制" class="headerlink" title="分页机制"></a>分页机制</h2><p>在分页机制里面，我们汇编程序内的逻辑地址，通过分段机制转换为线性地址，然后这32位的线性地址再通过分页机制，转换为真正的物理地址。</p>
+<p>简单的表示为:</p>
+<pre><code>            分段机制                        分页机制
+逻辑地址 --------------&gt;  线性地址  -----------------&gt;  物理地址
+</code></pre><p>那么什么是分页机制？</p>
+<p>分页机制的实质其实就是一个<strong>两级索引表</strong>。</p>
+<h2 id="第一级表-PDE表"><a href="#第一级表-PDE表" class="headerlink" title="第一级表 PDE表"></a>第一级表 PDE表</h2><p>PDE即 Page Direct Entry. 一个PDE是4B，PDE表即一组连续的PDE。PDE表最多有1024个PDE。每一个PDE的其中20位指向了一个<strong>PTE表</strong></p>
+<h2 id="第二级表"><a href="#第二级表" class="headerlink" title="第二级表"></a>第二级表</h2><p>PTE 即 Page Table Entry. PTE同样也是4B大小，PTE表中有1024个PTE。每个PTE的20位作为每个<strong>物理页</strong>的基址。</p>
+<h2 id="从线性地址到物理地址"><a href="#从线性地址到物理地址" class="headerlink" title="从线性地址到物理地址"></a>从线性地址到物理地址</h2><p>从上面看出，某个物理页表，是通过PTE表中的某个PTE所指向的，那么要得到一个完整的物理地址，就还缺少偏移地址。而PTE表呢，又是由某个PDE所指向的。<br>所以我们要将线性地址转换为物理地址，首先要得到PDE表的偏移地址1，得到一个PDE表。再用一个偏移地址2确定某个PTE表中的PTE，再从这个PTE得到物理页表，最后再用偏移地址3和物理页表确定真正的物理地址。</p>
+<p>而我们的cr3寄存器就是用来存放偏移地址1，偏移地址2，偏移地址3的。<br>首先，PDE表中最多有1024个PDE，所以我们的偏移地址1有10位，PTE表中最多有1024个PTE，所以偏移地址2有10位，然后我们最终的物理页表有12位，所以偏移地址3需要12位，<br>三个偏移地址的长度加起来正好32位，依次从低到高的存放在了cr3寄存器中。</p>
+<p>整个过程用图表示为:</p>
+<p><img src="http://p1.bpimg.com/567571/ed2a41b3563a3db3.png" alt=""></p>
+<p>那么现在假设我们有了线性地址，那么我们只要知道页表的地址，然后将PDE表和PTE表设置完成后即可。</p>
+<p>所以在IA32中，我们将PDE的基地址存放在cr0寄存器的高20位中，(可以想一想为何是20位）<br>，然后在设置完PDE表和PTE表后，将cr0的最高位即PG位置1，即分页机制生效</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>在这里我们用关键代码， 实现f(线性地址) = 物理地址 = 线性地址的例子</p>
+<pre><code>...
+
+PageDirBase        equ    200000h    ; 页目录开始地址: 2M
+PageTblBase        equ    201000h    ; 页表开始地址: 2M+4K
+
+ ...
+
+LABEL_DESC_PAGE_DIR: Descriptor PageDirBase, 4095, DA_DRW;Page Directory
+LABEL_DESC_PAGE_TBL: Descriptor PageTblBase, 1023, DA_DRW|DA_LIMIT_4K;Page Tables
+
+...
+
+; 启动分页机制 --------------------------------------------------------------
+SetupPaging:
+    ; 为简化处理, 所有线性地址对应相等的物理地址.
+
+    ; 首先初始化页目录
+    mov    ax, SelectorPageDir    ; 此段首地址为 PageDirBase
+    mov    es, ax
+    mov    ecx, 1024        ; 共 1K 个表项
+    xor    edi, edi
+    xor    eax, eax
+    mov    eax, PageTblBase | PG_P  | PG_USU | PG_RWW
+.1:
+    stosd
+    add    eax, 4096        ; 为了简化, 所有页表在内存中是连续的.
+    loop    .1
+
+    ; 再初始化所有页表 (1K 个, 4M 内存空间)
+    mov    ax, SelectorPageTbl    ; 此段首地址为 PageTblBase
+    mov    es, ax
+    mov    ecx, 1024 * 1024    ; 共 1M 个页表项, 也即有 1M 个页
+    xor    edi, edi
+    xor    eax, eax
+    mov    eax, PG_P  | PG_USU | PG_RWW
+.2:
+    stosd
+    add    eax, 4096        ; 每一页指向 4K 的空间
+    loop    .2
+
+    mov    eax, PageDirBase
+    mov    cr3, eax
+    mov    eax, cr0
+    or    eax, 80000000h
+    mov    cr0, eax
+    jmp    short .3
+.3:
+    nop
+
+    ret
+; 分页机制启动完毕 ----------------------------------------------------------
+</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可以看到，我们在代码中用了4kb+4MB的代价来寻址4GB的空间，然而在早期的内存中也许是只有几MB的，那么为了合理有效的利用分页机制，我们必须根据内存的可用空间来设置我们的PDE表和PTE表，这也是我接下来要学习的内容</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/06/Page1/" data-id="cjbqmub6b000uu908zaaqze1y" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/操作系统/">操作系统</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/07/Page2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          关于PMTest8中的切换分页详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/29/OSEX1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">操作系统实验(1)的总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>潇洒的Splay树 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Splay Tree(伸展树）是BBST家族中一种很“潇洒”的数据结构，实际上，它在很多情况下整体上并不处于“平衡状态”，即不能保证对所有节点的访问控制在O(logn)。但是它的设计很有现实意义，（它的设计理念十分符合“以经常性时间为重点”和“局部性原理”这两条系统结构设计的定量原理）。 顺便一提，JAV没有指针真是太棒了。">
+<meta name="keywords" content="数据结构,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="潇洒的Splay树">
+<meta property="og:url" content="http://yoursite.com/2016/06/29/Splay/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Splay Tree(伸展树）是BBST家族中一种很“潇洒”的数据结构，实际上，它在很多情况下整体上并不处于“平衡状态”，即不能保证对所有节点的访问控制在O(logn)。但是它的设计很有现实意义，（它的设计理念十分符合“以经常性时间为重点”和“局部性原理”这两条系统结构设计的定量原理）。 顺便一提，JAV没有指针真是太棒了。">
+<meta property="og:image" content="http://media.hihocoder.com/problem_images/20160625/14668399649854.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/669964/201606/669964-20160627135734984-1843931338.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/669964/201606/669964-20160627135750437-1308945101.jpg">
+<meta property="og:image" content="http://media.hihocoder.com/problem_images/20160625/14668399641948.jpg">
+<meta property="og:image" content="http://media.hihocoder.com/problem_images/20160625/14668399641396.jpg">
+<meta property="og:image" content="http://media.hihocoder.com/problem_images/20160625/14668399644443.jpg">
+<meta property="og:updated_time" content="2016-06-29T02:19:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="潇洒的Splay树">
+<meta name="twitter:description" content="Splay Tree(伸展树）是BBST家族中一种很“潇洒”的数据结构，实际上，它在很多情况下整体上并不处于“平衡状态”，即不能保证对所有节点的访问控制在O(logn)。但是它的设计很有现实意义，（它的设计理念十分符合“以经常性时间为重点”和“局部性原理”这两条系统结构设计的定量原理）。 顺便一提，JAV没有指针真是太棒了。">
+<meta name="twitter:image" content="http://media.hihocoder.com/problem_images/20160625/14668399649854.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Splay" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/29/Splay/" class="article-date">
+  <time datetime="2016-06-29T01:29:16.000Z" itemprop="datePublished">2016-06-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      潇洒的Splay树
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Splay-Tree-伸展树）"><a href="#Splay-Tree-伸展树）" class="headerlink" title="Splay Tree(伸展树）"></a>Splay Tree(伸展树）</h2><p>是BBST家族中一种很“潇洒”的数据结构，实际上，它在很多情况下整体上并不处于“平衡状态”，即不能保证对所有节点的访问控制在O(logn)。但是它的设计很有现实意义，（它的设计理念十分符合“以经常性时间为重点”和“局部性原理”这两条系统结构设计的定量原理）。</p>
+<p>顺便一提，JAV没有指针真是太棒了。</p>
+<a id="more"></a>
+<h3 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h3><ol>
+<li><p>对于传统的平衡搜索树如AVL树，它假定每次对每个节点的访问是等概率的，所以每次动态操作后都“小心翼翼”地维护着平衡因子，从而使得最深的节点的访问成本也能控制在O(logn)。而现实情况中对数据的访问通常并不是等概率的，相反，它常具有局部性；在关注吞吐率而不是单次操作的场合，这一问题更为突出。</p>
+</li>
+<li><p>这里我们转而关注连续访问一批数据的总体时间。要想总体时间少，我们采用贪心策略，让越经常被访问的节点访问成本越小，这一点和哈夫曼编码的设计如出一辙；然而此处的每个节点的“经常性”是动态变化的，可以有一部分历史数据作为“经验”，但通常要把每次访问的情况吸收到经验中作为下次调整的参考。</p>
+</li>
+<li><p>由此得出Splay Tree的设计思路：按照“经常性”动态调整拓扑结构，一种实现方法就是：每次把刚刚访问过的节点调整到树根。</p>
+</li>
+</ol>
+<h3 id="Splay操作"><a href="#Splay操作" class="headerlink" title="Splay操作"></a>Splay操作</h3><p>作为平衡树，Splay树也是通过左旋和右旋来自调整树的结构</p>
+<p><img src="http://media.hihocoder.com/problem_images/20160625/14668399649854.jpg" alt="pic1"></p>
+<p>关于旋转操作，在我的<a href="http://yisaer.github.io/2016/05/03/AVL/" target="_blank" rel="noopener">平衡树</a>操作有提.</p>
+<h4 id="Splay树上有两个基本的调整操作："><a href="#Splay树上有两个基本的调整操作：" class="headerlink" title="Splay树上有两个基本的调整操作："></a>Splay树上有两个基本的调整操作：</h4><ul>
+<li><p><strong>zig</strong></p>
+<p><img src="http://images2015.cnblogs.com/blog/669964/201606/669964-20160627135734984-1843931338.jpg" alt="zig"></p>
+</li>
+<li><p><strong>zag</strong></p>
+<p><img src="http://images2015.cnblogs.com/blog/669964/201606/669964-20160627135750437-1308945101.jpg" alt="zag"></p>
+</li>
+</ul>
+<p>这样的zig/zag局部拓扑结构调整，在实现步骤上可以分如下三步走.</p>
+<ul>
+<li>v与p的祖先g建立连接</li>
+<li>v的孩子Y过继给p  </li>
+<li>v与p角色互换</li>
+</ul>
+<h4 id="在基本操作的基础上，Splay有三种操作"><a href="#在基本操作的基础上，Splay有三种操作" class="headerlink" title="在基本操作的基础上，Splay有三种操作"></a>在基本操作的基础上，Splay有三种操作</h4><ul>
+<li><p><strong>zig</strong><br><img src="http://media.hihocoder.com/problem_images/20160625/14668399641948.jpg" alt="zig"></p>
+<p>直接根据x节点的位置，进行左旋或右旋。</p>
+</li>
+</ul>
+<p>该操作将x节点提升了一层。</p>
+<ul>
+<li><strong>Zig-Zig</strong><br><img src="http://media.hihocoder.com/problem_images/20160625/14668399641396.jpg" alt="zig-zig"></li>
+</ul>
+<p>若p不是根节点，还有父亲节点g，且p和x同为左儿子或右儿子，则进行Zig-Zig操作：</p>
+<p>当x,p同为左儿子时，依次将p和x右旋；</p>
+<p>当x,p同为右儿子时，依次将p和x左旋。</p>
+<p><strong>注意此处不是将x连续Zig两次。</strong>该操作将x节点提升了两层。</p>
+<ul>
+<li><p><strong>Zig-Zag</strong><br><img src="http://media.hihocoder.com/problem_images/20160625/14668399644443.jpg" alt="zig-zag"></p>
+<p>若p不是根节点，则p还有父亲节点g。且p和x不同为左儿子或右儿子，则进行Zig-Zag操作：</p>
+</li>
+</ul>
+<p>当p为左儿子，x为右儿子时，将x节点先左旋再右旋；</p>
+<p>当p为右儿子，x为左儿子时，将x节点先右旋再左旋。</p>
+<p>该操作将x节点提升了两层。</p>
+<h5 id="Splay操作-1"><a href="#Splay操作-1" class="headerlink" title="Splay操作"></a>Splay操作</h5><p>进一步在Zig,Zig-Zig和Zig-Zag操作上，Splay树定义了”Splay”操作。</p>
+<p>对于x以及x的祖先y，<strong>splay(x, y)</strong>，表示对x节点进行调整，使得x是y的儿子节点。</p>
+<p>在执行这个操作的时候，需要保证y节点一定是x节点祖先。</p>
+<p>值得一提的是，大多数情况下我们希望通过splay操作将x旋转至整棵树的根节点。此时只需令y=NULL即可实现。</p>
+<h3 id="Splay树"><a href="#Splay树" class="headerlink" title="Splay树"></a>Splay树</h3><p>Splay树的插入和查询操作和普通的二叉搜索树没有什么大的区别，需要注意的是每次插入和查询结束后，需要对访问节点做一次Splay操作，将其旋转至根</p>
+<pre><code>insert(key):
+    node = bst_insert(key) // 同普通的BST插入, node为当前插入的新节点
+    splay(node, NULL)
+
+find(key):
+    node = bst_find(key) // 同普通的BST查找, node为查找到的节点
+    splay(node, NULL)
+</code></pre><p> 同时由于Splay的特性，我们还有两个特殊的查询操作。在树中查找指定数key的前一个数和后一个数。</p>
+<p>我们先将key旋转至根，那么key的前一个数一定是根节点左儿子的最右子孙，同时key的后一个数一定是根节点右儿子的最左子孙。</p>
+<pre><code>findPrev(key):
+    splay( find(key), NULL )
+    node = root.left
+    While (node.right)
+        node = node.right
+    Return node
+
+findNext(key):
+    splay( find(key), NULL )
+    node = root.right
+    While (node.left)
+        node = node.left
+    Return node
+</code></pre><h4 id="splay中的删除key操作："><a href="#splay中的删除key操作：" class="headerlink" title="splay中的删除key操作："></a>splay中的删除key操作：</h4><p>splay的删除可以采用和一般二叉搜索树相同的方法：即先找到节点key，若key没有儿子则直接删去；若key有1个儿子，则用儿子替换掉x；若key有2个儿子，则通过找到其前(或后)一个节点来替换掉它，最后将该节点Splay到根。</p>
+<p>同时，这里还有另一种方法来完成删除操作：</p>
+<p>首先我们查找到key的前一个数prev和后一个数next。将prev旋转至根，再将next旋转为prev的儿子。</p>
+<p>此时key节点一定是next的左儿子。那么直接将next的左儿子节点删去即可。</p>
+<pre><code>delete(key):
+    prev = findPrev(key)
+    next = findNext(key)
+    splay(prev, NULL)
+    splay(next, prev)
+    next.left = NULL
+</code></pre><p><strong>值得注意的是：</strong> 当key是数中最大或者最小的时候，这样做的会产生错误。为了解决这种情况，一个简单的处理方法是事先在树中增加一个超级大的数和超级小的数来作为头尾。</p>
+<h4 id="删除区间"><a href="#删除区间" class="headerlink" title="删除区间"></a>删除区间</h4><p>假如要删除一个区间[a,b]的数该怎么做？</p>
+<p>因为要删除[a,b]，那么我就要想办法把[a,b]的数旋转到一个子树上，再将这个子树删掉就行了。方法和删除一个数相同，首先将a的前一个数prev和b的后一个数next找出来。同样将prev旋转至根，再将next旋转为prev的儿子。那么此时next的左子树一定就是所有[a,b]之间的数了。</p>
+<pre><code>deleteInterval(a, b):
+    prev = findPrev(a)
+    next = findNext(b)
+    splay(prev, NULL)
+    splay(next, prev)
+    next.left = NULL
+</code></pre><p><strong>值得注意的是：</strong> 假如a和b不在树中的话，那么我们可以事先添加a,b两个数，然后再删除区间。</p>
+<h4 id="代码-java-hiho-第104周"><a href="#代码-java-hiho-第104周" class="headerlink" title="代码(java) hiho 第104周"></a>代码(java) hiho 第104周</h4><pre><code>import java.util.*;
+import java.util.Scanner;
+
+public class Main{
+    static int MIN_K = 0;
+    static int MAX_K = 1000000005;
+    public static void main(String[] args) {
+        Splay mySplay = new Splay(MIN_K);
+        mySplay.insert(mySplay.root, MAX_K);
+
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        String c;
+        int k, a, b;
+        for(int i=0; i&lt;n; i++){
+            c = in.next();
+            if(c.equals(&quot;I&quot;)){
+                k = in.nextInt();
+                mySplay.insert(mySplay.root, k);
+            }
+            else if(c.equals(&quot;Q&quot;)){
+                k = in.nextInt();
+                Node t = mySplay.search(mySplay.root, k);
+                if( k &lt; t.k ) 
+                    t = mySplay.prev(k);
+                System.out.println(t.k);
+            }
+            else if(c.equals(&quot;D&quot;)){
+                a = in.nextInt();
+                b = in.nextInt();
+                mySplay.deleteInterval(a, b);
+            }
+        }
+     }
+}
+
+class Splay {
+    Node root;
+    Node _hot;
+    Splay(){
+        root = _hot = null;
+    }
+    Splay(int k){
+        root = new Node(k, null);
+        _hot = root;
+    }
+    void zig(Node cur){
+        if(cur == null) return ;
+        Node v = cur.l;
+        if(v == null) return ;
+        Node g = cur.p;
+
+        v.p = g;
+        if(g != null){
+            if(cur == g.l) g.l = v;
+            else g.r = v;
+        }
+
+        cur.l = v.r;
+        if(cur.l != null) cur.l.p = cur;
+
+        cur.p = v;
+        v.r = cur;
+        if(cur == root) root = v;
+    }
+    void zag(Node cur){
+        if(cur == null) return ;
+        Node v = cur.r;
+        if(v == null) return ;
+        Node g = cur.p;
+
+        v.p = g;
+        if(g != null){
+            if(cur == g.l) g.l = v;
+            else g.r = v;
+        }
+
+        cur.r = v.l;
+        if(cur.r != null) cur.r.p = cur;
+
+        cur.p = v;
+        v.l = cur;
+        if(cur == root) root = v;
+    }
+    void splay(Node x, Node f){
+        if(x == null) return ;
+        while(x.p != f){
+            Node p = x.p;
+            if(p == null) return ;
+            if(p.p == f){
+                if(x == p.l){
+
+                    zig(p);
+                }
+                else{
+                    zag(p);
+                }
+            }else{
+                Node g = p.p;
+                if(g == null) return ;
+                if(g.l == p){
+                    if(p.l == x){
+                        zig(g); zig(p);
+                    }else{
+                        zag(p); zig(g);
+                    }
+                }else{
+                    if(p.l == x){
+                        zig(p); zag(g);
+                    }else{
+                        zag(g); zag(p);
+                    }
+                }
+            }
+        }
+    }
+    Node search(Node cur, int k){
+        if(cur == null) return _hot;
+        if(cur.k == k){
+            splay(cur, null);
+            return cur;
+        }
+        _hot = cur;
+        if(k &lt; cur.k) return search(cur.l, k);
+        else return search(cur.r, k);
+    }
+    Node insert(Node cur, int k){
+        if(cur == null){
+            cur = new Node(k, _hot);
+            if(k &lt; _hot.k) _hot.l = cur;
+            else _hot.r = cur;
+            _hot = cur;
+            //System.out.println(&quot;find place&quot;);
+            splay(cur, null);
+            //System.out.println(cur.k + &quot;created&quot;);
+            return cur;
+        }
+        _hot = cur;
+        if(k &lt; cur.k) return insert(cur.l, k);
+        else return insert(cur.r, k);
+    }
+    Node prev(int k){
+        splay(search(root, k), null);
+        Node cur = root.l;
+        if(cur == null) return null;
+        while(cur.r != null) cur = cur.r;
+        return cur;
+    }
+    Node succ(int k){
+        splay(search(root, k), null);
+        Node cur = root.r;
+        if(cur == null) return null;
+        while(cur.l != null) cur = cur.l;
+        return cur;
+    }
+    void deleteInterval(int a, int b){
+        Node pa = search(root, a);
+        if(pa.k != a) pa = insert(pa, a);
+        Node pb = search(root, b);
+        if(pb.k != b) pb = insert(pb, b);
+
+        Node p = prev(a);
+        Node s = succ(b);
+        splay(p, null);
+        splay(s, p);
+        Node q = s.l;
+        _hot = s;
+        s.l = null;
+    }
+}
+class Node{
+    int k;
+    Node l, r;
+    Node p;
+    Node(){p = null;}
+    Node(int kk, Node pp){
+        k = kk;
+        p = pp;
+        l = r = null;
+    }
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/29/Splay/" data-id="cjbqmub6m001ku908e6hqnm9s" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/29/emotion/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Long For Ur Touch
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/26/Serializanle/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">浅谈对象序列化与非序列化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

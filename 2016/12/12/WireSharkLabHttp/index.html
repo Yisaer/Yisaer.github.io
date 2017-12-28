@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>WireShark Lab About Http | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. The Basic HTTP GET/response interaction Start up your web browser.  Start up the Wireshark packet sniffer, as described in the Introductory lab (butdon’t yet begin packet capture). Enter “http” (ju">
+<meta name="keywords" content="计算机网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WireShark Lab About Http">
+<meta property="og:url" content="http://yoursite.com/2016/12/12/WireSharkLabHttp/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. The Basic HTTP GET/response interaction Start up your web browser.  Start up the Wireshark packet sniffer, as described in the Introductory lab (butdon’t yet begin packet capture). Enter “http” (ju">
+<meta property="og:image" content="http://p1.bpimg.com/567571/9ce6c9858a9e1b74.png">
+<meta property="og:updated_time" content="2016-12-12T12:25:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WireShark Lab About Http">
+<meta name="twitter:description" content="1. The Basic HTTP GET/response interaction Start up your web browser.  Start up the Wireshark packet sniffer, as described in the Introductory lab (butdon’t yet begin packet capture). Enter “http” (ju">
+<meta name="twitter:image" content="http://p1.bpimg.com/567571/9ce6c9858a9e1b74.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-WireSharkLabHttp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/WireSharkLabHttp/" class="article-date">
+  <time datetime="2016-12-12T12:03:51.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      WireShark Lab About Http
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-The-Basic-HTTP-GET-response-interaction"><a href="#1-The-Basic-HTTP-GET-response-interaction" class="headerlink" title="1. The Basic HTTP GET/response interaction"></a>1. The Basic HTTP GET/response interaction</h2><ol>
+<li><p>Start up your web browser.</p>
+</li>
+<li><p>Start up the Wireshark packet sniffer, as described in the Introductory lab (but<br>don’t yet begin packet capture). Enter “http” (just the letters, not the quotation marks) in the display-filter-specification window, so that only captured HTTP messages will be displayed later in the packet-listing window. (We’re only interested in the HTTP protocol here, and don’t want to see the clutter of all captured packets).</p>
+</li>
+<li><p>Wait a bit more than one minute (we’ll see why shortly), and then begin Wireshark packet capture.</p>
+</li>
+<li><p>Enter the following to your browser</p>
+</li>
+</ol>
+<pre><code>http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file1.html
+</code></pre><p>Your browser should display the very simple, one-line HTML file.</p>
+<ol>
+<li>Stop Wireshark packet capture.<a id="more"></a>
+</li>
+</ol>
+<h2 id="The-WireShark-Capturing-Result"><a href="#The-WireShark-Capturing-Result" class="headerlink" title="The WireShark Capturing Result"></a>The WireShark Capturing Result</h2><p><img src="http://p1.bpimg.com/567571/9ce6c9858a9e1b74.png" alt=""></p>
+<h2 id="Problem-and-My-Answer"><a href="#Problem-and-My-Answer" class="headerlink" title="Problem and My Answer"></a>Problem and My Answer</h2><h3 id="1-Is-your-browser-running-HTTP-version-1-0-or-1-1-What-version-of-HTTP-is-the-server-running"><a href="#1-Is-your-browser-running-HTTP-version-1-0-or-1-1-What-version-of-HTTP-is-the-server-running" class="headerlink" title="1. Is your browser running HTTP version 1.0 or 1.1? What version of HTTP is the server running?"></a>1. Is your browser running HTTP version 1.0 or 1.1? What version of HTTP is the server running?</h3><p>My browser run HTTP 1.1 and the server does too.</p>
+<h3 id="2-What-languages-if-any-does-your-browser-indicate-that-it-can-accept-to-the-server"><a href="#2-What-languages-if-any-does-your-browser-indicate-that-it-can-accept-to-the-server" class="headerlink" title="2. What languages (if any) does your browser indicate that it can accept to the server?"></a>2. What languages (if any) does your browser indicate that it can accept to the server?</h3><p>zh-cn,zh;q=0.8</p>
+<h3 id="3-What-is-the-IP-address-of-your-computer-Of-the-gaia-cs-umass-edu-server"><a href="#3-What-is-the-IP-address-of-your-computer-Of-the-gaia-cs-umass-edu-server" class="headerlink" title="3. What is the IP address of your computer? Of the gaia.cs.umass.edu server?"></a>3. What is the IP address of your computer? Of the gaia.cs.umass.edu server?</h3><p>My IP address is 10.95.64.155 and the Server IP address is 128.119.245.12</p>
+<h3 id="4-What-is-the-status-code-returned-from-the-server-to-your-browser"><a href="#4-What-is-the-status-code-returned-from-the-server-to-your-browser" class="headerlink" title="4. What is the status code returned from the server to your browser?"></a>4. What is the status code returned from the server to your browser?</h3><p>200 OK</p>
+<p>###5. When was the HTML file that you are retrieving last modified at the server?</p>
+<p>Last-Modified: Mon, 11 Jan 2010 01:59:52 GMT\r\n</p>
+<h3 id="6-How-many-bytes-of-content-are-being-returned-to-your-browser"><a href="#6-How-many-bytes-of-content-are-being-returned-to-your-browser" class="headerlink" title="6. How many bytes of content are being returned to your browser?"></a>6. How many bytes of content are being returned to your browser?</h3><p>349</p>
+<h3 id="7-By-inspecting-the-raw-data-in-the-packet-content-window-do-you-see-any-headers-within-the-data-that-are-not-displayed-in-the-packet-listing-window-If-so-name-one"><a href="#7-By-inspecting-the-raw-data-in-the-packet-content-window-do-you-see-any-headers-within-the-data-that-are-not-displayed-in-the-packet-listing-window-If-so-name-one" class="headerlink" title="7. By inspecting the raw data in the packet content window, do you see any headers within the data that are not displayed in the packet-listing window? If so, name one."></a>7. By inspecting the raw data in the packet content window, do you see any headers within the data that are not displayed in the packet-listing window? If so, name one.</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/WireSharkLabHttp/" data-id="cjbqmub6p001ru908obtvrm80" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/06/Inf-Loop-on-HashMap/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          关于HaspMap在并发下产生的无限循环的探讨
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/12/Assebmy-C-Compile-Link/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">关于在64位Linux系统上编译链接C和Assembly的注意点</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

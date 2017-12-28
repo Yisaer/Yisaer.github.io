@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>字典树 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="昨天数据结构作业综合题正好遇见了一道题目，一眼看过去感觉是一道字典树裸题，随便就水过去了。正好早上没事情做，更新记录一篇字典树。 概述：字典树，Trie树。这种树形结构用于统计，排序，保存大量字符串但不仅限于字符串。其优点在于，这种存储方式利用字符串公共前缀来减少查找时间，效率极高。">
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字典树">
+<meta property="og:url" content="http://yoursite.com/2016/04/29/Tire/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="昨天数据结构作业综合题正好遇见了一道题目，一眼看过去感觉是一道字典树裸题，随便就水过去了。正好早上没事情做，更新记录一篇字典树。 概述：字典树，Trie树。这种树形结构用于统计，排序，保存大量字符串但不仅限于字符串。其优点在于，这种存储方式利用字符串公共前缀来减少查找时间，效率极高。">
+<meta property="og:image" content="http://cl.ly/3C0K1C3X2y0I/Image%202016-04-29%20at%208.47.56%20%E4%B8%8A%E5%8D%88.png">
+<meta property="og:image" content="http://cl.ly/2f13401V2Q32/Image%202016-04-29%20at%208.34.08%20%E4%B8%8A%E5%8D%88.png">
+<meta property="og:updated_time" content="2016-05-06T01:22:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字典树">
+<meta name="twitter:description" content="昨天数据结构作业综合题正好遇见了一道题目，一眼看过去感觉是一道字典树裸题，随便就水过去了。正好早上没事情做，更新记录一篇字典树。 概述：字典树，Trie树。这种树形结构用于统计，排序，保存大量字符串但不仅限于字符串。其优点在于，这种存储方式利用字符串公共前缀来减少查找时间，效率极高。">
+<meta name="twitter:image" content="http://cl.ly/3C0K1C3X2y0I/Image%202016-04-29%20at%208.47.56%20%E4%B8%8A%E5%8D%88.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Tire" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/29/Tire/" class="article-date">
+  <time datetime="2016-04-29T00:44:30.000Z" itemprop="datePublished">2016-04-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      字典树
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>昨天数据结构作业综合题正好遇见了一道题目，一眼看过去感觉是一道字典树裸题，随便就水过去了。正好早上没事情做，更新记录一篇字典树。</p>
+<h1 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h1><p><strong>字典树</strong>，Trie树。这种树形结构用于统计，排序，保存大量字符串但不仅限于字符串。其优点在于，这种存储方式利用字符串公共前缀来减少查找时间，效率极高。</p>
+<a id="more"></a>
+<p><img src="http://cl.ly/3C0K1C3X2y0I/Image%202016-04-29%20at%208.47.56%20%E4%B8%8A%E5%8D%88.png" alt="pic1"></p>
+<h1 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h1><p>字典树的结点分为两个域，一个是指针域，来表达其儿子结点所代表的字符，另一个是变量num的int域，用来存储到从根节点到这儿子结点为止，所组成的字符串，作为字符串前缀，有多少字符串拥有这个前缀。<br>字典树的根节点是一个空节点，他的num值永远为0.<br>字典树的指针域为一个指针数组，其长度为26从pnext[0]~pnext[25]分别代表’a’~’z’(当然你也可以根据你的字符串形式来改变你的指针数组长度以及其代表意义，这里我们以小写字母为例)。</p>
+<pre><code>struct Node{
+    Node *next [26];
+      int num;
+};
+</code></pre><p>假设从根节点开始插入一个字符’a’，那么便创造一个新节点，并将根节点的next[0]指向这个节点。</p>
+<pre><code>Node t = Create();
+head.next[0]=t;
+</code></pre><p>若是从根节点开始插入一个字符’b’，那么就是讲根节点的next[1]指向一个新的节点。从这可以看出，字典树的节点在存储字符形式中，它并不是显式的直接保存这个字符信息，而是将这个字符与指针域做出一个映射关系，假若某个节点的第X个指针为非空指针，其指向一个节点，则说明这个第X个指针所对应的字符串被存储在这条路径中。</p>
+<p>从上可以看出，字典树的构造操作十分简单，仅仅分为创造节点与插入节点</p>
+<p><strong>创造节点</strong></p>
+<p>每次创造节点以后记得将节点的域初始化。</p>
+<pre><code>Node* Creat(){
+Node* p =new Node();
+for(int i=0;i&lt;Max;i++)
+    p-&gt;next[i]=NULL;
+p-&gt;num = 0;
+return p;
+</code></pre><p>}</p>
+<p><strong>插入字符串</strong></p>
+<p>插入操作接受字典树的根节点与字符串。从根节点开始向下将字符串从头到尾一个一个的向下存储。如果这个字符串的前缀在之前并未存储过，则创造结点后直接指向即可。若这个字符串的前缀已经存储在字典树种，则可以将在这个结点的Num+1来代表拥有这个前缀的字符串数量+1</p>
+<pre><code>void Insert( char *str,Node* head){
+    int len =strlen(str);
+    Node *t,*p=head;
+    for(int i=0;i&lt;len;i++){
+        int c = str[i]-&apos;a&apos;;
+        if(p-&gt;next[c]==NULL){
+            t= Creat();
+            p-&gt;next[c]=t;
+            t-&gt;num ++;
+            p=p-&gt;next[c];
+        }else
+        {
+            p=p-&gt;next[c];
+            p-&gt;num++;
+        }
+
+    }
+}
+</code></pre><h1 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h1><p>至此字典树的构造就已经完成了，那么字典树有什么作用呢？其实从字典树的存储结构来看，他的优点在于处理字符串前缀的问题。</p>
+<p><img src="http://cl.ly/2f13401V2Q32/Image%202016-04-29%20at%208.34.08%20%E4%B8%8A%E5%8D%88.png" alt="pic2"></p>
+<p>这是一道昨天数据结构的研讨题，将这道题放在查找与散列映射这章我想必然肯定是用某种数据结构方式来达到快速查询的目的，于是很自然的想到了使用字典树。用字典树存储所有的单词，那么我们在查询前缀的时候，只需要将前缀从根节点往下爬到前缀终点时返回当前的num值即可。</p>
+<p><strong>查询函数</strong></p>
+<pre><code>int Search(char* str, Node* head){
+    Node *p =head;
+    int len =strlen(str);
+    int count = 0;
+    for(int i=0;i&lt;len;i++){
+        int c = str[i]-&apos;a&apos;;
+        if(p-&gt;next[c]==NULL){
+            return 0;
+        }
+        else{
+            p=p-&gt;next[c];
+            count = p-&gt;num;
+        }
+    }
+
+    return  count ;
+
+}
+</code></pre><h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>至此字典树的就已经讲完啦，字典树的优点与应用十分明显，事实上也有很多关于字符串的算法用到了字典树这一结构，不过这就以后再说了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/29/Tire/" data-id="cjbqmub6r001tu908ei5u4jcx" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/03/AVL/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          平衡二叉树详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/27/future/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">说到未来，我们会想到什么</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>如何线性时间内求一个区域的欧拉函数值 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概述：  欧拉函数是数论中很重要的一个函数，欧拉函数是指：对于一个正整数 n ，小于 n 且和 n互质的正整数（包括 1）的个数，记作 φ(n) 。   本文主要探讨如何在线性时间内求得一个整数区域中每个数的欧拉函数值。">
+<meta name="keywords" content="数论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何线性时间内求一个区域的欧拉函数值">
+<meta property="og:url" content="http://yoursite.com/2016/05/09/Euler/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述：  欧拉函数是数论中很重要的一个函数，欧拉函数是指：对于一个正整数 n ，小于 n 且和 n互质的正整数（包括 1）的个数，记作 φ(n) 。   本文主要探讨如何在线性时间内求得一个整数区域中每个数的欧拉函数值。">
+<meta property="og:image" content="http://cl.ly/132w1b2u2P22/Image%202016-05-09%20at%202.45.55%20%E4%B8%8B%E5%8D%88.png">
+<meta property="og:updated_time" content="2016-05-09T07:02:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何线性时间内求一个区域的欧拉函数值">
+<meta name="twitter:description" content="概述：  欧拉函数是数论中很重要的一个函数，欧拉函数是指：对于一个正整数 n ，小于 n 且和 n互质的正整数（包括 1）的个数，记作 φ(n) 。   本文主要探讨如何在线性时间内求得一个整数区域中每个数的欧拉函数值。">
+<meta name="twitter:image" content="http://cl.ly/132w1b2u2P22/Image%202016-05-09%20at%202.45.55%20%E4%B8%8B%E5%8D%88.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Euler" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/09/Euler/" class="article-date">
+  <time datetime="2016-05-09T06:58:56.000Z" itemprop="datePublished">2016-05-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何线性时间内求一个区域的欧拉函数值
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>  欧拉函数是数论中很重要的一个函数，欧拉函数是指：对于一个正整数 n ，小于 n 且和 n<br>互质的正整数（包括 1）的个数，记作 φ(n) 。</p>
+<p>  本文主要探讨如何在线性时间内求得一个整数区域中每个数的欧拉函数值。</p>
+<a id="more"></a>
+<h2 id="通式"><a href="#通式" class="headerlink" title="通式"></a>通式</h2><p><img src="http://cl.ly/132w1b2u2P22/Image%202016-05-09%20at%202.45.55%20%E4%B8%8B%E5%8D%88.png" alt="pic1"></p>
+<p>代码如下：</p>
+<pre><code>int Euler(int n){
+    int res = n,i;
+    for(i=2;i * i &lt;= n;i++)
+    if(n%i == 0){
+        n /=i ;
+        res = res - res/i;
+        while(n % i ==0)
+            n/=i;
+    }
+
+    if (n &gt; 1)   
+        res = res - res/n; 
+
+    return res;
+}
+</code></pre><h2 id="求区域的欧拉函数值"><a href="#求区域的欧拉函数值" class="headerlink" title="求区域的欧拉函数值"></a>求区域的欧拉函数值</h2><p>从通式上看出，求一个数的欧拉函数的计算其实并不复杂，但是如果要求一个整数区域的欧拉函数值的话，对于每个整数都用通式去求未免太过复杂。事实上，假设p,q是个质数,那么我们不难发现对于φ(pq),它的值正好等于φ(p)*φ(q). 这其中的原理事实上也不难想象。那么也就是说，我们是否可以通过一些已有的欧拉函数值，来直接得到其他数的欧拉函数值？ </p>
+<p>这便是我们今天要来探讨的。在讨论这些前，我们先仔细分析一下欧拉函数的性质。</p>
+<h3 id="性质1"><a href="#性质1" class="headerlink" title="性质1"></a>性质1</h3><p>(1) 若n为素数，则φ(n) = n - 1</p>
+<p>显然，由于n为素数，1~n-1与n都只有公因子1，因此φ(n) = n - 1。</p>
+<h3 id="性质2"><a href="#性质2" class="headerlink" title="性质2"></a>性质2</h3><p>(2) 若n = p^k，p为素数（即n为单个素数的整数幂），则φ(n) = (p-1)*p^(k-1)</p>
+<p>因为n是p的整数幂，因此所有p的倍数和n都不互质。小于n的p的倍数一共有p^(k-1)-1个，因此和n互质的个数为：</p>
+<pre><code>p^k-1 - (p^(k-1)-1) = p^k - p^(k-1) = (p-1)*p^(k-1)
+</code></pre><h3 id="性质3"><a href="#性质3" class="headerlink" title="性质3"></a>性质3</h3><p>3) 若p和q互质，则φ(p<em>q) = φ(p) \</em> φ(q)  </p>
+<p><em>此处建议手推一遍</em></p>
+<p>对于所有小于pq的整数u，可以表示为u=aq+r。(a=0,1,2,…,p-1，r=0,1,…,q-1)。</p>
+<p>对于u = aq + r, 设R = u mod p，0≤R&lt;q。对于一个固定的r，设a1, a2满足0 &lt;= a1, a2 &lt; p且a1≠a2，有：</p>
+<pre><code>u1 = a1*q+r, u2 = a2*q+r
+u1-u2=(a1-a2)*q
+</code></pre><p>因为p与q互质，且|a1-a2|&lt;p，则|u1-u2|一定不是p的倍数。</p>
+<p>所以对于每一个固定的r，其对应的p个u = a*q+r(a=0,1,2,…,p-1)对mod p来说余数都不相同，即u mod p的结果恰好取遍0,1,…,p-1中的每一个数。</p>
+<p>下面我证明一个引理：u mod p与p互质 &lt;=&gt; u与p互质，其证明如下：</p>
+<pre><code>假设a,b互质,c = a mod b。
+假设c与b不互质，则存在d≥1，使得c=nd, b=md。
+由于c = a mod b，因此a = kb + c，
+则a = kmd + nd = (kn+m)d
+因此d是a,b的公因数，与a,b互质矛盾。
+假设不成立，所以c与b互质。
+</code></pre><p>因此对于任意一个确定的r，与其对应的p个u中恰好有φ(p)个与p互质。</p>
+<p>同理，由u = aq + r知r与q互质 &lt;=&gt; u与q互质。因此在0..q-1中恰好有φ(q)个r使得u与q互质。综上，当r与q互质的情况下，固定r可以得到φ(p)个与p和q都互质的数。</p>
+<p>满足条件的r一共用φ(q)个，所以一共能找到有φ(p) * φ(q)个与p和q都互质的数。</p>
+<p>由此得证：<strong>φ(p*q) = φ(p) * φ(q)</strong></p>
+<p><strong>在上面这些性质的基础上我们能到推导出两条定理：</strong></p>
+<h3 id="推导1"><a href="#推导1" class="headerlink" title="推导1"></a>推导1</h3><p>若p为质数，n为任意整数：</p>
+<p>1) 若p为n的约数，则φ(n<em>p) = φ(n) </em> p</p>
+<p>若p为n的约数，且p为质数。则我们可以将n表示为p^k*m。m表示其他和p不同的质数的乘积。</p>
+<p>显然有p^k与m互质，则：</p>
+<pre><code>φ(n) = φ(p^k)*φ(m) = (p-1)*p^(k-1)*φ(m)
+φ(n*p) = φ(p^(k+1))*φ(m) = (p-1)*p^k*φ(m) = 
+(p-1)*p^(k-1)*φ(m) * p =  φ(n) * p
+</code></pre><h3 id="推导2"><a href="#推导2" class="headerlink" title="推导2"></a>推导2</h3><p>2) 若p为不为n的约数，则φ(n<em>p) = φ(n) </em> (p-1)</p>
+<p>由p不为n的约数，因此p与n互质，所以φ(n*p) = φ(n) <em> φ(p) = φ(n)</em>(p-1)</p>
+<p>根据这两条定理，当我们得到一个n时，可以枚举质数p来递推的求解φ(n*p)。这一步正是说明了我们只要在<a href="http://yisaer.github.io/2016/04/23/SL-ZS/" target="_blank" rel="noopener">欧拉筛法</a>的基础上修改即可。因为欧拉筛法的复杂度是线性的，所以求一个大区域的欧拉函数值的过程也是O(n).</p>
+<p>伪代码如下：</p>
+<pre><code>isPrime[] = true
+primeList = []
+phi = []    // phi[n]表示n的欧拉函数
+primeCount = 0
+For i = 2 .. N
+    If isPrime[i] Then
+        primeCount = primeCount + 1
+        primeList[ primeCount ] = i
+        phi[i] = i - 1 // 质数的欧拉函数为p-1
+    End If 
+    For j = 1 .. primeCount
+        If (i * primeList[j] &gt; N) Then
+            Break
+        End If
+        isPrime[ i * primeList[j] ] = false
+        If (i % primeList[j] == 0) Then
+            // primeList[j]是i的约数，φ(n*p) = φ(n) * p
+            phi[ i * primeList[j] ] = phi[i] * primeList[j];
+            Break
+        Else 
+            // primeList[j]不是i的约数，φ(n*p) = φ(n) * (p-1)
+            phi[ i * primeList[j] ] = phi[i] * (primeList[j] - 1);
+        End If
+    End If
+End For
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/09/Euler/" data-id="cjbqmub5y000bu908ieta27ci" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数论/">数论</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/18/DB1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          如何理解关系模式三范式？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/05/regex/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">正则表达式30分钟入门</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

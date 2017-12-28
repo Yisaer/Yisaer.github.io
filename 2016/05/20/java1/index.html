@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>如何优雅的去除&#34;!=null&#34;的判空语句 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概述当我们为了避免空指针的调用时，我们经常会看到这样的语句 if (someobject != null) {     someobject.doCalc(); } 最终使得项目中会存在大量判空代码，多么丑陋繁冗！如何避免这种情况？我们是否滥用了判空呢？">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何优雅的去除&quot;!=null&quot;的判空语句">
+<meta property="og:url" content="http://yoursite.com/2016/05/20/java1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述当我们为了避免空指针的调用时，我们经常会看到这样的语句 if (someobject != null) {     someobject.doCalc(); } 最终使得项目中会存在大量判空代码，多么丑陋繁冗！如何避免这种情况？我们是否滥用了判空呢？">
+<meta property="og:updated_time" content="2016-05-20T14:14:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何优雅的去除&quot;!=null&quot;的判空语句">
+<meta name="twitter:description" content="概述当我们为了避免空指针的调用时，我们经常会看到这样的语句 if (someobject != null) {     someobject.doCalc(); } 最终使得项目中会存在大量判空代码，多么丑陋繁冗！如何避免这种情况？我们是否滥用了判空呢？">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/20/java1/" class="article-date">
+  <time datetime="2016-05-20T14:13:22.000Z" itemprop="datePublished">2016-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何优雅的去除&#34;!=null&#34;的判空语句
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>当我们为了避免空指针的调用时，我们经常会看到这样的语句</p>
+<pre><code>if (someobject != null) {
+    someobject.doCalc();
+}
+</code></pre><p>最终使得项目中会存在大量判空代码，多么丑陋繁冗！如何避免这种情况？我们是否滥用了判空呢？</p>
+<a id="more"></a>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这是初、中级程序猿经常会遇到的问题。他们总喜欢在方法中返回null，因此，在调用这些方法时，也不得不去判空。另外，也许受此习惯影响，他们总潜意识地认为，所有的返回都是不可信任的，为了保护自己程序，就加了大量的判空。</p>
+<p>吐槽完毕，回到这个题目本身，进行判空前，请区分以下两种情况：</p>
+<ul>
+<li>null 是一个有效有意义的返回值  </li>
+<li>null是无效有误的</li>
+</ul>
+<p>你可能还不明白这两句话的意思，不急，继续往下看，接下来将详细讨论这两种情况</p>
+<h3 id="先说第2种情况"><a href="#先说第2种情况" class="headerlink" title="先说第2种情况"></a>先说第2种情况</h3><p>null就是一个不合理的参数，就应该明确地中断程序，往外抛错误。这种情况常见于api方法。例如你开发了一个接口，id是一个必选的参数，如果调用方没传这个参数给你，当然不行。你要感知到这个情况，告诉调用方“嘿，哥们，你传个null给我做甚”。</p>
+<p>相对于判空语句，更好的检查方式有两个</p>
+<ul>
+<li><strong>assert</strong>语句，你可以把错误原因放到assert的参数中，这样不仅能保护你的程序不往下走，而且还能把错误原因返回给调用方，岂不是一举两得。（原文介绍了assert的使用，这里省略）</li>
+<li>也可以直接抛出<strong>空指针异常</strong>。上面说了，此时null是个不合理的参数，有问题就是有问题，就应该大大方方往外抛。</li>
+</ul>
+<h3 id="第1种情况会更复杂一些"><a href="#第1种情况会更复杂一些" class="headerlink" title="第1种情况会更复杂一些"></a>第1种情况会更复杂一些</h3><p>这种情况下，null是个”看上去“合理的值，例如，我查询数据库，某个查询条件下，就是没有对应值，此时null算是表达了“空”的概念。</p>
+<p>这里给一些实践建议：</p>
+<ul>
+<li>假如方法的返回类型是collections，当返回结果是空时，你可以返回一个空的collections（empty list),而不要返回null.这样调用侧就能大胆地处理这个返回，例如调用侧拿到返回后，可以直接print list.size()，又无需担心空指针问题。（什么？想调用这个方法时，不记得之前实现该方法有没按照这个原则？所以说，代码习惯很重要！如果你养成习惯，都是这样写代码（返回空collections而不返回null)，你调用自己写的方法时，就能大胆地忽略判空）</li>
+<li><p>返回类型不是collections，又怎么办呢？ 那就返回一个空对象（而非null对象），下面举个“栗子”，假设有如下代码</p>
+<pre><code>public interface Action {
+  void doSomething();}
+
+public interface Parser {
+  Action findAction(String userInput);}
+</code></pre></li>
+</ul>
+<p>其中，Parse有一个接口FindAction，这个接口会依据用户的输入，找到并执行对应的动作。假如用户输入不对，可能就找不到对应的动作（Action），因此findAction就会返回null，接下来action调用doSomething方法时,就会出现空指针。 解决这个问题的一个方式，就是使用Null Object pattern（空对象模式）</p>
+<p>我们来改造一下</p>
+<p>类定义如下，这样定义findAction方法后，确保无论用户输入什么，都不会返回null对象 </p>
+<pre><code>public class MyParser implements Parser { 
+    private static Action DO_NOTHING = new Action() { 
+        public void doSomething() 
+        { /* do nothing */ } 
+    };
+public Action findAction(String userInput) { 
+        // ... if ( /* we can&apos;t find any actions */ ) { 
+        return DO_NOTHING; 
+        }
+    }
+}
+</code></pre><p>对比下面两份调用实例 1. 冗余: 每获取一个对象，就判一次空</p>
+<pre><code>Parser parser = ParserFactory.getParser();
+    if (parser == null) {
+      // now what?
+      // this would be an example of where null isn&apos;t (or shouldn&apos;t be) a valid response
+    }
+    Action action = parser.findAction(someInput);
+    if (action == null) {
+      // do nothing} else {
+      action.doSomething();          
+      }
+</code></pre><p>2.精简版</p>
+<pre><code>ParserFactory.getParser().findAction(someInput).doSomething();
+</code></pre><p>因为无论什么情况，都不会返回空对象，因此通过findAction拿到action后，可以放心地调用action的方法。</p>
+<h3 id="关于其他情况："><a href="#关于其他情况：" class="headerlink" title="关于其他情况："></a>关于其他情况：</h3><ul>
+<li><p>如果要用equal方法，请用object&lt;不可能为空&gt;.equal(object&lt;可能为空&gt;)) 例如： 使用 “bar”.equals(foo) 而不是 foo.equals(“bar”)</p>
+</li>
+<li><p>Java8或者guava lib中，提供了Optional类，这是一个元素容器，通过它来封装对象，可以减少判空。不过代码量还是不少。不爽。</p>
+</li>
+<li><p>如果你想返回null，请挺下来想一想，这个地方是否更应该抛出一个异常</p>
+</li>
+</ul>
+<h3 id="stackoverflow链接"><a href="#stackoverflow链接" class="headerlink" title="stackoverflow链接"></a>stackoverflow链接</h3><p><a href="http://stackoverflow.com/questions/271526/avoiding-null-statements-in-java?page=2&amp;tab=votes#tab-top" target="_blank" rel="noopener">链接</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/20/java1/" data-id="cjbqmub6z002cu908u28gwday" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/13/Regex-Review1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          正则简单总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/18/DB1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">如何理解关系模式三范式？</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>编写命令解释器 上篇 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言这周操作系统的最后一个实验室写一个Shell，然而实验手册的pdf上只指明了你必须要完成什么函数，对于怎么写则是一点提示都没有。 所以本篇文章则立意于如何写出一个简单可用的shell，个人认为这个主题应该会分为上中下三篇文章来阐明从零开始的Shell编写过程">
+<meta name="keywords" content="操作系统,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编写命令解释器 上篇">
+<meta property="og:url" content="http://yoursite.com/2017/03/04/shell1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言这周操作系统的最后一个实验室写一个Shell，然而实验手册的pdf上只指明了你必须要完成什么函数，对于怎么写则是一点提示都没有。 所以本篇文章则立意于如何写出一个简单可用的shell，个人认为这个主题应该会分为上中下三篇文章来阐明从零开始的Shell编写过程">
+<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488645051996&di=f8cf376e2a064e93d603b6c80f6b7346&imgtype=0&src=http%3A%2F%2Fwww.xitongzhijia.net%2Fuploads%2Fallimg%2F150528%2F64-15052Q106123F.jpg">
+<meta property="og:updated_time" content="2017-03-04T14:32:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编写命令解释器 上篇">
+<meta name="twitter:description" content="前言这周操作系统的最后一个实验室写一个Shell，然而实验手册的pdf上只指明了你必须要完成什么函数，对于怎么写则是一点提示都没有。 所以本篇文章则立意于如何写出一个简单可用的shell，个人认为这个主题应该会分为上中下三篇文章来阐明从零开始的Shell编写过程">
+<meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488645051996&di=f8cf376e2a064e93d603b6c80f6b7346&imgtype=0&src=http%3A%2F%2Fwww.xitongzhijia.net%2Fuploads%2Fallimg%2F150528%2F64-15052Q106123F.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-shell1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/04/shell1/" class="article-date">
+  <time datetime="2017-03-04T13:35:27.000Z" itemprop="datePublished">2017-03-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      编写命令解释器 上篇
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1488645051996&amp;di=f8cf376e2a064e93d603b6c80f6b7346&amp;imgtype=0&amp;src=http%3A%2F%2Fwww.xitongzhijia.net%2Fuploads%2Fallimg%2F150528%2F64-15052Q106123F.jpg" alt="pic1"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这周操作系统的最后一个实验室写一个Shell，然而实验手册的pdf上只指明了你必须要完成什么函数，对于怎么写则是一点提示都没有。</p>
+<p>所以本篇文章则立意于如何写出一个简单可用的shell，个人认为这个主题应该会分为上中下三篇文章来阐明从零开始的Shell编写过程</p>
+<a id="more"></a>
+<h2 id="Shell做了什么"><a href="#Shell做了什么" class="headerlink" title="Shell做了什么"></a>Shell做了什么</h2><p>简单的说，shell是一个管理进程和运行程序的程序，所有常用的shell有三个基本功能</p>
+<ul>
+<li>运行程序</li>
+<li>管理输入输出</li>
+<li>可编程</li>
+</ul>
+<h2 id="Shell是如何运行程序的"><a href="#Shell是如何运行程序的" class="headerlink" title="Shell是如何运行程序的"></a>Shell是如何运行程序的</h2><p>shell打印提示符，输入命令，然后就运行这个命令，随手再次打印提示符，如此反复。那么在这个过程中，背后到底有什么?</p>
+<p>一个shell的主循环执行下面四步:</p>
+<ul>
+<li>用户输入</li>
+<li>shell建立进程</li>
+<li>shell将程序从磁盘载入</li>
+<li>程序在他的进程中运行直到结束</li>
+</ul>
+<p>所以一个Shell的主循环可以写成</p>
+<pre><code>while(!end_of_input)
+    get command
+    execute command
+    wait for command to finish
+</code></pre><p>所以要写一个shell ，就需要学会</p>
+<ul>
+<li>运行程序</li>
+<li>建立进程</li>
+<li>等待exit</li>
+</ul>
+<h2 id="一个程序如何运行另一个程序"><a href="#一个程序如何运行另一个程序" class="headerlink" title="一个程序如何运行另一个程序"></a>一个程序如何运行另一个程序</h2><p><strong>使用函数 int execvp(const char* file,char* const argv[])</strong> ,这个函数会从PATH变量所指的目录中查找符合参数file的文件名，找到后便执行该文件，然后将第二个参数argv传递给执行的文件。</p>
+<h4 id="使用demo"><a href="#使用demo" class="headerlink" title="使用demo"></a>使用demo</h4><pre><code>main(){
+    char * arglist[3];
+    arglist[0] = &quot;ls&quot;;
+    arglist[1] = &quot;-l&quot;;
+    arglist[2] = 0;
+    execvp(&quot;ls&quot;,arglist);
+
+}
+</code></pre><h3 id="第一个Shell-Demo"><a href="#第一个Shell-Demo" class="headerlink" title="第一个Shell Demo"></a>第一个Shell Demo</h3><pre><code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>	<span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>	<span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> **	prompting shell version 1</span></span><br><span class="line"><span class="comment"> **</span></span><br><span class="line"><span class="comment"> **			Prompts for the command and its arguments.</span></span><br><span class="line"><span class="comment"> **			Builds the argument vector for the call to execvp.</span></span><br><span class="line"><span class="comment"> **			Uses execvp(), and never returns.</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MAXARGS		20				</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	ARGLEN		100				</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	CMDPROMPT	<span class="meta-string">"Command please: "</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	ARGPROMPT	<span class="meta-string">"next argument please: "</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	prompt(n)	printf(<span class="meta-string">"%s"</span>, (n)==0 ? CMDPROMPT : ARGPROMPT );</span></span><br><span class="line"></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">char</span>	*arglist[MAXARGS+<span class="number">1</span>];		</span><br><span class="line">	<span class="keyword">int</span>	numargs;		</span><br><span class="line">	<span class="keyword">char</span>	argbuf[ARGLEN];			</span><br><span class="line">	<span class="function"><span class="keyword">char</span>	*<span class="title">makestring</span><span class="params">()</span></span>;	</span><br><span class="line"></span><br><span class="line">	numargs = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> ( numargs &lt; MAXARGS )</span><br><span class="line">	&#123;					</span><br><span class="line">		prompt( numargs );	</span><br><span class="line">		<span class="keyword">if</span> ( gets(argbuf) &amp;&amp; *argbuf ) &#123;</span><br><span class="line">			arglist[numargs++] = makestring(argbuf);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">	</span><br><span class="line">			<span class="keyword">if</span> ( numargs == <span class="number">0</span> )		</span><br><span class="line">				<span class="keyword">break</span>;		</span><br><span class="line">			arglist[numargs] = <span class="literal">NULL</span> ;	</span><br><span class="line">			execute( arglist );		</span><br><span class="line">			numargs = <span class="number">0</span>;			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">execute( <span class="keyword">char</span> *arglist[] )</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	execvp(arglist[<span class="number">0</span>], arglist);		</span><br><span class="line">	perror(<span class="string">"execvp failed"</span>);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *</span><br><span class="line">makestring( <span class="keyword">char</span> *buf )</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">char</span>	*cp, *<span class="built_in">malloc</span>();</span><br><span class="line">	<span class="keyword">if</span> ( cp = <span class="built_in">malloc</span>( <span class="built_in">strlen</span>(buf) + <span class="number">1</span> ) )&#123;</span><br><span class="line">		<span class="built_in">strcpy</span>(cp, buf);		</span><br><span class="line">		<span class="keyword">return</span> cp;		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"out of memory\n"</span>);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="建立新的进程"><a href="#建立新的进程" class="headerlink" title="建立新的进程"></a>建立新的进程</h2><p>在学会了使用execvp函数以后，我们解决了第一个问题如何执行程序。 那么我们现在解决的第二个问题就是如何建立新的进程。 <strong>我们为何要建立新的进程？</strong> 假设我们已经为我们的程序写好了输入输出的接口，将参数传递给execvp函数以后，当函数执行完以后我们会发现我们的程序也结束了。 这显然不是我们想要的结果。</p>
+<h3 id="为何会这样"><a href="#为何会这样" class="headerlink" title="为何会这样"></a>为何会这样</h3><p>如果我们做一个实验，在使用demo的execvp函数以后加一个输出语句，重新编译执行以后你会发现我们新加的打印消息不见了。 那么这条程序去哪了呢？</p>
+<p>这个原因都是因为execvp函数，exec系统调用从当前进程中把当前程序的机器指令清除，然后再空的进程中载入调用的程序代码，exec调整进程的内存让他适应新的程序对内存的要求。</p>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>为了解决这个问题，我们的解决方法之一就是复制一个进程，这样就可以继续原来的程序了。这就是系统调用fork做的事情。</p>
+<p>进程调用fork,当控制转移到内核中的fork代码后，内核做:</p>
+<ul>
+<li>分配新的内存块和内核数据结构</li>
+<li>复制原来的进程到新的进程</li>
+<li>向运行进程集添加新的进程</li>
+<li>将控制返回给两个进程</li>
+</ul>
+<h3 id="父进程如何等待子进程"><a href="#父进程如何等待子进程" class="headerlink" title="父进程如何等待子进程"></a>父进程如何等待子进程</h3><p>当使用fork函数后，我们会得到两个进程，其中一个进程是我们原本的进程，他执行了会继续执行shell的程序，而另一个进程则是我们fork出的一个子进程，他会执行我们的execvp函数。</p>
+<p>但是这就引出了新的问题。 当我们得到两个进程以后，这两个进程会并行的执行，如果你执行的程序耗时过久，你会发现在执行子进程的时候，主进程的提示打印符也会出现在屏幕中，并提示你输入下一条命令，这显然不是我们想要的。</p>
+<p>为了解决这个问题，我们需要用的wait函数。 当进程调用wait函数以后，进程会立即阻塞自己并且自动分析是否当前进程的某个子进程已经退出，如果让他找到了这样一个变成僵尸的子进程，wait会收集这个进程的信息，并且把它彻底摧毁后返回，如果没有找到这样一个子进程，wait就会一直阻塞在这里，直到有一个这样的出现。</p>
+<p>为了使用wait函数，首先我们需要知道进程是子进程还是父进程，这一点可以通过fork函数的返回值来判断。</p>
+<h2 id="第二个Shell-Demo"><a href="#第二个Shell-Demo" class="headerlink" title="第二个Shell Demo"></a>第二个Shell Demo</h2><pre><code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>	<span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>	<span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> **	prompting shell version 2</span></span><br><span class="line"><span class="comment"> **</span></span><br><span class="line"><span class="comment"> **		Solves the `one-shot' problem of version 1</span></span><br><span class="line"><span class="comment"> **			Uses execvp(), but fork()s first so that the</span></span><br><span class="line"><span class="comment"> **			shell waits around to perform another command</span></span><br><span class="line"><span class="comment"> **		New problem: shell catches signals.  Run vi, press ^c.</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MAXARGS		20		</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	ARGLEN		100			</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	CMDPROMPT	<span class="meta-string">"Command please: "</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	ARGPROMPT	<span class="meta-string">"next argument please: "</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	prompt(n)	printf(<span class="meta-string">"%s"</span>, (n)==0 ? CMDPROMPT : ARGPROMPT );</span></span><br><span class="line"></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">char</span>	*arglist[MAXARGS+<span class="number">1</span>];	</span><br><span class="line">	<span class="keyword">int</span>	numargs;			</span><br><span class="line">	<span class="keyword">char</span>	argbuf[ARGLEN];		</span><br><span class="line">	<span class="function"><span class="keyword">char</span>	*<span class="title">makestring</span><span class="params">()</span></span>;		</span><br><span class="line">	numargs = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> ( numargs &lt; MAXARGS )</span><br><span class="line">	&#123;					</span><br><span class="line">		prompt( numargs );</span><br><span class="line">		<span class="keyword">if</span> ( gets(argbuf) &amp;&amp; *argbuf ) &#123;</span><br><span class="line">			arglist[numargs++] = makestring(argbuf);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">					</span><br><span class="line">			<span class="keyword">if</span> ( numargs == <span class="number">0</span> )	</span><br><span class="line">				<span class="keyword">break</span>;		</span><br><span class="line">			arglist[numargs] = <span class="literal">NULL</span> ;	</span><br><span class="line">			execute( arglist );		</span><br><span class="line">			numargs = <span class="number">0</span>;		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">execute( <span class="keyword">char</span> *arglist[] )</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *	use fork and execvp and wait to do it</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span>	pid,exitstatus;				</span><br><span class="line"></span><br><span class="line">	pid = fork();					<span class="comment">/* make new process */</span></span><br><span class="line">	<span class="keyword">switch</span>( pid )&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">-1</span>:	</span><br><span class="line">			perror(<span class="string">"fork failed"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">			execvp(arglist[<span class="number">0</span>], arglist);</span><br><span class="line">			perror(<span class="string">"execvp failed"</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="keyword">while</span>( wait(&amp;exitstatus) != pid )</span><br><span class="line">				;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"child exited with status %d,%d\n"</span>,</span><br><span class="line">					exitstatus&gt;&gt;<span class="number">8</span>, exitstatus&amp;<span class="number">0377</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> *</span><br><span class="line">makestring( <span class="keyword">char</span> *buf )</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">char</span>	*cp;</span><br><span class="line">	<span class="keyword">if</span> ( cp = <span class="built_in">malloc</span>( <span class="built_in">strlen</span>(buf) + <span class="number">1</span> ) )</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">strcpy</span>(cp, buf);		</span><br><span class="line">		<span class="keyword">return</span> cp;			</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"out of memory\n"</span>);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>到了这里，我们的shell demo已经可以基本的运行命令并且正常运行了，但是我们会发现一个新的问题，那么就是现在退出demo的唯一方法就是按ctrl-c键，那么如果在等待子进程结束时输入ctrl-c键会如何呢？</p>
+<p>我们会发现子进程结束，但是shell也技术了，ctrl-c生成的SIGINT信号不但杀死了运行的子进程，而且也杀死了运行shell的进程，这是为什么？</p>
+<h4 id="键盘信号发给所有连接的进程"><a href="#键盘信号发给所有连接的进程" class="headerlink" title="键盘信号发给所有连接的进程"></a>键盘信号发给所有连接的进程</h4><p>程序shell和tr都连接到终端，当按下中断键以后，ttr驱动会告诉内核向所有由这个终端控制的进程发送SIGINT信号，子进程死了，shell也死了，即使他还在等待子进程的结束。</p>
+<p>那么如何才能让shell不被用户按下的中断或退出键杀死呢？ 我将留到这一主题的中篇</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/04/shell1/" data-id="cjbqmub790033u908emvd5oaa" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/操作系统/">操作系统</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/23/pwd/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          浅析unix文件系统
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/15/ParaAri/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">并发下的搜索与排序</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>do{...} while(0) 的意义和用法 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概述linux内核和其他一些开源的代码中，经常会遇到这样的代码： do{  ... }while(0) 这样的代码一看就不是一个循环，do..while表面上在这里一点意义都没有，那么为什么要这么用呢？ 实际上，do{…}while(0)的作用远大于美化你的代码。">
+<meta name="keywords" content="c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="do{...} while(0) 的意义和用法">
+<meta property="og:url" content="http://yoursite.com/2017/05/07/dowhile/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述linux内核和其他一些开源的代码中，经常会遇到这样的代码： do{  ... }while(0) 这样的代码一看就不是一个循环，do..while表面上在这里一点意义都没有，那么为什么要这么用呢？ 实际上，do{…}while(0)的作用远大于美化你的代码。">
+<meta property="og:updated_time" content="2017-05-06T17:20:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="do{...} while(0) 的意义和用法">
+<meta name="twitter:description" content="概述linux内核和其他一些开源的代码中，经常会遇到这样的代码： do{  ... }while(0) 这样的代码一看就不是一个循环，do..while表面上在这里一点意义都没有，那么为什么要这么用呢？ 实际上，do{…}while(0)的作用远大于美化你的代码。">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dowhile" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/dowhile/" class="article-date">
+  <time datetime="2017-05-06T17:12:22.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      do{...} while(0) 的意义和用法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>linux内核和其他一些开源的代码中，经常会遇到这样的代码：</p>
+<pre><code>do{
+ ...
+}while(0)
+</code></pre><p>这样的代码一看就不是一个循环，do..while表面上在这里一点意义都没有，那么为什么要这么用呢？</p>
+<p>实际上，do{…}while(0)的作用远大于美化你的代码。</p>
+<a id="more"></a>
+<h3 id="辅助定义复杂的宏，避免引用的时候出错："><a href="#辅助定义复杂的宏，避免引用的时候出错：" class="headerlink" title="辅助定义复杂的宏，避免引用的时候出错："></a>辅助定义复杂的宏，避免引用的时候出错：</h3><p>举例来说，假设你需要定义这样一个宏：</p>
+<pre><code>#define DOSOMETHING()\
+               foo1();\
+               foo2();
+</code></pre><p>这个宏的本意是，当调用DOSOMETHING()时，函数foo1()和foo2()都会被调用。但是如果你在调用的时候这么写：</p>
+<pre><code>if(a&gt;0)
+    foo1();
+foo2();
+</code></pre><p>这就出现了问题，因为无论a是否大于0，foo2()都会被执行，导致程序出错。</p>
+<p>那么仅仅使用{}将foo1()和foo2()包起来行么？</p>
+<p>我们在写代码的时候都习惯在语句右面加上分号，如果在宏中使用{}，代码里就相当于这样写了：“{…};”，展开后就是这个样子：</p>
+<pre><code>if(a&gt;0)
+{
+    foo1();
+    foo2();
+};
+</code></pre><p>这样甚至不会编译通过。所以，很多人才采用了do{…}while(0);</p>
+<pre><code>#define DOSOMETHING() \
+        do{ \
+          foo1();\
+          foo2();\
+        }while(0)\
+
+...
+
+if(a&gt;0)
+    DOSOMETHING();
+
+...
+</code></pre><p>这样，宏被展开后，才会保留初始的语义。GCC提供了Statement-Expressions用以替代do{…}while(0); 所以你也可以这样定义宏：</p>
+<pre><code>#define DOSOMETHING() ({\
+        foo1(); \
+        foo2(); \
+})
+</code></pre><h3 id="避免使用goto对程序流进行统一的控制："><a href="#避免使用goto对程序流进行统一的控制：" class="headerlink" title="避免使用goto对程序流进行统一的控制："></a>避免使用goto对程序流进行统一的控制：</h3><p>有些函数中，在函数return之前我们经常会进行一些收尾的工作，比如free掉一块函数开始malloc的内存，goto一直都是一个比较简便的方法：</p>
+<pre><code>int foo()
+{
+    somestruct* ptr = malloc(...);
+
+    dosomething...;
+    if(error)
+    {
+        goto END;
+    }
+
+    dosomething...;
+    if(error)
+    {
+        goto END;
+    }
+    dosomething...;
+
+END:
+    free(ptr);
+    return 0;
+
+}
+</code></pre><p>由于goto不符合软件工程的结构化，而且有可能使得代码难懂，所以很多人都不倡导使用，那这个时候就可以用do{}while(0)来进行统一的管理：</p>
+<pre><code>int foo()
+{
+
+    somestruct* ptr = malloc(...);
+
+    do{
+        dosomething...;
+        if(error)
+        {
+            break;
+        }
+
+        dosomething...;
+        if(error)
+        {
+            break;
+        }
+        dosomething...;
+    }while(0);
+
+    free(ptr);
+    return 0;
+
+}
+</code></pre><p>这里将函数主体使用do()while(0)包含起来，使用break来代替goto，后续的处理工作在while之后，就能够达到同样的效果。</p>
+<h3 id="避免空宏引起的warning"><a href="#避免空宏引起的warning" class="headerlink" title="避免空宏引起的warning"></a>避免空宏引起的warning</h3><p>内核中由于不同架构的限制，很多时候会用到空宏，在编译的时候，空宏会给出warning，为了避免这样的warning，就可以使用do{}while(0)来定义空宏：</p>
+<pre><code>#define EMPTYMICRO do{}while(0)
+</code></pre><h3 id="定义一个单独的函数块来实现复杂的操作："><a href="#定义一个单独的函数块来实现复杂的操作：" class="headerlink" title="定义一个单独的函数块来实现复杂的操作："></a>定义一个单独的函数块来实现复杂的操作：</h3><p>当你的功能很复杂，变量很多你又不愿意增加一个函数的时候，使用do{}while(0);，将你的代码写在里面，里面可以定义变量而不用考虑变量名会同函数之前或者之后的重复。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/dowhile/" data-id="cjbqmub6s001xu908ep48va04" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/07/Redis1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Redis中利用sizeof从sds转为sdshdr
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/23/pwd/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">浅析unix文件系统</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

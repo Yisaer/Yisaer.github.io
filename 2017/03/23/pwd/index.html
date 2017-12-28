@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>浅析unix文件系统 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言先这篇文章的原因在于前几天操作系统考试之前复习到文件系统那一块，发现书上关于目录，目录文件，索引结点这些说的十分模糊。光是看书完全没明白他在说什么，还好这块内容我在学习unix编程时接触过，这里特此做一个总结。 概述文件包含数据，目录是文件的列表。不同的目录相互连接构成树状结构，目录还可以包含其他目录。那么如何理解文件在”一个目录中”？ 硬盘实际上是一个金属圆盘，每个盘面上都有磁性物质，这些圆">
+<meta name="keywords" content="c,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析unix文件系统">
+<meta property="og:url" content="http://yoursite.com/2017/03/23/pwd/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言先这篇文章的原因在于前几天操作系统考试之前复习到文件系统那一块，发现书上关于目录，目录文件，索引结点这些说的十分模糊。光是看书完全没明白他在说什么，还好这块内容我在学习unix编程时接触过，这里特此做一个总结。 概述文件包含数据，目录是文件的列表。不同的目录相互连接构成树状结构，目录还可以包含其他目录。那么如何理解文件在”一个目录中”？ 硬盘实际上是一个金属圆盘，每个盘面上都有磁性物质，这些圆">
+<meta property="og:image" content="http://i1.piimg.com/567571/8a60dcee8bbabd0c.png">
+<meta property="og:image" content="http://i2.buimg.com/567571/aa4750bfcd875f4c.png">
+<meta property="og:image" content="http://i4.buimg.com/567571/e1230276c71cea9e.png">
+<meta property="og:updated_time" content="2017-03-23T16:24:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析unix文件系统">
+<meta name="twitter:description" content="前言先这篇文章的原因在于前几天操作系统考试之前复习到文件系统那一块，发现书上关于目录，目录文件，索引结点这些说的十分模糊。光是看书完全没明白他在说什么，还好这块内容我在学习unix编程时接触过，这里特此做一个总结。 概述文件包含数据，目录是文件的列表。不同的目录相互连接构成树状结构，目录还可以包含其他目录。那么如何理解文件在”一个目录中”？ 硬盘实际上是一个金属圆盘，每个盘面上都有磁性物质，这些圆">
+<meta name="twitter:image" content="http://i1.piimg.com/567571/8a60dcee8bbabd0c.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-pwd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/23/pwd/" class="article-date">
+  <time datetime="2017-03-23T13:57:27.000Z" itemprop="datePublished">2017-03-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅析unix文件系统
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>先这篇文章的原因在于前几天操作系统考试之前复习到文件系统那一块，发现书上关于目录，目录文件，索引结点这些说的十分模糊。光是看书完全没明白他在说什么，还好这块内容我在学习unix编程时接触过，这里特此做一个总结。</p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>文件包含数据，目录是文件的列表。不同的目录相互连接构成树状结构，目录还可以包含其他目录。那么如何理解文件在”一个目录中”？ 硬盘实际上是一个金属圆盘，每个盘面上都有磁性物质，这些圆盘又是如何显示为一个包含文件，目录的树状结构呢。</p>
+<a id="more"></a>
+<h2 id="从用户的角度看文件系统"><a href="#从用户的角度看文件系统" class="headerlink" title="从用户的角度看文件系统"></a>从用户的角度看文件系统</h2><p>从用户的角度来看，系统中硬盘里的文件组成了一颗目录树，每个目录包含了文件或者其他的目录。 我们可以通过常用的命令如: cd ,ls ,pwd 来查看目录或者文件的信息。很显然，文件的查看或者是更新都是任何一个操作系统都会提供的功能。 但是命令ln却并不常见，但却是unix里的一个基本操作。</p>
+<p>假设我们输入以下命令</p>
+<pre><code>touch x
+ln ./x ./xlink
+ls &gt; ./xlink
+cat ./x
+</code></pre><p>我们创建了一个文件叫做x，然后创建了一个链接指向了x文件，然后将ls的输出重定向给xlink的内容，那么当我们执行cat ./x的时候会发现输出了当前所在位置的文件信息。</p>
+<p>从这些就可以大致了解了Unix的文件系统，硬盘上呈现了一个深度和广度都广泛延伸的目录树，Unix也提供了许多命令来和这种结构的对象一起工作。但他们是如何工作的？目录是什么？如何知道文件所处的目录？从一个目录转换到另一个目录意味着什么？ pwd又是如何得知你当前的位置？ 这些问题我们将继续探讨下去。</p>
+<h2 id="Unix文件系统内部结构"><a href="#Unix文件系统内部结构" class="headerlink" title="Unix文件系统内部结构"></a>Unix文件系统内部结构</h2><p>硬盘的实质其实是由磁性盘片组成的计算机系统的一个设备。所谓的文件系统，其实就是对这个设备的多层抽象</p>
+<h3 id="第一层抽象-从磁盘到分区"><a href="#第一层抽象-从磁盘到分区" class="headerlink" title="第一层抽象 从磁盘到分区"></a>第一层抽象 从磁盘到分区</h3><p>一个磁盘能存储大量的数据，一个磁盘可被分成区，每个分区都可以看做是一个独立的磁盘</p>
+<h3 id="第二层抽象-从磁盘到块序列"><a href="#第二层抽象-从磁盘到块序列" class="headerlink" title="第二层抽象 从磁盘到块序列"></a>第二层抽象 从磁盘到块序列</h3><p>一个磁盘由磁性盘片组成，每个盘片的表面被分为很多同心圆，这些同心圆称为磁道，每个磁道又进一步被分成扇区，每个扇区可以存储一定字节数的数据。例如常见的每个扇区是512字节。扇区是磁盘的基本存储单元。</p>
+<h3 id="第三层抽象-从块序列到三个区域的划分"><a href="#第三层抽象-从块序列到三个区域的划分" class="headerlink" title="第三层抽象 从块序列到三个区域的划分"></a>第三层抽象 从块序列到三个区域的划分</h3><p><img src="http://i1.piimg.com/567571/8a60dcee8bbabd0c.png" alt=""></p>
+<p>文件系统可以用来存储文件内容，文件属性，和目录，这些不同类型的数据是如何存储在被编号的磁盘块上呢?Unix使用了一个简单的方法，将磁盘分成了三部分。</p>
+<h4 id="超级块"><a href="#超级块" class="headerlink" title="超级块"></a>超级块</h4><p>文件系统中的第一个块被称为超级快，这个块存放文件系统本身的结构信息</p>
+<h4 id="i节点表"><a href="#i节点表" class="headerlink" title="i节点表"></a>i节点表</h4><p>每个文件都有一些属性，如大小，文件所有者和最近修改时间等。这些性质都被记录在一个称为i节点的结构中，所有的i节点有相同的大小，文件系统中的每个文件都有一个i节点。</p>
+<h4 id="数据区"><a href="#数据区" class="headerlink" title="数据区"></a>数据区</h4><p>文件的内容保存在这个区域，磁盘上所有的块的大小是相同的。如果文件包含了超过一个块的内容，则文件内容会存放在多个磁盘块中。 那么系统是如何跟踪这些独立的磁盘块？</p>
+<h3 id="文件系统的实现，创建文件"><a href="#文件系统的实现，创建文件" class="headerlink" title="文件系统的实现，创建文件"></a>文件系统的实现，创建文件</h3><p>文件的内容和属性分区存放看起来很简单，但实际上是如何工作的额呢？ 创建一个文件时又会发生什么？如果我输入命令 </p>
+<pre><code>who &gt; user
+</code></pre><p>当这个命令完成时，文件系统增加了一个存放命令who输出内容的新文件。 创建一个新文件的主要操作如下。</p>
+<ul>
+<li>存储属性，内核找到一个空的i结点，比如第47块，内核将文件的信息记录其中</li>
+<li>存储数据，文件内容存储在数据区的块中，如627 200 992</li>
+<li>记录分配情况，内核在i结点的磁盘分布区记录了上述块序列。</li>
+<li>添加文件名到目录，新文件的文件名是user，unix内核将入口(47,user)添加到目录文件。</li>
+</ul>
+<h3 id="cat命令的工作原理"><a href="#cat命令的工作原理" class="headerlink" title="cat命令的工作原理"></a>cat命令的工作原理</h3><p>现在我们再回头看之前所打的cat命令。</p>
+<pre><code>cat ./x
+</code></pre><ol>
+<li>内核首先在目录中寻找文件名，得到x记录所包含的i节点号</li>
+<li>定位所得到的I节点并读取数据块编号</li>
+<li>访问存储文件内容的数据块，通过上面两步，内核已经知道文件内容在哪些数据块以及他们的顺序。</li>
+</ol>
+<h2 id="理解目录"><a href="#理解目录" class="headerlink" title="理解目录"></a>理解目录</h2><p><img src="http://i2.buimg.com/567571/aa4750bfcd875f4c.png" alt=""></p>
+<p>用户看到的文件系统是目录与子目录的集合，每个目录能够包含文件和子目录，每个子目录有一个父目录，在文件系统内部，目录是一个包含文件名与i节点对的列表的文件。从用户的角度看到的是一个文件名的列表，而从Unix的角度看到的是一个被命名的指针的列表。</p>
+<p><img src="http://i4.buimg.com/567571/e1230276c71cea9e.png" alt=""></p>
+<h3 id="文件在目录中的真正含义"><a href="#文件在目录中的真正含义" class="headerlink" title="文件在目录中的真正含义"></a>文件在目录中的真正含义</h3><p>一般都说某个文件在某个目录中，但是现在已经知道目录中存放的只是文件在i节点表的入口，而文件的内容则存储在数据区内，文件在某个目录中，从用户的角度看文件y在目录demodir中，而从系统角度来看，看到的则是目录中有一个包含文件名y和i节点为491的入口。</p>
+<p>简单的说，目录包含的是文件的引用，每个引用被称为连接，文件的内容存储在数据块，文件的属性则被记录在i节点的结构中，i节点的编号和文件名存储在目录中。目录包含子目录也同样如此。</p>
+<h3 id="目录包含子目录的真正含义"><a href="#目录包含子目录的真正含义" class="headerlink" title="目录包含子目录的真正含义"></a>目录包含子目录的真正含义</h3><p>从用户的角度看a目录是demodir目录的一个子目录。实际上demodir包含一个指向那个子目录i节点的连接。从系统角度看，最上面一个表包含名为a指向277节点的连接。如何知道277是左边那个目录的i结点号呢？ 内核在每个目录中都设置了目录本身的一个i节点号的入口，称为”.” 。 子目录的父目录同理。</p>
+<h3 id="文件名"><a href="#文件名" class="headerlink" title="文件名"></a>文件名</h3><p>在Unix的文件系统中，文件没有文件名，但是链接具有名字。文件仅仅拥有i节点号。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/23/pwd/" data-id="cjbqmub77002su908u0r6914b" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/">c</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/07/dowhile/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          do{...} while(0) 的意义和用法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/04/shell1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">编写命令解释器 上篇</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

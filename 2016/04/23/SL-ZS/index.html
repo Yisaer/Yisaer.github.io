@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>数论——质数筛法 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
+<meta name="keywords" content="数论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数论——质数筛法">
+<meta property="og:url" content="http://yoursite.com/2016/04/23/SL-ZS/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
+<meta property="og:updated_time" content="2016-04-23T05:50:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数论——质数筛法">
+<meta name="twitter:description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SL-ZS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/23/SL-ZS/" class="article-date">
+  <time datetime="2016-04-23T05:48:05.000Z" itemprop="datePublished">2016-04-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数论——质数筛法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Created by <strong>高松</strong> on 16/4/17</p>
+<p>Copyright &copy; 2016年 Yisa. All rights reserved.</p>
+<h3 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h3><p> 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与Eular筛法两种方法。</p>
+<a id="more"></a>
+<h3 id="Eratosthenes筛法"><a href="#Eratosthenes筛法" class="headerlink" title="Eratosthenes筛法"></a>Eratosthenes筛法</h3><p> 要得到自然数n以内的全部素数，必须把不大于根号n的所有素数的倍数剔除，剩下的就是素数.Eratosthenes筛法的算法思想十分简洁明了，用伪代码的表达方式如下:</p>
+<pre><code>isPrime [] = true
+primeCount = 0;
+For i = 2 .. N
+    If isPrime[i] Then
+        primeCount = primeCount + 1
+        multiple = 2
+        While (i*multiple ≤ N)
+            isPrime [i * multiple] = false
+            multiple = multiple +1
+        End While
+    End If
+End For
+
+&lt;br&gt;
+</code></pre><p>　　这样的方法就是古老的<strong>Eratosthenes筛法</strong>，值得注意的是，这个方法的时间复杂度为<br><strong>O(n log log n)</strong>，必须承认的是，Eratosthenes筛法有他本身的冗余度，当我们对于某个<a href="http://baike.baidu.com/link?url=na-LK_wPnGZbnYBgHDX5ZgtFbrE7G-VQy0xVyLeohkTzfQMxg0g6e4DHZcDw7nbbsO9UGKtyyrAFg1tX4U3r8Wntc_LTDL_iMzXY0jc0hnK" target="_blank" rel="noopener">合数</a>k进行计算时，我们会不止用到一次他的质因数。<br><br>　　以合数10为例，当我们以质数2将<em>isPrime[10]</em>标记为false时，当我们循环走到<em>i=5</em>时，依旧会循环遍历到<em>isPrime[10]</em>，这就造成了冗余。事实上，若是采用<strong>Eular筛法</strong>，我们可以将时间复杂度降为O(n).</p>
+<hr>
+<h3 id="Eular筛法"><a href="#Eular筛法" class="headerlink" title="Eular筛法"></a>Eular筛法</h3><p> 我们可以知道，任意一个正整数k，若k≥2，则k可以表示成若干个质数相乘的形式。Eratosthenes筛法中，在枚举k的每一个质因子时，我们都计算了一次k，从而造成了冗余。因此在改进算法中，只利用k的最小质因子去计算一次k。</p>
+<p> 首先让我们先了解一下Eular筛法，伪代码如下：</p>
+<pre><code> isPrime [] = ture
+ primeList [] 
+ primeCount = 0
+ For i = 2 .. N
+    If isPrime[i] Then
+        primeCount = primeCount + 1
+        primeList[ primeCount ] = i
+    End If 
+For j = 1 .. primeCount
+    If (i * primeList[j] &gt; N) Then
+        Break
+    End If
+    isPrime[ i * primeList[j] ] = false
+        If (i % primeList[j] == 0) Then
+            Break
+        End If
+    End FOr
+End For
+</code></pre><p>与Eratosthenes筛法不同的是，对于外层枚举i，无论i是质数，还是是合数，我们都会用i的倍数去筛。但在枚举的时候，我们只枚举i的质数倍。比如2i,3i,5i,…，而不去枚举4i,6i…，原因我们后面会讲到.</p>
+<p>假设一个合数k=M*p1，p1为其最小的质因子。则k只会在i=M，primeList[j]=p1时被筛掉一次。首先会在i=M，primeList[j]=p1时被筛掉是显然的。</p>
+<p>其次不会在其他时候被筛掉。否则假设k在i=N, primeList[j]=p1时被筛掉了，此时有k=N*p2。由于p1是k最小的质因子，所以p2 &gt; p1，M &gt; N且p|N。则i=N，j枚举到primeList[j]=p1时(没到primeList[j]=p2)就break了。所以不会有其他时候筛掉k。</p>
+<p>同时，不枚举合数倍数的原因也在此：对于一个合数k=M <em>2 </em> 3 。只有在枚举到i=M <em> 3时，才会计算到k。若我们枚举合数倍数，则可能会在i=M时，通过M </em> 6计算到k，这样也就造成了多次重复计算了。</p>
+<p>综上，Eular筛法可以保证每个合数只会被枚举到一次，时间复杂度为O(n)。当N越大时，其相对于Eratosthenes筛法的优势也就越明显。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/23/SL-ZS/" data-id="cjbqmub6k001eu9083xow57zy" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数论/">数论</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/04/23/markdown/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Markdown 轻量使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/23/GLL1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">概率论复习（1，2）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Linux笔记1 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言关于Linux的学习计划其实还没打算在7月份就开始学习的，只是完全是因为实验楼的实验环境是完完全全的只有Linux系统啊摔！ 所以没办法只好提前开始Linux的操作学习了_(:зゝ∠)_ 还好有使用MacOS的经验对于类Unix的shell操作不算陌生，但一开始接触还是很苦逼啊…!">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux笔记1">
+<meta property="og:url" content="http://yoursite.com/2016/07/19/linux1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言关于Linux的学习计划其实还没打算在7月份就开始学习的，只是完全是因为实验楼的实验环境是完完全全的只有Linux系统啊摔！ 所以没办法只好提前开始Linux的操作学习了_(:зゝ∠)_ 还好有使用MacOS的经验对于类Unix的shell操作不算陌生，但一开始接触还是很苦逼啊…!">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/document-uid13labid3timestamp1454035714557.png/wm">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/document-uid13labid3timestamp1454035698068.png/wm">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/linux_base/3-8.png/logoblackfont">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/linux_base/3-9.png/logoblackfont">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/linux_base/3-10.png/logoblackfont">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/linux_base/3-12.png/logoblackfont">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/linux_base/3-13.png/logoblackfont">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/linux_base/3-14.png/logoblackfont">
+<meta property="og:image" content="https://dn-anything-about-doc.qbox.me/linux_base/3-16.png/logoblackfont">
+<meta property="og:updated_time" content="2016-07-19T13:37:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux笔记1">
+<meta name="twitter:description" content="前言关于Linux的学习计划其实还没打算在7月份就开始学习的，只是完全是因为实验楼的实验环境是完完全全的只有Linux系统啊摔！ 所以没办法只好提前开始Linux的操作学习了_(:зゝ∠)_ 还好有使用MacOS的经验对于类Unix的shell操作不算陌生，但一开始接触还是很苦逼啊…!">
+<meta name="twitter:image" content="https://dn-anything-about-doc.qbox.me/document-uid13labid3timestamp1454035714557.png/wm">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-linux1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/19/linux1/" class="article-date">
+  <time datetime="2016-07-19T13:34:14.000Z" itemprop="datePublished">2016-07-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux笔记1
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于Linux的学习计划其实还没打算在7月份就开始学习的，只是完全是因为实验楼的实验环境是完完全全的只有Linux系统啊摔！ 所以没办法只好提前开始Linux的操作学习了_(:зゝ∠)_</p>
+<p>还好有使用MacOS的经验对于类Unix的shell操作不算陌生，但一开始接触还是很苦逼啊…!</p>
+<a id="more"></a>
+<h2 id="Linux-常用命令"><a href="#Linux-常用命令" class="headerlink" title="Linux 常用命令"></a>Linux 常用命令</h2><p><strong>快捷键</strong></p>
+<p>Tab 用于补全命令，补全目录，补全命令参数</p>
+<p>[Ctrl+c] 强行终止当前应用，并不会退出终端</p>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th style="text-align:right">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl+d</td>
+<td style="text-align:right">键盘输入结束或退出终端</td>
+</tr>
+<tr>
+<td>Ctrl+s</td>
+<td style="text-align:right">暂定当前程序，暂停后按下任意键恢复运行</td>
+</tr>
+<tr>
+<td>Ctrl+z</td>
+<td style="text-align:right">将当前程序放到后台运行，恢复到前台为命令fg</td>
+</tr>
+<tr>
+<td>Ctrl+a</td>
+<td style="text-align:right">将光标移至输入行头，相当于Home键</td>
+</tr>
+<tr>
+<td>Ctrl+e</td>
+<td style="text-align:right">将光标移至输入行末，相当于End键</td>
+</tr>
+<tr>
+<td>Ctrl+k</td>
+<td style="text-align:right">删除从光标所在位置到行末</td>
+</tr>
+<tr>
+<td>Alt+Backspace</td>
+<td style="text-align:right">向前删除一个单词</td>
+</tr>
+<tr>
+<td>Shift+PgUp</td>
+<td style="text-align:right">将终端显示向上滚动</td>
+</tr>
+<tr>
+<td>Shift+PgDn</td>
+<td style="text-align:right">将终端显示向下滚动</td>
+</tr>
+</tbody>
+</table>
+<p>历史命令</p>
+<p>很简单，你可以使用键盘上的方向上键，恢复你之前输入过的命令，你一试便知。</p>
+<p>使用通配符</p>
+<p>通配符是一种特殊语句，主要有星号（*）和问号（?），用来对对字符串进行模糊匹配（比如文件名，参数名）。当查找文件夹时，可以使用它来代替一个或多个真正字符；当不知道真正字符或者懒得输入完整名字时，常常使用通配符代替一个或多个真正的字符。</p>
+<p>先使用 touch 命令创建 2 个文件，后缀都为 txt：</p>
+<pre><code>$ touch adsfasd.txt wergjlkas.txt
+</code></pre><p>当你时间太久想不起来时，如果你想找到这两个文件可以使用通配符</p>
+<pre><code>$ ls *.txt
+</code></pre><p>创建多个文件 *</p>
+<pre><code>$ touch love_{1..10}_linux.txt
+</code></pre><p><strong>常用匹配</strong></p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th style="text-align:right">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*</td>
+<td style="text-align:right">匹配 0 或多个字符</td>
+</tr>
+<tr>
+<td>?</td>
+<td style="text-align:right">匹配任意一个字符</td>
+</tr>
+<tr>
+<td>[list]</td>
+<td style="text-align:right">匹配 list 中的任意单一字符</td>
+</tr>
+<tr>
+<td>[!list]</td>
+<td style="text-align:right">匹配 除list 中的任意单一字符以外的字符</td>
+</tr>
+<tr>
+<td>[c1-c2]</td>
+<td style="text-align:right">匹配 c1-c2 中的任意单一字符 如：[0-9] [a-z]</td>
+</tr>
+<tr>
+<td>{string1,string2,…}</td>
+<td style="text-align:right">匹配 sring1 或 string2 (或更多)其一字符串</td>
+</tr>
+<tr>
+<td>{c2..c2}</td>
+<td style="text-align:right">匹配 c1-c2 中全部字符 如{1..10}</td>
+</tr>
+</tbody>
+</table>
+<h2 id="用户及文件权限管理"><a href="#用户及文件权限管理" class="headerlink" title="用户及文件权限管理"></a>用户及文件权限管理</h2><p>真终端： [Ctrl]+[Alt]+[F1]～[F7] 进行切换的 /dev/tty 设备</p>
+<p>伪终端： 当你在图形用户界面使用 /dev/tty7 时每打开一个终端就会产生一个伪终端</p>
+<h3 id="who-命令其它常用参数"><a href="#who-命令其它常用参数" class="headerlink" title="who 命令其它常用参数"></a>who 命令其它常用参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align:right">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-a</td>
+<td style="text-align:right">打印能打印的全部</td>
+</tr>
+<tr>
+<td>-d</td>
+<td style="text-align:right">打印死掉的进程</td>
+</tr>
+<tr>
+<td>-m</td>
+<td style="text-align:right">同am i,mom likes</td>
+</tr>
+<tr>
+<td>-q</td>
+<td style="text-align:right">打印当前登录用户数及用户名</td>
+</tr>
+<tr>
+<td>-u</td>
+<td style="text-align:right">打印当前登录用户登录信息</td>
+</tr>
+<tr>
+<td>-r</td>
+<td style="text-align:right">打印运行等级</td>
+</tr>
+</tbody>
+</table>
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>在 Linux 系统里， <strong>root</strong> 账户拥有整个系统至高无上的权利，比如 新建/添加 用户。</p>
+<blockquote>
+<p>root 权限，系统权限的一种，与 SYSTEM 权限可以理解成一个概念，但高于 Administrator 权限，root 是 Linux 和 UNIX 系统中的超级管理员用户帐户，该帐户拥有整个系统至高无上的权力，所有对象他都可以操作，所以很多黑客在入侵系统的时候，都要把权限提升到 root 权限，用 Windows 的方法理解也就是将自己的非法帐户添加到 Administrators 用户组。更比如安卓操作系统中（基于 Linux 内核）获得 root 权限之后就意味着已经获得了手机的最高权限，这时候你可以对手机中的任何文件（包括系统文件）执行所有增、删、改、查的操作。</p>
+</blockquote>
+<h3 id="su，su-与-sudo"><a href="#su，su-与-sudo" class="headerlink" title="su，su- 与 sudo"></a>su，su- 与 sudo</h3><ul>
+<li>su <user>可以切换到用户user，执行时需要输入目标用户的密码</user></li>
+<li>sudo <cmd>可以以特权级别运行cmd命令，需要当前用户属于sudo组，且需要输入当前用户密码。</cmd></li>
+<li>su - <user> 命令也是切换用户，同时环境变量也会跟着改变成目标用户的环境变量。</user></li>
+</ul>
+<h3 id="创建新用户"><a href="#创建新用户" class="headerlink" title="创建新用户"></a>创建新用户</h3><pre><code>sudo adduser lilei
+</code></pre><p>随后会提示输入密码，    然后是选项内容，按回车以默认内容</p>
+<p>这个命令不但可以添加用户到系统，同时也会默认为新用户创建 home 目录</p>
+<pre><code>ls /home
+</code></pre><p>这个命令不但可以添加用户到系统，同时也会默认为新用户创建 home 目录</p>
+<pre><code>su -l lilei
+</code></pre><p>退出当前用户跟退出终端一样可以使用 exit 命令或者使用快捷键 Ctrl+d</p>
+<h2 id="用户组"><a href="#用户组" class="headerlink" title="用户组"></a>用户组</h2><p>概念：    在 Linux 里面每个用户都有一个归属（用户组），用户组简单地理解就是一组用户的集合，它们共享一些资源和权限，同时拥有私有资源，就跟家的形式差不多，你的兄弟姐妹（不同的用户）属于同一个家（用户组），你们可以共同拥有这个家（共享资源），爸妈对待你们都一样（共享权限），你偶尔写写日记，其他人未经允许不能查看（私有资源和权限）。当然一个用户是可以属于多个用户组的，正如你既属于家庭，又属于学校或公司。</p>
+<h3 id="如何知道自己属于哪些用户组"><a href="#如何知道自己属于哪些用户组" class="headerlink" title="如何知道自己属于哪些用户组"></a>如何知道自己属于哪些用户组</h3><ol>
+<li><p>使用groups命令</p>
+<pre><code>groups shiyanlou
+</code></pre><p><img src="https://dn-anything-about-doc.qbox.me/document-uid13labid3timestamp1454035714557.png/wm" alt="pic1"></p>
+</li>
+</ol>
+<p>其中冒号之前表示用户，后面表示该用户所属的用户组。这里可以看到 shiyanlou 用户属于 shiyanlou 用户组，每次新建用户如果不指定用户组的话，默认会自动创建一个与用户名相同的用户组（差不多就相当于家长的意思，或者说是老总）。默认情况下在sudo用户组里的可以使用sudo命令获得root权限。shiyanlou 用户也可以使用 sudo 命令</p>
+<ol>
+<li><p>使用etc/group 命令</p>
+<pre><code>$ cat /etc/group | sort
+</code></pre><p> 这里 cat 命令用于读取指定文件的内容并打印到终端输出，后面会详细讲它的使用。 | sort 表示将读取的文本进行一个字典排序再输出，然后你将看到如下一堆输出</p>
+<p> 使用命令过滤掉一些不想看的结果</p>
+<pre><code>$ cat /etc/group | grep -E &quot;shiyanlou&quot;
+</code></pre><p><img src="https://dn-anything-about-doc.qbox.me/document-uid13labid3timestamp1454035698068.png/wm" alt="pic2"></p>
+</li>
+</ol>
+<h3 id="etc-group-文件格式说明"><a href="#etc-group-文件格式说明" class="headerlink" title="etc/group 文件格式说明"></a>etc/group 文件格式说明</h3><p>/etc/group 的内容包括用户组（Group）、用户组口令、GID 及该用户组所包含的用户（User），每个用户组一条记录。格式如下：</p>
+<blockquote>
+<p>group_name:password:GID:user_list</p>
+</blockquote>
+<p>你看到上面的 password 字段为一个 ‘x’ 并不是说密码就是它，只是表示密码不可见而已。</p>
+<h2 id="将其他用户加入用户组"><a href="#将其他用户加入用户组" class="headerlink" title="将其他用户加入用户组"></a>将其他用户加入用户组</h2><p>将其它用户加入 sudo 用户组</p>
+<p>默认情况下新创建的用户是不具有 root 权限的，也不在 sudo 用户组，可以让其加入sudo用户组从而获取 root 权限。</p>
+<p>使用 <strong>usermod</strong> 命令可以为用户添加用户组，同样使用该命令你必需有 root 权限，你可以直接使用 root 用户为其它用户添加用户组，或者用其它已经在 sudo 用户组的用户使用 sudo 命令获取权限来执行该命令</p>
+<h2 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h2><h3 id="查看文件权限"><a href="#查看文件权限" class="headerlink" title="查看文件权限"></a>查看文件权限</h3><p>我们之前已经很多次用到 ls 命令了，如你所见，我们用它来列出并显示当前目录下的文件，当然这是在不带任何参数的情况下，它能做的当然不止这么多，现在我们就要用它来查看文件权限。</p>
+<p>使用较长格式列出文件：</p>
+<pre><code>$ ls -l
+</code></pre><p><img src="https://dn-anything-about-doc.qbox.me/linux_base/3-8.png/logoblackfont" alt="pic3"></p>
+<p>其他项意思：</p>
+<p><img src="https://dn-anything-about-doc.qbox.me/linux_base/3-9.png/logoblackfont" alt="pic4"><br><img src="https://dn-anything-about-doc.qbox.me/linux_base/3-10.png/logoblackfont" alt="pic5"></p>
+<ul>
+<li><p>文件权限</p>
+<p>  读权限，表示你可以使用 cat <file name=""> 之类的命令来读取某个文件的内容;写权限，表示你可以编辑和修改某个文件； 执行权限，通常指可以运行的二进制程序文件或者脚本文件，如同 Windows 上的 ‘exe’ 后缀的文件，不过 Linux 上不是通过文件后缀名来区分文件的类型。你需要注意的一点是，一个目录要同时具有读权限和执行权限才可以打开，而一个目录要有写权限才允许在其中创建其它文件，这是因为目录文件实际保存着该目录里面的文件的列表等信息</file></p>
+<p>   所有者权限，这一点相信你应该明白了，至于所属用户组权限，是指你所在的用户组中的所有其它用户对于该文件的权限，比如，你有一个艾派德,那么这个用户组权限就决定了你的兄弟姐妹有没有权限使用它破坏它和占有它。</p>
+</li>
+</ul>
+<h2 id="ls-命令的一些其它常用的用法"><a href="#ls-命令的一些其它常用的用法" class="headerlink" title="ls 命令的一些其它常用的用法"></a>ls 命令的一些其它常用的用法</h2><ul>
+<li><p>显示除了 ‘.’(当前目录)，’..’ 上一级目录之外的所有包含隐藏文件（Linux 下以 ‘.’ 开头的文件为隐藏文件）</p>
+<pre><code>$ ls -A
+</code></pre><p>当然，你可以同时使用 ‘-A’ 和 ‘-l’ 参数：</p>
+<pre><code>$ ls -Al
+</code></pre></li>
+<li><p>查看某一个目录的完整属性，而不是显示目录里面的文件属性：</p>
+<pre><code>$ ls -dl &lt;目录名&gt;
+</code></pre></li>
+<li><p>显示所有文件大小，并以普通人类能看懂的方式呈现：</p>
+<pre><code>$ ls -AsSh
+</code></pre><p>  其中小 s 为显示文件大小，大 S 为按文件大小排序，若需要知道如何按其它方式排序，请使用“man”命令查询。</p>
+</li>
+</ul>
+<h2 id="变更文件所有者"><a href="#变更文件所有者" class="headerlink" title="变更文件所有者"></a>变更文件所有者</h2><p>假设目前是 lilei 用户登录，新建一个文件，命名为 “iphone6”：</p>
+<p>$ touch iphone6<br>可见文件所有者是 lilei ：<br><img src="https://dn-anything-about-doc.qbox.me/linux_base/3-12.png/logoblackfont" alt="pic6"><br>现在，换回到shiyanlou用户身份，使用以下命令变更文件所有者为 shiyanlou ：</p>
+<pre><code>$ cd /home/lilei
+$ ls iphone6
+$ sudo chown shiyanlou iphone6
+$ cp iphone6 /home/shiyanlou
+</code></pre><p>现在查看，发现 文件所有者成功修改为 shiyanlou ：</p>
+<p><img src="https://dn-anything-about-doc.qbox.me/linux_base/3-13.png/logoblackfont" alt="pic7"></p>
+<h2 id="修改文件权限"><a href="#修改文件权限" class="headerlink" title="修改文件权限"></a>修改文件权限</h2><p>如果你有一个自己的文件不想被其他用户读、写、执行，那么就需要对文件的权限做修改，这里有两种方式：</p>
+<ol>
+<li>二进制数字表示</li>
+</ol>
+<p><img src="https://dn-anything-about-doc.qbox.me/linux_base/3-14.png/logoblackfont" alt="pic8"></p>
+<p>每个文件的三组权限（拥有者，所属用户组，其他用户,记住这个顺序是一定的）就对应这一个 “rwx”，也就是一个 ‘7’ ,所以如果我要将文件“iphone6”的权限改为只有我自己可以用那么就这样:</p>
+<ol>
+<li><p>方式二：加减赋值操作<br>完成上述相同的效果，你可以：</p>
+<pre><code>$ chmod go-rw iphone
+</code></pre><p><img src="https://dn-anything-about-doc.qbox.me/linux_base/3-16.png/logoblackfont" alt="pic8"></p>
+<p> ‘g’’o’还有’u’，分别表示group，others，user，’+’，’-‘ 就分别表示增加和去掉相应的权限。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/07/19/linux1/" data-id="cjbqmub73002iu908sgfy0d4c" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/25/jdbc/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          关于Jdbc的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/06/q1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">关于在数组内某些值的和为定值这件事</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>如何理解关系模式三范式？ | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概述：经过一学期的数据库系统原理的学习，接触到了数据库范式。本文将主要讲解数据库的第一 第二 第三范式与BC范式之间的区别与联系，谈谈个人的见解。">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何理解关系模式三范式？">
+<meta property="og:url" content="http://yoursite.com/2016/05/18/DB1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述：经过一学期的数据库系统原理的学习，接触到了数据库范式。本文将主要讲解数据库的第一 第二 第三范式与BC范式之间的区别与联系，谈谈个人的见解。">
+<meta property="og:updated_time" content="2016-05-18T15:25:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何理解关系模式三范式？">
+<meta name="twitter:description" content="概述：经过一学期的数据库系统原理的学习，接触到了数据库范式。本文将主要讲解数据库的第一 第二 第三范式与BC范式之间的区别与联系，谈谈个人的见解。">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DB1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/18/DB1/" class="article-date">
+  <time datetime="2016-05-18T15:23:34.000Z" itemprop="datePublished">2016-05-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何理解关系模式三范式？
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>经过一学期的数据库系统原理的学习，接触到了数据库范式。本文将主要讲解数据库的第一 第二 第三范式与BC范式之间的区别与联系，谈谈个人的见解。</p>
+<a id="more"></a>
+<h3 id="什么是范式？"><a href="#什么是范式？" class="headerlink" title="什么是范式？"></a>什么是范式？</h3><p>简单的说，范式是为了消除重复数据减少冗余数据，从而让数据库内的数据更好的组织，让磁盘空间得到更有效利用的一种标准化标准，满足高等级的范式的先决条件是满足低等级范式。(比如满足2nf一定满足1nf)</p>
+<h3 id="我们为什么需要范式？"><a href="#我们为什么需要范式？" class="headerlink" title="我们为什么需要范式？"></a>我们为什么需要范式？</h3><p>关系数据库的设计主要是关系模式的设计，关系模式设计的好坏将直接影响到数据库设计的性能。将关系模式规范化是至关重要的。</p>
+<p>接下来我将从第一范式到BC范式，逐个讲起每个范式的意义及其作用以及他避免的问题。</p>
+<h2 id="第一范式"><a href="#第一范式" class="headerlink" title="第一范式"></a>第一范式</h2><p>第一范式是关系模式要遵循的基本范式。其定义为：</p>
+<p><strong>在关系模式R中，其所有属性均为简单属性，即每个属性都是不可再分的，那么则称R为第一范式</strong></p>
+<p>第一范式的定义十分容易理解，也十分容易做到。当我们要求关系模式为第一范式时，只需要在定义属性时做到简单属性即可。反之而言，如果一个关系模式不是第一范式，那么其存在某个或者某些属性组是由几个简单属性组合而成，那么关系模式就会转变为多层次的混合结构。这将很大程度的增加关系操作的复杂性。所以在关系数据库中第一范式是必须要满足的。</p>
+<p>然而第一范式只是关系模式范式中最基础的一个模式，其本身依旧存在许多致命的问题。如数据冗余，插入删除更新的异常。</p>
+<p><em>举个例子：</em></p>
+<p>假设关系模式R为：</p>
+<p><strong>(学生ID，姓名，课程号，课程名，所在系，系主任，成绩)</strong></p>
+<h3 id="数据冗余"><a href="#数据冗余" class="headerlink" title="数据冗余"></a>数据冗余</h3><p>可以得出这个关系模式属于第一模式。然而这样的关系模式什么问题呢？比如从数据冗余角度来说，我们有理工大类学生A，选了数学与英语课。那么在关系模式中则会存有两个字段：</p>
+<pre><code>(A_Id，A，课程号1，数学，理工大类，AAA，1.0)
+(A_ID, A，课程号2，英语，理工大类，AAA，1.0)
+</code></pre><p>从这我们可以看出，除了课程的相关属性，其他属性完全一样，纯粹是再存入了一遍，这明显造成了数据冗余。</p>
+<h3 id="插入异常"><a href="#插入异常" class="headerlink" title="插入异常"></a>插入异常</h3><p>那么现在来一个转学生B，转学生初来乍到还没有选课，但是学生信息必须先录入那该怎么办呢？我们会发现我们遭遇了这样的窘状：</p>
+<pre><code>(B_ID,B，NULL，NULL，理工大类,AAA，NULL）
+</code></pre><p>当我们在录入课程号和课程名的时候，完全无法填写，那么我们就无法插入新的记录。造成了插入异常。</p>
+<h3 id="删除异常"><a href="#删除异常" class="headerlink" title="删除异常"></a>删除异常</h3><p>那么现在假设我们的B同学终于选了一门语文课，录入数据库以后突然觉得自己更喜欢数学课，于是出现了下面这一幕：</p>
+<p>B：老师老师！我要改课，我想把我的语文课退了改成数学课！</p>
+<p>老师：好的等一下我先把你的语文课记录删去….OK，搞定，现在给你登入数学课的记录，额..你学号是多少？</p>
+<p>B：啊?学号？我忘了!!(小B刚来学校，还没完全记住学号) 直接在数据库里找我的学号不就好了</p>
+<p>老师：啊可是我刚刚删掉了你的记录…</p>
+<p>我们发现，刚刚老师在删除小B选的语文课记录时，这个关系模式中同样包含了小B的姓名学号等其他信息，当我们删除这条记录以后，可能会给我们带来其他数据的损失，这就是删除异常。</p>
+<h3 id="更新异常"><a href="#更新异常" class="headerlink" title="更新异常"></a>更新异常</h3><p>小A是一个很矫情的小婊砸，有一天他突然觉得自己的名字不好听，去民政局把自己的名字改成了Accepted.一下子高大上了有没有！</p>
+<p>于是理所当然的小Accepted跑去了数据库老师那更新信息，然后数据库老师便找到了</p>
+<pre><code>(A_Id，学生A，课程号1，数学，理工大类，AAA)
+</code></pre><p>这条字段，很潇洒的把记录更改为</p>
+<pre><code>(A_Id, Accpted，课程号1，数学，理工大类，AAA)
+</code></pre><p>心想这下肯定不会出差错了吧。然而细心的我们其实早就意识到，关于小A的记录并非只有一条，老师虽然将这条记录更改了，但是数据库中还存在着另外一条记录</p>
+<pre><code>(A_Id，学生A，课程号1，数学，理工大类，AAA)
+</code></pre><p>这便是更新异常</p>
+<p><strong>事实上</strong>，这三种异常的情况有很多种，我所用的例子是最常见的异常情况，借此帮助我们理解第一范式在进行增查删改时所会遇到的异常理解。</p>
+<p>对于第一范式所遇到的问题，我们要将其修改为第二范式，但是首先我们在改变为第二范式前，我们必须先引入一种名为函数依赖的关系：</p>
+<pre><code>对于关系模式R&lt;U&gt;，U为属性全集，X，Y分别为U的子集，
+对于R&lt;U&gt;的任意一个记录r来说，每个X只能确定一个唯一的Y。
+记作X--&gt;Y，称为X确定Y，或者Y依赖X。
+</code></pre><p>这个关系十分像我们初中时学习的函数y=f(x)，每个x确定一个y，当然也可以多个X对应一个Y，即是多对一的关系。</p>
+<p><strong>值得注意的是</strong>： 我们在本文中大多数情况的是非平凡的函数依赖关系，即X不包含Y。反之，X包含Y的函数依赖称为平凡的函数依赖。</p>
+<p><strong>完全依赖，部分依赖</strong></p>
+<p>还是以关系模式R为例，我们发现之所以处于第一范式的R会有如此多的异常问题，究极根本原因是其中的属性值存在各种各样的函数依赖关系。</p>
+<p>对于关系模式R，我们容易得出他的码为（学生ID,课程号ID），那么也就是说对于任何一个给定的码的记录而言，我们都可以通过这些信息得到这条记录的其他属性值信息。但是细心的同学会发现，对于某些属性值，我们只需要码的子集便可得出：</p>
+<pre><code>比如对于关系模式R(学生ID，姓名，课程号，课程名，所在系，系主任，成绩)
+我们发现当我们需要得知学生姓名时，只需要学生ID即可。
+同理我们需要课程名的时候只需要课程ID即可，而不需要整个码。
+</code></pre><p>如果说对于属性组X，X–&gt;Y，并且X的子集X’也同样决定了Y，即X‘–&gt;Y。我们将其称为Y对X的部分函数依赖，记作X-P-&gt;Y</p>
+<p>反之，如果不存在X的子集X’可以决定Y，并且X–&gt;Y，那么我们将其称之为完全函数依赖，记作：X-F-&gt;Y</p>
+<h3 id="第二范式"><a href="#第二范式" class="headerlink" title="第二范式"></a>第二范式</h3><p>当我们搞明白了部分函数依赖于完全函数依赖时，就可以很轻松的明白什么是第二范式。所谓的第二范式，就是指对于关系R属于第一范式，同时R的每个非主属性完全依赖于码，那么我们将其称之为第二范式。</p>
+<p>从刚刚的关系模式R中，我们可以得到：</p>
+<pre><code>学号ID-P-&gt;姓名 课程号ID-P-&gt;课程名  （学号ID，课程号ID）-F-&gt;成绩
+其他不写了...
+</code></pre><p>所以从函数依赖关系上，我们可以将原来的表分为</p>
+<pre><code>R0（学生号，学生名，所在系，系主任）
+R1（学生号，课程号，成绩）
+R2 (课程号，课程名)
+</code></pre><p>现在看起来比一开始顺眼多了。虽然依旧存在问题_(:зゝ∠)_</p>
+<h3 id="第三模式"><a href="#第三模式" class="headerlink" title="第三模式"></a>第三模式</h3><p>假设学生B觉得理工大类读的好枯燥，一怒之下转到了经管大类开始了新生活，于是我们将他的信息更改为</p>
+<pre><code>(B_ID,B,经管大类，AAA）
+</code></pre><p>这里我们就瞬间发现问题啦，问题在于虽然小B的所在系更改了，但是从现实的角度考虑小B的系主任不应该是原来的系主任啊？ 但是为什么这个问题我们会一开始没有发现呢？原来虽然所在系与系主任对于关系R0的码来说都是完全依赖，但是从现实因素考虑，所在系依旧可以决定了这个系主任 即所在系–&gt;系主任，我们发现这其中</p>
+<pre><code>学生号--&gt;所在系， 所在系--&gt;系主任
+</code></pre><p>也就是说对于非主属性Z而言 ，存在属性组Y，使得X–&gt;Y，Y–&gt;Z。我们将其称之为Z对X的传递依赖。</p>
+<p>而第三模式就是在第二模式的基础上去除传递依赖。也就是说我们只要在原来的基础上如此修改：</p>
+<pre><code>R0(学生号，学生名，所在系)
+R1(所在系，系主任)
+R2（学生号，课程号，成绩）
+R3 (课程号，课程名)
+</code></pre><p>便已经修改为第三范式了。而第三范式也在现实层面的应用中最为广泛。</p>
+<h3 id="BC范式"><a href="#BC范式" class="headerlink" title="BC范式"></a>BC范式</h3><p>BC范式是第三范式的加强版，他强调了关系模式R中所有的属性（包括主属性和非主属性）都完全依赖于码或候选键，并且不存在传递依赖的情况。</p>
+<p>从定义上我们可以看出，如果说第二范式是消除了非主属性对主属性的部分依赖，第三范式消除了非主属性对主属性的传递依赖，那么BC范式则是对所有属性消除了对于主属性的传递依赖与部分依赖。换句话说，在第三范式的基础上，他消除了主属性之间的传递依赖与部分依赖。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/18/DB1/" data-id="cjbqmub60000du908p0n74wtr" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/20/java1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          如何优雅的去除&#34;!=null&#34;的判空语句
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/09/Euler/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">如何线性时间内求一个区域的欧拉函数值</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/essay/">essay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdbc/">jdbc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/regex/">regex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/操作系统/">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数论/">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/概率论/">概率论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/正则/">正则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/essay/" style="font-size: 15px;">essay</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jdbc/" style="font-size: 10px;">jdbc</a> <a href="/tags/jsp/" style="font-size: 10px;">jsp</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/regex/" style="font-size: 10px;">regex</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/工作/" style="font-size: 12.5px;">工作</a> <a href="/tags/操作系统/" style="font-size: 17.5px;">操作系统</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/数论/" style="font-size: 15px;">数论</a> <a href="/tags/概率论/" style="font-size: 12.5px;">概率论</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/29/Life/">生活与工作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/16/intern1/">在大摩实习的日子</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/Redis1/">Redis中利用sizeof从sds转为sdshdr</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/07/dowhile/">do{...} while(0) 的意义和用法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/23/pwd/">浅析unix文件系统</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
