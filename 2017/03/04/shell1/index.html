@@ -9,14 +9,14 @@
   <title>编写命令解释器 上篇 | Yisa&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言这周操作系统的最后一个实验室写一个Shell，然而实验手册的pdf上只指明了你必须要完成什么函数，对于怎么写则是一点提示都没有。 所以本篇文章则立意于如何写出一个简单可用的shell，个人认为这个主题应该会分为上中下三篇文章来阐明从零开始的Shell编写过程">
-<meta name="keywords" content="操作系统,linux">
+<meta name="keywords" content="计算机">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编写命令解释器 上篇">
 <meta property="og:url" content="http://Yisaer.github.io/2017/03/04/shell1/index.html">
 <meta property="og:site_name" content="Yisa&#39;s Blog">
 <meta property="og:description" content="前言这周操作系统的最后一个实验室写一个Shell，然而实验手册的pdf上只指明了你必须要完成什么函数，对于怎么写则是一点提示都没有。 所以本篇文章则立意于如何写出一个简单可用的shell，个人认为这个主题应该会分为上中下三篇文章来阐明从零开始的Shell编写过程">
 <meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488645051996&di=f8cf376e2a064e93d603b6c80f6b7346&imgtype=0&src=http%3A%2F%2Fwww.xitongzhijia.net%2Fuploads%2Fallimg%2F150528%2F64-15052Q106123F.jpg">
-<meta property="og:updated_time" content="2017-03-04T14:32:36.000Z">
+<meta property="og:updated_time" content="2017-12-28T16:22:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编写命令解释器 上篇">
 <meta name="twitter:description" content="前言这周操作系统的最后一个实验室写一个Shell，然而实验手册的pdf上只指明了你必须要完成什么函数，对于怎么写则是一点提示都没有。 所以本篇文章则立意于如何写出一个简单可用的shell，个人认为这个主题应该会分为上中下三篇文章来阐明从零开始的Shell编写过程">
@@ -63,7 +63,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/工作/">随笔</a></li>
+				<li><a href="/tags/随笔/">随笔</a></li>
 	        
 				<li><a href="/tags/java">Java</a></li>
 	        
@@ -145,7 +145,7 @@
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/tags/工作/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/tags/随笔/">随笔</a></li>
 		        
 					<li style="width: 33.333333333333336%"><a href="/tags/java">Java</a></li>
 		        
@@ -275,28 +275,13 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
         		</li>
       		
 		</ul>
 	</div>
 
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/blog//" class="article-tag-list-link color5">blog</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
 
@@ -497,19 +482,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">c</a>
+                <a href="javascript:void(0)" class="js-tag color4">计算机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -517,71 +490,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+                <a href="javascript:void(0)" class="js-tag color3">数学</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">概率论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">操作系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">regex</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jdbc</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">markdown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">正则</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jsp</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
             
             <div class="clearfix"></div>

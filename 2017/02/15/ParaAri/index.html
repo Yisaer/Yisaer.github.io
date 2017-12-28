@@ -9,13 +9,13 @@
   <title>并发下的搜索与排序 | Yisa&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="概论在传统的串行运行下，在数组内查找特定元素和将数组排序都有一套成熟的方法。 对于数组内查找，如果是有序数组在可以在查找的话可以运用二分查找法，而对于无序数组则应该将数组遍历一遍。 而对于数组排序，则是有类似快排，归并排序等等复杂度控制在O(nlogn）的算法。  从算法的角度来说，似乎并没有往下继续优化的空间了。但是如果运行在并行环境下，虽然理论上的算法复杂度并没有变小，但是我们可以用并行的方式">
-<meta name="keywords" content="多线程">
+<meta name="keywords" content="计算机">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发下的搜索与排序">
 <meta property="og:url" content="http://Yisaer.github.io/2017/02/15/ParaAri/index.html">
 <meta property="og:site_name" content="Yisa&#39;s Blog">
 <meta property="og:description" content="概论在传统的串行运行下，在数组内查找特定元素和将数组排序都有一套成熟的方法。 对于数组内查找，如果是有序数组在可以在查找的话可以运用二分查找法，而对于无序数组则应该将数组遍历一遍。 而对于数组排序，则是有类似快排，归并排序等等复杂度控制在O(nlogn）的算法。  从算法的角度来说，似乎并没有往下继续优化的空间了。但是如果运行在并行环境下，虽然理论上的算法复杂度并没有变小，但是我们可以用并行的方式">
-<meta property="og:updated_time" content="2017-02-15T11:10:50.000Z">
+<meta property="og:updated_time" content="2017-12-28T16:21:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发下的搜索与排序">
 <meta name="twitter:description" content="概论在传统的串行运行下，在数组内查找特定元素和将数组排序都有一套成熟的方法。 对于数组内查找，如果是有序数组在可以在查找的话可以运用二分查找法，而对于无序数组则应该将数组遍历一遍。 而对于数组排序，则是有类似快排，归并排序等等复杂度控制在O(nlogn）的算法。  从算法的角度来说，似乎并没有往下继续优化的空间了。但是如果运行在并行环境下，虽然理论上的算法复杂度并没有变小，但是我们可以用并行的方式">
@@ -61,7 +61,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/工作/">随笔</a></li>
+				<li><a href="/tags/随笔/">随笔</a></li>
 	        
 				<li><a href="/tags/java">Java</a></li>
 	        
@@ -143,7 +143,7 @@
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/tags/工作/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/tags/随笔/">随笔</a></li>
 		        
 					<li style="width: 33.333333333333336%"><a href="/tags/java">Java</a></li>
 		        
@@ -233,24 +233,13 @@ static int[] arr;
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
         		</li>
       		
 		</ul>
 	</div>
 
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/blog//" class="article-tag-list-link color5">blog</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
 
@@ -451,19 +440,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">c</a>
+                <a href="javascript:void(0)" class="js-tag color4">计算机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -471,71 +448,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+                <a href="javascript:void(0)" class="js-tag color3">数学</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">概率论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工作</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">操作系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">regex</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jdbc</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">markdown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">正则</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jsp</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
             
             <div class="clearfix"></div>
