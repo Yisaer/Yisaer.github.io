@@ -6,21 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Yisaer.github.io">
-  <title>Javadoc使用指南 | Yisa&#39;s Blog</title>
+  <title>Archives: 2018/6 | Yisa&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JDK包含一个很有用的工具叫做javadoc,他是由源文件生成一个HTML文档。通过javadoc生成API的文档，这样即使没有接触过的项目，也可以通过快速浏览javadoc来了解这个项目。">
-<meta name="keywords" content="java">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Javadoc使用指南">
-<meta property="og:url" content="http://Yisaer.github.io/2016/04/24/javadoc/index.html">
+  <meta name="description" content="上海大学14级计算机学院，酷家乐黄埔研究院 研发工程师">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yisa&#39;s Blog">
+<meta property="og:url" content="http://Yisaer.github.io/archives/2018/06/index.html">
 <meta property="og:site_name" content="Yisa&#39;s Blog">
-<meta property="og:description" content="JDK包含一个很有用的工具叫做javadoc,他是由源文件生成一个HTML文档。通过javadoc生成API的文档，这样即使没有接触过的项目，也可以通过快速浏览javadoc来了解这个项目。">
-<meta property="og:image" content="http://ico.ooopic.com/ajax/iconpng/?id=141004.png =100x90">
-<meta property="og:updated_time" content="2017-12-28T16:20:45.000Z">
+<meta property="og:description" content="上海大学14级计算机学院，酷家乐黄埔研究院 研发工程师">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Javadoc使用指南">
-<meta name="twitter:description" content="JDK包含一个很有用的工具叫做javadoc,他是由源文件生成一个HTML文档。通过javadoc生成API的文档，这样即使没有接触过的项目，也可以通过快速浏览javadoc来了解这个项目。">
-<meta name="twitter:image" content="http://ico.ooopic.com/ajax/iconpng/?id=141004.png =100x90">
+<meta name="twitter:title" content="Yisa&#39;s Blog">
+<meta name="twitter:description" content="上海大学14级计算机学院，酷家乐黄埔研究院 研发工程师">
   
     <link rel="alternative" href="/atom.xml" title="Yisa&#39;s Blog" type="application/atom+xml">
   
@@ -162,225 +158,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-javadoc" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Javadoc使用指南
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/06/17/mentor/" class="archive-article-date">
+  	<time datetime="2018-06-17T15:14:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-17</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/06/17/mentor/">成为mentor之前</a>
     </h1>
   
 
-        
-        <a href="/2016/04/24/javadoc/" class="archive-article-date">
-  	<time datetime="2016-04-24T14:17:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://ico.ooopic.com/ajax/iconpng/?id=141004.png =100x90" alt="javaicon"></p>
-<p>JDK包含一个很有用的工具叫做javadoc,他是由源文件生成一个HTML文档。通过javadoc生成API的文档，这样即使没有接触过的项目，也可以通过快速浏览javadoc来了解这个项目。</p>
-<a id="more"></a>
-<h2 id="Eclipse生成"><a href="#Eclipse生成" class="headerlink" title="Eclipse生成"></a>Eclipse生成</h2><ol>
-<li>首先点击File选择Export选项，java-&gt;javadoc</li>
-<li>然后修改use standard doclet 即存放的目录，建议自定义一个文件夹存放</li>
-<li>如果你是UTF-8的编码方式，则next以后在Extra Javadoc options中输入参数：<br> -encoding utf-8 -charset utf-8</li>
-<li>最后Finsh完成以后，即可在工程文件中选择Index查看</li>
-</ol>
-<h2 id="注释语法："><a href="#注释语法：" class="headerlink" title="注释语法："></a>注释语法：</h2><p>注释语法十分简单，通过/**来起头，然后Eclipse后直接帮你生成。注释分别分为类注释，方法注释，域注释，通用注释，包与概述注释。</p>
-<h3 id="类注释"><a href="#类注释" class="headerlink" title="类注释"></a>类注释</h3><p>类注释在import语句之后，类定义之前。例子：</p>
-<pre><code>/**
-  *  Some description about your class.
-  *
-  */
-public class Student{
-    ..
-}
-</code></pre><h3 id="方法注释"><a href="#方法注释" class="headerlink" title="方法注释"></a>方法注释</h3><p>每一个方法注释必须放在所描述的方法之前，除了通用注释以外，还可以使用以下的标记</p>
-<pre><code>@param 变量名 对变量的描述，这个描述可以占据多行并能使用HTML标记，一个方法的所有@param标记必须放在一起
-@return 对返回值的描述
-@throws 异常类名 对异常类抛出的描述
-</code></pre><p>下面是一个示例：</p>
-<pre><code>/**
- * Count a+b 
- * @param A the value of A
- * @param B the value of B
- * @return the sum of A+B
- */
-public int Count(int a,int b){
-    return a+b;
-}
-</code></pre><h3 id="域注释"><a href="#域注释" class="headerlink" title="域注释"></a>域注释</h3><p>对公有域的注释（通常指静态常量）</p>
-<h3 id="通用注释"><a href="#通用注释" class="headerlink" title="通用注释"></a>通用注释</h3><pre><code>@author name
-将产生一个author条目，说明作者
-@version text
-这个标记将产生一个version条目，这里的文慕是对当前版本的描述，适用于所有的文档注释
-@since text
-这里的text是对引入特性的版本描述，如@since version 1.01
-@see 引用
-这个标记将在&quot;see also&quot;部分增加一个超级链接。这里的引用可以是下面几种情形之一：
-1.package.class#feature label
-  这种情况是最常见的，提供类，方法或者变量的名字就在文档中插入一个超链接
-  如： @see package.Number#Count(int,int)
-  将建立一个连接到package.Number类中的Count(int,int)方法中，需要注意的是，j一定要使用#来区别类类名与方法名或变量名，而不是“.”
-&lt;a href=&quot;URL&quot;&gt;label&lt;a&gt;
-这个可以超链到URL，通过指定一个标签作为链接锚
-&quot;text&quot;
-这个将直接显示在see also部分中
-</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此大部分实用的javadoc标记就已经介绍完了</p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://Yisaer.github.io/2016/04/24/javadoc/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2016/04/25/GLL3/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          概率论复习(3)
-        
-      </div>
-    </a>
   
   
-    <a href="/2016/04/23/SL-BB/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">数学中的背包问题(1)</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -403,8 +234,8 @@ public int Count(int a,int b){
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
