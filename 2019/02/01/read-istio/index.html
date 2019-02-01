@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://Yisaer.github.io/2019/02/01/read-istio/index.html">
 <meta property="og:site_name" content="Yisa&#39;s Blog">
 <meta property="og:description" content="前言《深入浅出Istio》这本书这两天开始卖了，我也第一时间入手了以后到现在已经基本上全部翻完了。在这里记录一下看完这本书的读后感。总体来说，这本书是一本既适合Istio本身有一定了解程度的使用者，也适合对ServiceMesh初学者的去学习Istio的书籍。这本书比较全面的介绍并总结了Istio的各个组件及其使用方法，并给出了许多具体的场景。 作为一名接触ServiceMesh领域和Istio快">
-<meta property="og:updated_time" content="2019-02-01T12:32:04.046Z">
+<meta property="og:updated_time" content="2019-02-01T12:37:19.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《深入浅出Istio》读后感">
 <meta name="twitter:description" content="前言《深入浅出Istio》这本书这两天开始卖了，我也第一时间入手了以后到现在已经基本上全部翻完了。在这里记录一下看完这本书的读后感。总体来说，这本书是一本既适合Istio本身有一定了解程度的使用者，也适合对ServiceMesh初学者的去学习Istio的书籍。这本书比较全面的介绍并总结了Istio的各个组件及其使用方法，并给出了许多具体的场景。 作为一名接触ServiceMesh领域和Istio快">
@@ -223,8 +223,9 @@
 <ol>
 <li>永远准备一套不用Istio的备用环境，（ 目前我们服务的生产环境长期保留了主备服务，主服务使用Istio，备用业务则不使用Istio，每当进行istio升级或者是部分参数调整时都会提前进行主备切换，等升级调整验证完毕后才切换回来）</li>
 <li>确定使用Istio的功能范围 （在我们的场景中，只有真正的业务服务才被服务网格管理，其余不需要网格管理的服务绝对不强上网格）</li>
-<li>时刻考虑Istio功能的性价比 （不为了用功能而用功能，Istio Citadel安全功能对于我们来说目前收益接近于零，但风险极大，所以就坚决不用）<br>同时对于Istio这个产品发展的现状，作者给出了一定的担心，即目前Istio团队，发布的产品API稳定性太不稳定，不向后兼容，很多API全部改写。另一方面在发布质量上也出现过比较大的问题，造成了版本回退，发布延期等问题。同时Istio组件目前本身也有着一些瓶颈与问题如Mixer的复杂性与高成本学习，Pilot的性能瓶颈，SideCar的性能消耗。以上这些都有待Istio团队去解决。</li>
+<li>时刻考虑Istio功能的性价比 （不为了用功能而用功能，Istio Citadel安全功能对于我们来说目前收益接近于零，但风险极大，所以就坚决不用）</li>
 </ol>
+<p>同时对于Istio这个产品发展的现状，作者给出了一定的担心，即目前Istio团队，发布的产品API稳定性太不稳定，不向后兼容，很多API全部改写。另一方面在发布质量上也出现过比较大的问题，造成了版本回退，发布延期等问题。同时Istio组件目前本身也有着一些瓶颈与问题如Mixer的复杂性与高成本学习，Pilot的性能瓶颈，SideCar的性能消耗。以上这些都有待Istio团队去解决。</p>
 <p>最后整体来看，对于Istio，我个人认为Istio目前的发展状况在ServiceMesh领域中还并没有像K8S取得事实胜利，可能Istio也有可能步Linkerd的后路，为未来的产品开路和经验，但是ServiceMesh这条路无疑是正确的，我也会继续关注ServiceMesh和istio在2019年新的表现。</p>
 
       
@@ -453,11 +454,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">数学</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数学</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
