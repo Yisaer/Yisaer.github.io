@@ -164,85 +164,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-mentor" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/17/mentor/">成为mentor之前</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/17/mentor/" class="archive-article-date">
-  	<time datetime="2018-06-17T15:14:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
-<p>   下礼拜项目组会迎接来两个大三的后端实习生，然后不出意外的话我会成为其中一个实习生的mentor。一想到其实我自己也是实习生，现在拿的也是实习工资，从下礼拜起就还要带另外一个实习生想想简直不要不要的。</p>
-</blockquote>
-<p><a href="https://imgchr.com/i/Cx8Tnx" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2018/06/17/Cx8Tnx.png" alt="Cx8Tnx.png"></a></p>
-        
-          <a class="article-more-a" href="/2018/06/17/mentor/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/17/mentor/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-view" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -907,6 +828,85 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/03/04/shell1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-ParaAri" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/15/ParaAri/">并发下的搜索与排序</a>
+    </h1>
+  
+
+        
+        <a href="/2017/02/15/ParaAri/" class="archive-article-date">
+  	<time datetime="2017-02-15T10:13:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="概论"><a href="#概论" class="headerlink" title="概论"></a>概论</h1><p>在传统的串行运行下，在数组内查找特定元素和将数组排序都有一套成熟的方法。</p>
+<p>对于数组内查找，如果是有序数组在可以在查找的话可以运用二分查找法，而对于无序数组则应该将数组遍历一遍。</p>
+<p>而对于数组排序，则是有类似快排，归并排序等等复杂度控制在O(nlogn）的算法。 </p>
+<p>从算法的角度来说，似乎并没有往下继续优化的空间了。但是如果运行在并行环境下，虽然理论上的算法复杂度并没有变小，但是我们可以用并行的方式来将时间缩短。</p>
+        
+          <a class="article-more-a" href="/2017/02/15/ParaAri/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/02/15/ParaAri/">展开全文 >></a>
         </p>
       
 
