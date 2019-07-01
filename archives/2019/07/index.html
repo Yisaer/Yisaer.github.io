@@ -6,19 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Yisaer.github.io">
-  <title>数论——质数筛法 | Yisa&#39;s Blog</title>
+  <title>Archives: 2019/7 | Yisa&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
-<meta name="keywords" content="数学">
-<meta property="og:type" content="article">
-<meta property="og:title" content="数论——质数筛法">
-<meta property="og:url" content="http://Yisaer.github.io/2016/04/23/SL-ZS/index.html">
+  <meta name="description" content="上海大学14级计算机学院，酷家乐黄埔研究院 研发工程师">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yisa&#39;s Blog">
+<meta property="og:url" content="http://Yisaer.github.io/archives/2019/07/index.html">
 <meta property="og:site_name" content="Yisa&#39;s Blog">
-<meta property="og:description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
-<meta property="og:updated_time" content="2017-12-28T16:23:05.000Z">
+<meta property="og:description" content="上海大学14级计算机学院，酷家乐黄埔研究院 研发工程师">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数论——质数筛法">
-<meta name="twitter:description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
+<meta name="twitter:title" content="Yisa&#39;s Blog">
+<meta name="twitter:description" content="上海大学14级计算机学院，酷家乐黄埔研究院 研发工程师">
   
     <link rel="alternative" href="/atom.xml" title="Yisa&#39;s Blog" type="application/atom+xml">
   
@@ -164,200 +162,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-SL-ZS" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      数论——质数筛法
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/07/01/2019kubecon/" class="archive-article-date">
+  	<time datetime="2019-07-01T11:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-01</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/07/01/2019kubecon/">Kubecon Shanghai 2019 回顾</a>
     </h1>
   
 
-        
-        <a href="/2016/04/23/SL-ZS/" class="archive-article-date">
-  	<time datetime="2016-04-23T05:48:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Created by <strong>高松</strong> on 16/4/17</p>
-<p>Copyright &copy; 2016年 Yisa. All rights reserved.</p>
-<h3 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h3><p> 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与Eular筛法两种方法。</p>
-<a id="more"></a>
-<h3 id="Eratosthenes筛法"><a href="#Eratosthenes筛法" class="headerlink" title="Eratosthenes筛法"></a>Eratosthenes筛法</h3><p> 要得到自然数n以内的全部素数，必须把不大于根号n的所有素数的倍数剔除，剩下的就是素数.Eratosthenes筛法的算法思想十分简洁明了，用伪代码的表达方式如下:</p>
-<pre><code>isPrime [] = true
-primeCount = 0;
-For i = 2 .. N
-    If isPrime[i] Then
-        primeCount = primeCount + 1
-        multiple = 2
-        While (i*multiple ≤ N)
-            isPrime [i * multiple] = false
-            multiple = multiple +1
-        End While
-    End If
-End For
-
-&lt;br&gt;
-</code></pre><p>　　这样的方法就是古老的<strong>Eratosthenes筛法</strong>，值得注意的是，这个方法的时间复杂度为<br><strong>O(n log log n)</strong>，必须承认的是，Eratosthenes筛法有他本身的冗余度，当我们对于某个<a href="http://baike.baidu.com/link?url=na-LK_wPnGZbnYBgHDX5ZgtFbrE7G-VQy0xVyLeohkTzfQMxg0g6e4DHZcDw7nbbsO9UGKtyyrAFg1tX4U3r8Wntc_LTDL_iMzXY0jc0hnK" target="_blank" rel="noopener">合数</a>k进行计算时，我们会不止用到一次他的质因数。<br><br>　　以合数10为例，当我们以质数2将<em>isPrime[10]</em>标记为false时，当我们循环走到<em>i=5</em>时，依旧会循环遍历到<em>isPrime[10]</em>，这就造成了冗余。事实上，若是采用<strong>Eular筛法</strong>，我们可以将时间复杂度降为O(n).</p>
-<hr>
-<h3 id="Eular筛法"><a href="#Eular筛法" class="headerlink" title="Eular筛法"></a>Eular筛法</h3><p> 我们可以知道，任意一个正整数k，若k≥2，则k可以表示成若干个质数相乘的形式。Eratosthenes筛法中，在枚举k的每一个质因子时，我们都计算了一次k，从而造成了冗余。因此在改进算法中，只利用k的最小质因子去计算一次k。</p>
-<p> 首先让我们先了解一下Eular筛法，伪代码如下：</p>
-<pre><code> isPrime [] = ture
- primeList [] 
- primeCount = 0
- For i = 2 .. N
-    If isPrime[i] Then
-        primeCount = primeCount + 1
-        primeList[ primeCount ] = i
-    End If 
-For j = 1 .. primeCount
-    If (i * primeList[j] &gt; N) Then
-        Break
-    End If
-    isPrime[ i * primeList[j] ] = false
-        If (i % primeList[j] == 0) Then
-            Break
-        End If
-    End FOr
-End For
-</code></pre><p>与Eratosthenes筛法不同的是，对于外层枚举i，无论i是质数，还是是合数，我们都会用i的倍数去筛。但在枚举的时候，我们只枚举i的质数倍。比如2i,3i,5i,…，而不去枚举4i,6i…，原因我们后面会讲到.</p>
-<p>假设一个合数k=M*p1，p1为其最小的质因子。则k只会在i=M，primeList[j]=p1时被筛掉一次。首先会在i=M，primeList[j]=p1时被筛掉是显然的。</p>
-<p>其次不会在其他时候被筛掉。否则假设k在i=N, primeList[j]=p1时被筛掉了，此时有k=N*p2。由于p1是k最小的质因子，所以p2 &gt; p1，M &gt; N且p|N。则i=N，j枚举到primeList[j]=p1时(没到primeList[j]=p2)就break了。所以不会有其他时候筛掉k。</p>
-<p>同时，不枚举合数倍数的原因也在此：对于一个合数k=M <em>2 </em> 3 。只有在枚举到i=M <em> 3时，才会计算到k。若我们枚举合数倍数，则可能会在i=M时，通过M </em> 6计算到k，这样也就造成了多次重复计算了。</p>
-<p>综上，Eular筛法可以保证每个合数只会被枚举到一次，时间复杂度为O(n)。当N越大时，其相对于Eratosthenes筛法的优势也就越明显。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数学</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://Yisaer.github.io/2016/04/23/SL-ZS/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2016/04/23/markdown/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Markdown 轻量使用
-        
-      </div>
-    </a>
   
   
-    <a href="/2016/04/23/GLL1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">概率论复习（1，2）</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -380,8 +238,8 @@ End For
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

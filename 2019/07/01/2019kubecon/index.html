@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Yisaer.github.io">
-  <title>数论——质数筛法 | Yisa&#39;s Blog</title>
+  <title>Kubecon Shanghai 2019 回顾 | Yisa&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
-<meta name="keywords" content="数学">
+  <meta name="description" content="前言 现在回想起来，也许正是那么多有趣的人与技术会在此相遇，让我着迷于参与社区、参与开源、参与到整个云原生大潮中。">
+<meta name="keywords" content="随笔">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数论——质数筛法">
-<meta property="og:url" content="http://Yisaer.github.io/2016/04/23/SL-ZS/index.html">
+<meta property="og:title" content="Kubecon Shanghai 2019 回顾">
+<meta property="og:url" content="http://Yisaer.github.io/2019/07/01/2019kubecon/index.html">
 <meta property="og:site_name" content="Yisa&#39;s Blog">
-<meta property="og:description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
-<meta property="og:updated_time" content="2017-12-28T16:23:05.000Z">
+<meta property="og:description" content="前言 现在回想起来，也许正是那么多有趣的人与技术会在此相遇，让我着迷于参与社区、参与开源、参与到整个云原生大潮中。">
+<meta property="og:image" content="https://ws1.sinaimg.cn/mw690/007pL7qRgy1g4kjuhy302j31900u0whc.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/mw690/007pL7qRgy1g4kjuhyu58j30u00k0dmm.jpg">
+<meta property="og:updated_time" content="2019-07-01T11:47:43.542Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数论——质数筛法">
-<meta name="twitter:description" content="Created by 高松 on 16/4/17 Copyright &amp;copy; 2016年 Yisa. All rights reserved. 概述： 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与">
+<meta name="twitter:title" content="Kubecon Shanghai 2019 回顾">
+<meta name="twitter:description" content="前言 现在回想起来，也许正是那么多有趣的人与技术会在此相遇，让我着迷于参与社区、参与开源、参与到整个云原生大潮中。">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/mw690/007pL7qRgy1g4kjuhy302j31900u0whc.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Yisa&#39;s Blog" type="application/atom+xml">
   
@@ -164,73 +167,90 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-SL-ZS" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-2019kubecon" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      数论——质数筛法
+      Kubecon Shanghai 2019 回顾
     </h1>
   
 
         
-        <a href="/2016/04/23/SL-ZS/" class="archive-article-date">
-  	<time datetime="2016-04-23T05:48:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-23</time>
+        <a href="/2019/07/01/2019kubecon/" class="archive-article-date">
+  	<time datetime="2019-07-01T11:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-01</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Created by <strong>高松</strong> on 16/4/17</p>
-<p>Copyright &copy; 2016年 Yisa. All rights reserved.</p>
-<h3 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h3><p> 当我们谈论到质数筛选时,一个最初的想法是在遍历1~N中的每个数字，判断一下是否质数，这种最简单的方法虽然代码十分容易写，但是效率极低。事实上，在筛选质数上早已有了古老的Eratosthenes筛法，本文将重点探讨Eratosthenes筛法与Eular筛法两种方法。</p>
+        <head>
+
+<p><meta name="referrer" content="same-origin"></p>
+<meta name="referrer" content="no-referrer">
+
+<head>
+
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>现在回想起来，也许正是那么多有趣的人与技术会在此相遇，让我着迷于参与社区、参与开源、参与到整个云原生大潮中。</p>
+</blockquote>
+<p><img src="https://ws1.sinaimg.cn/mw690/007pL7qRgy1g4kjuhy302j31900u0whc.jpg" alt=""></p>
 <a id="more"></a>
-<h3 id="Eratosthenes筛法"><a href="#Eratosthenes筛法" class="headerlink" title="Eratosthenes筛法"></a>Eratosthenes筛法</h3><p> 要得到自然数n以内的全部素数，必须把不大于根号n的所有素数的倍数剔除，剩下的就是素数.Eratosthenes筛法的算法思想十分简洁明了，用伪代码的表达方式如下:</p>
-<pre><code>isPrime [] = true
-primeCount = 0;
-For i = 2 .. N
-    If isPrime[i] Then
-        primeCount = primeCount + 1
-        multiple = 2
-        While (i*multiple ≤ N)
-            isPrime [i * multiple] = false
-            multiple = multiple +1
-        End While
-    End If
-End For
-
-&lt;br&gt;
-</code></pre><p>　　这样的方法就是古老的<strong>Eratosthenes筛法</strong>，值得注意的是，这个方法的时间复杂度为<br><strong>O(n log log n)</strong>，必须承认的是，Eratosthenes筛法有他本身的冗余度，当我们对于某个<a href="http://baike.baidu.com/link?url=na-LK_wPnGZbnYBgHDX5ZgtFbrE7G-VQy0xVyLeohkTzfQMxg0g6e4DHZcDw7nbbsO9UGKtyyrAFg1tX4U3r8Wntc_LTDL_iMzXY0jc0hnK" target="_blank" rel="noopener">合数</a>k进行计算时，我们会不止用到一次他的质因数。<br><br>　　以合数10为例，当我们以质数2将<em>isPrime[10]</em>标记为false时，当我们循环走到<em>i=5</em>时，依旧会循环遍历到<em>isPrime[10]</em>，这就造成了冗余。事实上，若是采用<strong>Eular筛法</strong>，我们可以将时间复杂度降为O(n).</p>
-<hr>
-<h3 id="Eular筛法"><a href="#Eular筛法" class="headerlink" title="Eular筛法"></a>Eular筛法</h3><p> 我们可以知道，任意一个正整数k，若k≥2，则k可以表示成若干个质数相乘的形式。Eratosthenes筛法中，在枚举k的每一个质因子时，我们都计算了一次k，从而造成了冗余。因此在改进算法中，只利用k的最小质因子去计算一次k。</p>
-<p> 首先让我们先了解一下Eular筛法，伪代码如下：</p>
-<pre><code> isPrime [] = ture
- primeList [] 
- primeCount = 0
- For i = 2 .. N
-    If isPrime[i] Then
-        primeCount = primeCount + 1
-        primeList[ primeCount ] = i
-    End If 
-For j = 1 .. primeCount
-    If (i * primeList[j] &gt; N) Then
-        Break
-    End If
-    isPrime[ i * primeList[j] ] = false
-        If (i % primeList[j] == 0) Then
-            Break
-        End If
-    End FOr
-End For
-</code></pre><p>与Eratosthenes筛法不同的是，对于外层枚举i，无论i是质数，还是是合数，我们都会用i的倍数去筛。但在枚举的时候，我们只枚举i的质数倍。比如2i,3i,5i,…，而不去枚举4i,6i…，原因我们后面会讲到.</p>
-<p>假设一个合数k=M*p1，p1为其最小的质因子。则k只会在i=M，primeList[j]=p1时被筛掉一次。首先会在i=M，primeList[j]=p1时被筛掉是显然的。</p>
-<p>其次不会在其他时候被筛掉。否则假设k在i=N, primeList[j]=p1时被筛掉了，此时有k=N*p2。由于p1是k最小的质因子，所以p2 &gt; p1，M &gt; N且p|N。则i=N，j枚举到primeList[j]=p1时(没到primeList[j]=p2)就break了。所以不会有其他时候筛掉k。</p>
-<p>同时，不枚举合数倍数的原因也在此：对于一个合数k=M <em>2 </em> 3 。只有在枚举到i=M <em> 3时，才会计算到k。若我们枚举合数倍数，则可能会在i=M时，通过M </em> 6计算到k，这样也就造成了多次重复计算了。</p>
-<p>综上，Eular筛法可以保证每个合数只会被枚举到一次，时间复杂度为O(n)。当N越大时，其相对于Eratosthenes筛法的优势也就越明显。</p>
-
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>今年Kubecon在上海如期举行了，Kubecon的分享一如既往的保持了非常高的质量，在这里记录一下我听完以后比较印象深刻的分享。</p>
+<h2 id="Helm3的发布"><a href="#Helm3的发布" class="headerlink" title="Helm3的发布"></a>Helm3的发布</h2><p>发布了Helm3,谈到了Helm3的架构，去除C/S架构，Helm3只会拥有客户端，并且会有更为明确的行为逻辑。<br>比起从Helm2 迁移到Helm3 ，更倾向于转向<a href="https://github.com/kubernetes-sigs/kustomize" target="_blank" rel="noopener">kustomize</a></p>
+<h2 id="HP在istio对于权限的多层应用"><a href="#HP在istio对于权限的多层应用" class="headerlink" title="HP在istio对于权限的多层应用"></a><a href="https://static.sched.com/hosted_files/kccncosschn19chi/0b/how-we-use-istio-and-opa-for-authorization.pdf" target="_blank" rel="noopener">HP在istio对于权限的多层应用</a></h2><p>Fitstation这个业务既有自己的服务，也有许多外部合作商与和第三方相关的服务，所以如何管理好这些来自各个parties/partners的服务相互调用的权限关系就非常重要了。</p>
+<p>分享者讲述通过istio去做多层的权限设计体系，对于合作伙伴作为L1层，采用RBAC鉴权模型，对于第三方服务，采用L2层，基于外部的OpenAuth引擎(他们使用的是AWS IAM服务)，然后对于自身内部服务则为L3层，内部服务调用互相可信。L1/L2/L3互相之间的通信都通过istio auth adapter来控制权限，即语言无关、框架无关，又能做到无侵入式的对接到第三方服务/与合作方服务。<br>通过istio去做多层权限设计这个思想与实践非常棒，但这么设计的具体原因以及所对应的真实业务场景需求，需要问下分享者本人做一些确认。</p>
+<h2 id="Local-PV宣传"><a href="#Local-PV宣传" class="headerlink" title="Local PV宣传"></a><a href="https://www.lfasiallc.com/events/kubecon-cloudnativecon-china-2019/schedule-chinese/" target="_blank" rel="noopener">Local PV宣传</a></h2><p>K8S 1.14 GA特性<a href="https://kubernetes.io/blog/2019/04/04/kubernetes-1.14-local-persistent-volumes-ga/" target="_blank" rel="noopener">Local PV</a>的宣传，相比PV有着更高的iops,相比HostPath挂载的是整个硬盘，同时分享人还给出了关于localPV的各种BP。<br>Tidb和Tikv作为分布式数据库，同时需要有SSD的支持，这一特性可以说是对这两大产品来说重大利好了，分享人也是来自Pingcap。同时这也提醒了我也许在后面对于键值或者RDBMS这类云上存储服务的需求，可以考虑采用Tikv或者Tidb作为试点，对于异地多活场景也许有原生方案支持。</p>
+<h2 id="CRD的宣传"><a href="#CRD的宣传" class="headerlink" title="CRD的宣传"></a><a href="https://kccncosschn19chi.sched.com/event/Nra0/lin-xi-daepcrd-pu-bo-daeg-jing-xudaelsyang-chi-xiao-daehxing-yangdaelsopensds?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">CRD的宣传</a></h2><p>两位分享人分享了在存储组提交了某个新的特性PR被核心组拒绝后，然后反思对Kube core组件的思考，认为自己所提供的新功能通过CRD定义更为合适的故事。这次的Kubecon大会有很多有价值的分享都提到了自己是如何通过CRD来最终解决问题的，特别是KubeBuilder的发布与K8s 1.15特性中对CRD的OpenAPI支持。个人认为如今我们在K8S上许多特定的需求都不应该去改动K8S Core的代码，而是应该通过CRD的形式来满足特定的需求(例如来自组织形式的需求)</p>
+<h2 id="树莓派Kubernetes"><a href="#树莓派Kubernetes" class="headerlink" title="树莓派Kubernetes"></a><a href="https://www.lfasiallc.com/events/kubecon-cloudnativecon-china-2019/schedule-chinese/" target="_blank" rel="noopener">树莓派Kubernetes</a></h2><p>分享者分享了自己通过树莓派搭建了一个K8s集群。感觉像是个玩具项目，非常fun。对于本地K8S开发我更倾向于Kubernetes For Docker.</p>
+<h2 id="Kubernetes上Mysql容器的正确大小与自动扩展"><a href="#Kubernetes上Mysql容器的正确大小与自动扩展" class="headerlink" title="Kubernetes上Mysql容器的正确大小与自动扩展"></a><a href="https://kccncosschn19chi.sched.com/event/Nrbn/kubernetes-mysql-jzha-qi-rekek-yuan-chen-re-min-lidaels?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">Kubernetes上Mysql容器的正确大小与自动扩展</a></h2><p>一个来自京东的分享，目前京东生产环境的Mysql容器已经全部容器化。对于Mysql本地HA的方案，京东采用了Vitess的方案。同时还自研了新的调度算法，主要在于Node Constraint采取了应用资源相关性与limit share Headroom作为了全新的约束条件以及在Node selector上进行了从K8S默认的打分机制更改为资源(cpu,memory)夹角公式，由于这个夹角公式是可以使多维的，所以可以说以后加入更多的资源维度需求(gpu,网络带宽,iops)</p>
+<p>干货非常多的一场分享。首先对于mysql的本地HA方案，之前本身一直纠结与Vitness与Helm提供的Mysql-ha。通过这次分享基本敲定打算跟随社区的步伐走，使用Vitness做本地HA。另外一方面，对于大集群/万级规模的容器数量而言，K8S默认的调度算法并非完全合适，所以自研调度器算是一个比较有价值的事情，后面我们会在腾讯/阿里这些公司的分享上都遇到自研调度器的场景。 比较可惜的是，没有去提问确认京东自研的调度器算法是仅仅针对存储场景下的容器还是可以cover整个集群场景</p>
+<h2 id="高可用与扩展性Prometheus"><a href="#高可用与扩展性Prometheus" class="headerlink" title="高可用与扩展性Prometheus"></a><a href="https://kccncosschn19chi.sched.com/event/Nrcl/qiang-tang-zhi-pan-zhi-prometheus-re-thanos-guoan-qindaelsqiang-tang-daehtao-lidaelsqiang-tang?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">高可用与扩展性Prometheus</a></h2><p>来自阿里的分享，主要介绍了Prometheus的高可用性方案与多集群Prometheus的Global Query方案。描述了Prometheus 联邦方案的不足之处，提出使用Thanos方案来同时满足HA与Global Query。</p>
+<p>同时还给出了针对大规模场景集群下，采集指标的技术方案。给出的方案是专门写了一个Node agent，采用了Prometheus的TSDB作为Node本身的存储，同时暴露Prometheus metrics接口与提供一些聚合能力。</p>
+<p>然后在下层采集端，通过go-plugin组件做出指标采集器的插件化配置，并且保证对于相同的指标，不会在不同的采集器内被重复采集/对于不同的指标，也采取了不同的采集频率。从而达到了性能与需求的平衡。具体可以查看链接中的PPT内容。</p>
+<p>这个分享的主题非常切入国际化业务的应用场景，尤其是Prometheus的Global Query。对于国际站而言，由于业务跑在了多个集群，对于相同的指标而言，我必须在label上打上地域性标签。我不知道对于这种场景Thenos的解决方案是否比现有的方案更加优雅简单。</p>
+<h2 id="Knative-Serving原理介绍"><a href="#Knative-Serving原理介绍" class="headerlink" title="Knative Serving原理介绍"></a><a href="https://kccncosschn19chi.sched.com/event/NrZZ/knative-serving-zhu-tao-dominik-tornowdaelssapdaehandrew-chendaelsgoogle?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">Knative Serving原理介绍</a></h2><p>分享者解释了一波Knative的serveless实质原理，介绍了Knative是如何接受请求，处理请求，以及对于请求冷热路径的处理从而灵活调控应用实例来达到资源利用率。并且由于Knative基于Istio的设计，所以同时还能基于Istio的服务治理能力给予流量管理和可观测性,PPT做的非常言简意赅，看完就看懂了。</p>
+<p>目前的Serveless领域内，各个标准各个实现非常纷繁复杂，通过这次听完Knative的分享，基本上确定了我Serveless方案就走Knative的想法，而不再是Kubeless或者是其他方案。</p>
+<p>对于Serveless而言，相比较传统的 “先启动应用，然后接受请求，最后处理请求”，这种形式，Serveless的“先接受请求，再启动应用，最后处理请求”的方式确实能更加节省资源。 但是对于这种请求流程处理的改变，看下来个人感觉首先要求应用处理HTTP请求启动时间尽可能短，Java这种上来就启动个60秒的就很不合适，最好是类似python、nodeJs这种脚本型、或者是Golang这种二进制包，另外一方面由于这种处理方式可能更适合异步的请求调用，对于同步请求而言存在风险。</p>
+<h2 id="大规模场景下的Kubernetes-Master性能优化"><a href="#大规模场景下的Kubernetes-Master性能优化" class="headerlink" title="大规模场景下的Kubernetes Master性能优化"></a><a href="https://kccncosschn19chi.sched.com/event/NrfK/ji-kubernetes-master-zha-rexia-xingying-chen-re-fansong-zengdaelsqiang-tang?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">大规模场景下的Kubernetes Master性能优化</a></h2><p>介绍了在大规模场景下对Kubernetes管理的性能优化方案，以及如何管理多个K8S集群。 首先在分享者的介绍，阿里内部有数十个K8S集群，每个K8S集群基本上有上千的应用，上万的服务，千万级的容器。</p>
+<p>由于对于这种千万级容器的K8S集群场景，他的存储对象可以说是非常巨大的，对于背后etcd的压力也是非常大的。</p>
+<p>所以首先第一步对于etcd的存储于查询做了性能优化，具体可以参考<a href="https://yq.aliyun.com/articles/702446" target="_blank" rel="noopener">etcd优化</a>，同时做了etcd-proxy,从而支持基于index查询，比如在etcd层面获取某个namespace下的所有pod信息。</p>
+<p>同时对于kubelet的心跳，也做了网络层面的优化，1.1.4开启lease特性后，Kubelet的心跳数据包将减去不必要的数据。同时对于K8s代码中出现场景非常多的List/Watch Cacher也做了基于k8S场景下的优化，这些优化都已经提交到K8S社区作为1.14/1.15的新特性。</p>
+<p>emmm确实对于阿里这种场景极大规模的场景下会暴露出这种性能瓶颈问题，平时在使用内网K8S和生产环境的K8S根本没有感受到这方面的瓶颈过</p>
+<h2 id="Istio在大规模场景下的性能与最佳实践"><a href="#Istio在大规模场景下的性能与最佳实践" class="headerlink" title="Istio在大规模场景下的性能与最佳实践"></a><a href="https://kccncosschn19chi.sched.com/event/Nrcu/istio-nanomao-kubernetes-zhong-shi-zha-xia-rehuan-guang-ya-liu-re-chun-lin-yangdaelsibm?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">Istio在大规模场景下的性能与最佳实践</a></h2><p>非常具有干货的一场分享，Istio这个项目从发布之处就一直在被诟病Sidecar方案的服务网购在大规模场景下的性能问题。分享者通过对开启与未开启Istio 1.1下新特性Sidecar，来进行istio Pilot资源消耗与xds连接数比较，最终得出结论，在istio1.1下只要通过完善的Sidecar设置，istio完全可以在</p>
+<p>数千级节点 + 数千级服务 + 万级POD(数千级被istio管理) 这个规模下保持良好的性能结果，并对响应的资源消耗给出了一个推荐数值，和大规模下的istio BP参数推荐。</p>
+<p>对于大规模istio支撑的一剂强心针，虽然目前国际站生产环境istio已经稳定运行了将近一年了，但是始终是数个节点+十几个服务+数十个pod这种级别，所以基本就不会考虑到性能问题。在听了这个分享以后，对于未来服务网格支撑大规模集群有了信心。而且还接触到了一个Kubernetes压测工具，Kubemark。但不知道为什么google上搜的时候发现社区内部的kubemark资料很难搜到了。</p>
+<h2 id="通过学习痕迹优化微服务"><a href="#通过学习痕迹优化微服务" class="headerlink" title="通过学习痕迹优化微服务"></a><a href="https://kccncosschn19chi.sched.com/event/NreY/chuan-hui-ming-yu-zhang-wentao-redaelsibm?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">通过学习痕迹优化微服务</a></h2><p>分享者通过istio 和Jaeger获取生产环境中的HTTP请求链路数据，然后通过KubeFlow进行LSTM训练，发现流量中的故障点，最后得到一些可预测的结论来提前进行实例调度(类似在流量高峰来临前提前准备扩容)</p>
+<p>由于我8是很懂机器/深度学习，所以这块听得比较懵逼。会后有个提问者的问题问的非常有价值，就是这个训练后得到的结果是否是领域相关的还是可以推广到所有HTTP业务，很遗憾分享者给的答案是领域相关。</p>
+<p>另外通过分享者的架构发现目前我的Jaeger架构是All-in-one，这个在大规模集群下会有点性能问题，准备后面有空改进为自建Jaeger服务。</p>
+<h2 id="有效管理大规模K8S集群"><a href="#有效管理大规模K8S集群" class="headerlink" title="有效管理大规模K8S集群"></a><a href="https://kccncosschn19chi.sched.com/event/Nrcr/liao-picofa-lia-mao-kubernetes-zhong-shi-reluo-daelskuang-yan-shu?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">有效管理大规模K8S集群</a></h2><p>依旧是来自阿里的分享，着重介绍了Kubernetes in Kubernetes的管理方式。即运维方通过元Kubernetes去声明管理业务K8S，元K8S可以创建/删除/修改业务K8S，然后业务方使用的K8S就是直接在业务K8S上进行。</p>
+<p>同时由于采取的是声明式API，所以同样也支持了业务K8S的故障自愈等相关能力。对于声明式API有了新的理解，同时觉得这种K8S in K8S的管理方式很炫，两者结合确实可以减轻不少在K8S管理方面的运维压力。不清楚以后社区是否会出现这样的产品。</p>
+<h2 id="电商巨头的云原生迁移之路"><a href="#电商巨头的云原生迁移之路" class="headerlink" title="电商巨头的云原生迁移之路"></a><a href="https://kccncosschn19chi.sched.com/event/NrcK/shu-sszha-chang-hui-zhe-lang-mo-yu-resiyuy-wangdaelsqiang-tang?iframe=no&amp;w=100%&amp;sidebar=yes&amp;bg=no" target="_blank" rel="noopener">电商巨头的云原生迁移之路</a></h2><p>本次Kubecon最棒的一个分享，没有之一。让我只恨自己为什么没带录音笔来现场。而且还在现场见到了张磊大佬。介绍了阿里云内部的Kubernetes架构(神龙裸金属+弹性资源池 → 元Kubernetes → 业务Kubernetes) </p>
+<p>其中K8S调度器毫无疑问自研的，通过CRD创建了很多新的资源对象来满足业务需求，剔除富容器(没错就是你Pouch）,转而改用containerd（runc+kata,docker在性能上确实不行),业务的Pod自动注入治理sidecar(监控，日志，Mesh等等)。</p>
+<p>提出了很多因为场景/规模/业务因素而作出的改进。在k8s性能优化这块和上文分享有重叠。</p>
+<p>InPlace Update: 业务容器/Sidecar更新时，通过原地更新container取代了销毁和创建Pod。对于阿里四大金刚业务而言，某个服务有上万Pod是很正常的事情，在发布非常频繁，并且非常追求稳定的电商/金融场景下，上万规模的销毁和创建Pod即带来了非常高的不稳定性，也给调度器/etcd/apiServer带来了很大的压力。</p>
+<p>BatchUpdate: 对于某些有几万个pod的statefulset，k8s原来的更新POD批次是one by one的，这太慢了，新的CRD对象加强级Statefulset支持批量级更新，比如500个pod分10批次更新，每个批次一起更新50个。</p>
+<p>SidecarSet: 更为强大的Sidecar注入能力</p>
+<p>BroadcastJob: daemonset + Job的组合版。</p>
+<p>这些CRD组件都已经开源 <a href="https://github.com/openkruise/kruise" target="_blank" rel="noopener">Openkruise</a></p>
+<p>非常赞同业务容器+服务治理sidecar的思想，剔除富容器，拥抱containerd，kruise的做法也代表了CRD这条路的正确性，对我而言最有价值的应该就是SidecarSet与BroadcastJob这两类资源。会后还加了张磊大神微信，赚翻了。</p>
+<h2 id="Contour-Ingress-Controller"><a href="#Contour-Ingress-Controller" class="headerlink" title="Contour Ingress Controller"></a><a href="https://github.com/heptio/contour" target="_blank" rel="noopener">Contour Ingress Controller</a></h2><p>Vmware发布的一个新的IngressController，基于Envoy，所以也拥有很多看来神似istio流量治理的功能。很适合运用与大规模/多团队的Kubernetes场景下，而且在api方面有着比nginx ingress controller更好更丰富的声明能力。</p>
+<p>说实话nginx ingress controller也就适合在简单场景下用用了，遇到一些比较复杂的api路由或者流量治理下他那令人捉鸡的语法表达能力来管理这种场景是真的麻烦。目前contour虽然没有发布生产就绪版，但是未来可期。也许以后我们可以考虑切换到使用Contour。</p>
+<h2 id="CloudCode"><a href="#CloudCode" class="headerlink" title="CloudCode"></a><a href="https://cloud.google.com/code/?hl=zh-cn" target="_blank" rel="noopener">CloudCode</a></h2><p>Google发布的一个Vscode/Intellij插件，非常好用非常骚，可以直接调试Kubernetes上运行的应用。非常实用。</p>
+<p>个人点评: 这个东西结合istio我已经想到了一个绝妙的idea，我准备打算把这个idea留到hackday再做，所以不在这里透露了。</p>
+<h2 id="一些想去看但很遗憾没去看的会议"><a href="#一些想去看但很遗憾没去看的会议" class="headerlink" title="一些想去看但很遗憾没去看的会议"></a>一些想去看但很遗憾没去看的会议</h2><p>DragonFly： 一个国人写的镜像分发，作者在知乎上发言很跳，但是这款软件确实在Kubecon上评价不错。</p>
+<p>CloudEvent： 一个新的CNCF Serveless产品，感觉可以关注下。</p>
+<p>Kata: 对于公有云来说，docker在隔离性还有待提高，kata+firecracker的组合在性能与隔离的平衡上值得期待。</p>
+<p>kubeEdge: Kubernetes在边缘计算场景下的一个产品，从个人而言很有兴趣，可惜和其他更高质量的分享重了。</p>
+<p>AWS Workshop: AWS作为全球第一的云服务商，非常想去体验/熟悉一下他们的各种云产品，也为以后国际站使用AWS服务做调研/ 可惜没去。。。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>在这次Kubecon上不仅碰到了以前的老同学<a href="https://github.com/caohe" target="_blank" rel="noopener">CH同学</a>聊了许多在社区里contribute的机会，也遇到了很多之前在社区/Kubecon认识的老朋友，和华为云的架构师聊服务网格产品化，和惠普的工程师交流服务网格的实践应用，还遇到了以前的同事<a href="https://aleiwu.com/about/" target="_blank" rel="noopener">磊哥</a>聊了最近的工作状况，最后还和ServiceMesher社区的成员来了一张宝贵的合影,可惜没管理好表情。</p>
+<p>总体而言，参与Kubecon给我最大的体验就是非常的感动，站在2019年这个时间节点，云原生的整个Landscape逐渐清晰，作为这整个浪潮的参与者、分享者、实践者，个中滋味激动至极、难以言喻。</p>
+<p><img src="https://ws1.sinaimg.cn/mw690/007pL7qRgy1g4kjuhyu58j30u00k0dmm.jpg" alt=""></p>
+</head></head>
       
 
       
@@ -243,7 +263,7 @@ End For
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数学</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
         		</li>
       		
 		</ul>
@@ -299,7 +319,7 @@ End For
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://Yisaer.github.io/2016/04/23/SL-ZS/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://Yisaer.github.io/2019/07/01/2019kubecon/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -313,18 +333,9 @@ End For
   
 <nav id="article-nav">
   
-    <a href="/2016/04/23/markdown/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Markdown 轻量使用
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/04/23/GLL1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">概率论复习（1，2）</div>
+    <a href="/2019/05/04/51tour/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">五一游记</div>
       <i class="icon-circle-right"></i>
     </a>
   
