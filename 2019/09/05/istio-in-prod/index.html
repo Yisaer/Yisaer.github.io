@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://Yisaer.github.io">
-  <title>Yisa&#39;s Blog</title>
+  <title>服务网格Istio在互联网服务生产环境的实践 | Yisa&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上海大学14级计算机学院，Pingcap Cloud Engineer">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Yisa&#39;s Blog">
-<meta property="og:url" content="http://Yisaer.github.io/page/4/index.html">
+  <meta name="description" content="前言">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务网格Istio在互联网服务生产环境的实践">
+<meta property="og:url" content="http://Yisaer.github.io/2019/09/05/istio-in-prod/index.html">
 <meta property="og:site_name" content="Yisa&#39;s Blog">
-<meta property="og:description" content="上海大学14级计算机学院，Pingcap Cloud Engineer">
+<meta property="og:description" content="前言">
+<meta property="og:updated_time" content="2019-09-05T06:15:09.977Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yisa&#39;s Blog">
-<meta name="twitter:description" content="上海大学14级计算机学院，Pingcap Cloud Engineer">
+<meta name="twitter:title" content="服务网格Istio在互联网服务生产环境的实践">
+<meta name="twitter:description" content="前言">
   
     <link rel="alternative" href="/atom.xml" title="Yisa&#39;s Blog" type="application/atom+xml">
   
@@ -162,745 +164,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-OSEX1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-istio-in-prod" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/29/OSEX1/">操作系统实验(1)的总结</a>
+    <h1 class="article-title" itemprop="name">
+      服务网格Istio在互联网服务生产环境的实践
     </h1>
   
 
         
-        <a href="/2016/11/29/OSEX1/" class="archive-article-date">
-  	<time datetime="2016-11-29T09:33:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-29</time>
+        <a href="/2019/09/05/istio-in-prod/" class="archive-article-date">
+  	<time datetime="2019-09-05T06:08:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="概论"><a href="#概论" class="headerlink" title="概论"></a>概论</h2><p>今天操作系统实验一的实验是对进程调度的模拟，本身没什么太大的边数。 久违的用了C++通过面向对象的方式实现了时间片轮转和优先级最高的模拟。</p>
-<p>很久没有用C++写过面向对象的内容了，并且还涉及到了链表和指针的操作。</p>
-<p>感觉自己的写法非常Java化，在涉及到指针的操作上，debug用了很久。诶</p>
-        
-          <a class="article-more-a" href="/2016/11/29/OSEX1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/11/29/OSEX1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-OS1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/21/OS1/">进程互斥的软件解法</a>
-    </h1>
-  
-
-        
-        <a href="/2016/10/21/OS1/" class="archive-article-date">
-  	<time datetime="2016-10-21T03:04:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://p1.bqimg.com/567571/51b89007dd7a6f2d.png" alt="pic1"></p>
-<hr>
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>在写这篇文章前，我曾花了一段时间仔细读了学校的教材，在经历了无数次迷茫与痛苦后，我终于确定了这并非是我的理解问题或者是智商问题。确实是学校的教材真的有毒</strong></p>
-<blockquote>
-<p>就像伟大的爬墙爱好者源氏所言:” 我曾在这里荒废了许多时间.”</p>
-</blockquote>
-<p><strong>所以这即是一个总结，也是一个体会，更是一个对自己的警醒。 同学，你受教材的毒害太深了！</strong></p>
-<h2 id="关于互斥"><a href="#关于互斥" class="headerlink" title="关于互斥"></a>关于互斥</h2><p>事实上在很多经典的书以及网课上，关于进程互斥的解决方法大多重点阐述了硬件与信号量的机制。而在软件算法实现上却鲜有提之，当然我校的教材更是提都没提。 </p>
-<p>在观看了北大的网课以及读了OS：IDP一书以后，有幸领略了通过软件算法来控制进程互斥。而我也将以从最初的形态到完善的算法慢慢推导。事实上算法解法更重要的是一种思想，这里我以OS:IDP一书代码为例。</p>
-        
-          <a class="article-more-a" href="/2016/10/21/OS1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/10/21/OS1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-valiedate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/27/valiedate/">使用valiedate插件让你的表单验证更为轻松</a>
-    </h1>
-  
-
-        
-        <a href="/2016/08/27/valiedate/" class="archive-article-date">
-  	<time datetime="2016-08-27T13:15:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在表单验证中，jQuery的一款叫validate的插件十分好用，简单的API封装了大部分常用操作。</p>
-        
-          <a class="article-more-a" href="/2016/08/27/valiedate/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/08/27/valiedate/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Ajax" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/26/Ajax/">使用Ajax验证表单信息(更新jquery版)</a>
-    </h1>
-  
-
-        
-        <a href="/2016/08/26/Ajax/" class="archive-article-date">
-  	<time datetime="2016-08-26T15:05:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在表单验证中，在没有Ajax出现前，都必须提交表单以后才能验证表单，在用了Ajax技术以后可以不用刷新页面也能异步提交数据给服务器 ，非常方便，这是一个验证Demo</p>
-        
-          <a class="article-more-a" href="/2016/08/26/Ajax/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/blog//" class="article-tag-list-link color5">blog</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/08/26/Ajax/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-viewlist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/05/viewlist/">基于Jsp的浏览商品记录实现</a>
-    </h1>
-  
-
-        
-        <a href="/2016/08/05/viewlist/" class="archive-article-date">
-  	<time datetime="2016-08-05T15:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>这两天一直在学习jsp，在学习完一部分完以后，挑了个练习题练了个手，没想到就写了一晚上.. 一个动态的Web项目，搭建在Tomcat上，用JSP写的网页。</p>
-        
-          <a class="article-more-a" href="/2016/08/05/viewlist/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/08/05/viewlist/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jdbc" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/25/jdbc/">关于Jdbc的使用</a>
-    </h1>
-  
-
-        
-        <a href="/2016/07/25/jdbc/" class="archive-article-date">
-  	<time datetime="2016-07-25T10:29:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-07-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在学习数据库期间，顺便也复习了一下Jdbc并给自己的一个常用数据表写了一个工具类。</p>
-<p>总体是以MVC的方式来编写，在这里只是总结一下Dao接口的语句。</p>
-<p>顺便一提，在这工具类编写时我犯了一个比较二的错误，就是在选择导包时导错了，然后为了能正确运行所以用了强转类型。虽然也影响不大吧。</p>
-        
-          <a class="article-more-a" href="/2016/07/25/jdbc/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/07/25/jdbc/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/19/linux1/">Linux笔记1</a>
-    </h1>
-  
-
-        
-        <a href="/2016/07/19/linux1/" class="archive-article-date">
-  	<time datetime="2016-07-19T13:34:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-07-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于Linux的学习计划其实还没打算在7月份就开始学习的，只是完全是因为实验楼的实验环境是完完全全的只有Linux系统啊摔！ 所以没办法只好提前开始Linux的操作学习了_(:зゝ∠)_</p>
-<p>还好有使用MacOS的经验对于类Unix的shell操作不算陌生，但一开始接触还是很苦逼啊…!</p>
-        
-          <a class="article-more-a" href="/2016/07/19/linux1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/07/19/linux1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-q1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/06/q1/">关于在数组内某些值的和为定值这件事</a>
-    </h1>
-  
-
-        
-        <a href="/2016/07/06/q1/" class="archive-article-date">
-  	<time datetime="2016-07-06T12:38:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-07-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天大一的夏季赛有一道很有意思的题，我认为这是一道防止AK的题，可惜数据有点水，令人惋惜，我也顺便总结说下我的做法。</p>
-        
-          <a class="article-more-a" href="/2016/07/06/q1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">计算机</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/07/06/q1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Thread" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/03/Thread/">Java多线程</a>
-    </h1>
-  
-
-        
-        <a href="/2016/07/03/Thread/" class="archive-article-date">
-  	<time datetime="2016-07-03T07:03:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-07-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="支持"><a href="#支持" class="headerlink" title="支持"></a>支持</h2><p>java对于多线程的支持在类Thread 与接口Runnable（Callable）中体现</p>
-        
-          <a class="article-more-a" href="/2016/07/03/Thread/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/07/03/Thread/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-emotion" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/29/emotion/">Long For Ur Touch</a>
-    </h1>
-  
-
-        
-        <a href="/2016/06/29/emotion/" class="archive-article-date">
-  	<time datetime="2016-06-29T15:02:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-06-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://litten.github.io/assets/blogImg/rabbit.jpg" alt="pic1"></p>
-<blockquote>
-<p>你是否也会哼出一段好听的旋律，却总也找不到该唱给的人</p>
-</blockquote>
-<h2 id="【大二结束】"><a href="#【大二结束】" class="headerlink" title="【大二结束】"></a><strong>【大二结束】</strong></h2><p>艰难的第三学期终于过去了，两门专业课的老师送给了我一份意想不到的厚重大礼，总计10分的挂科。换做别人，估计看到这成绩已经晕过去了，不过幸好一来我的心理承受能力比较强，二来也是因为我将要离开这个专业了。</p>
-        
-          <a class="article-more-a" href="/2016/06/29/emotion/#more">more >></a>
-        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2>
       
 
       
@@ -922,16 +206,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/06/29/emotion/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://Yisaer.github.io/2019/09/05/istio-in-prod/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/23/knative-aggregator-api/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用Knative来作为API聚合层的实践</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -951,12 +294,14 @@
 
 
 
+  
+  
+  
 
   
+
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
-    </nav>
+
   
 
 
@@ -979,8 +324,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
